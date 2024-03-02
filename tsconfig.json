@@ -7,6 +7,9 @@
       "@assets/*": [
         "assets/*"
       ],
+      "@images/*": [
+        "images/*"
+      ],
       "@config": [
         "config.ts"
       ],

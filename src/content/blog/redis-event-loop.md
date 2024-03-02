@@ -4,12 +4,14 @@ pubDatetime: 2024-03-02T15:22:00.000+08:00
 modDatetime: 2024-03-02T15:22:00.000+08:00
 title: Redis 事件循环
 slug: Redis 事件循环
-featured: false
+featured: true
 draft: false
 tags:
   - redis
 description: Redis 事件循环源码分析
 ---
+
+## Table of Contents
 
 ## 事件
 
@@ -43,7 +45,7 @@ description: Redis 事件循环源码分析
 
 ## 主要流程
 
-![](https://i.imgur.com/P4NhYzE.png)
+![redis-event-loop1](/images/redis-event-loop/P4NhYzE.png)
 
 ## 初始化流程
 
