@@ -1,4 +1,4 @@
-function withOpacity(variableName) {
+function withOpacity (variableName) {
   return ({ opacityValue }) => {
     if (opacityValue !== undefined) {
       return `rgba(var(${variableName}), ${opacityValue})`;
@@ -54,7 +54,7 @@ module.exports = {
         transparent: "transparent",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "monospace"],
+        mono: ["LXGW WenKai", "JetBrains Mono", "IBM Plex Mono", "monospace"],
       },
 
       typography: {

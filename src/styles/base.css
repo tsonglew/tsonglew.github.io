@@ -123,6 +123,11 @@
   pre > code {
     white-space: pre;
   }
+
+  @font-face {
+    font-family: 'lxgw';
+    src: url('/assets/fonts/lxgw/LXG.ttf'), format('truetype');
+  }
 }
 
 @layer components {

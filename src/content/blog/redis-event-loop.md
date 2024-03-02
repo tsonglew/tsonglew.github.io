@@ -1,10 +1,10 @@
 ---
 author: Tsong Lew
-pubDatetime: 2024-03-02T15:22:00+08:00
-modDatetime: 2024-03-02T15:22:00+08:00
+pubDatetime: 2024-03-02T15:22:00.000+08:00
+modDatetime: 2024-03-02T15:22:00.000+08:00
 title: Redis 事件循环
 slug: Redis 事件循环
-featured: true
+featured: false
 draft: false
 tags:
   - redis
