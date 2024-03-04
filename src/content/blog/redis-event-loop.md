@@ -2,13 +2,13 @@
 author: Tsong Lew
 pubDatetime: 2024-03-02T15:22:00.000+08:00
 modDatetime: 2024-03-02T15:22:00.000+08:00
-title: Redis 事件循环
-slug: Redis 事件循环
+title: Redis 事件循环源码分析
+slug: redis-event-loop-source-code
 featured: false
 draft: false
 tags:
   - redis
-description: Redis 事件循环源码分析
+description: ""
 ---
 
 ## Table of Contents
