@@ -96,9 +96,51 @@ public class CycleTest {
 | 数据架构   | 当需要理解和描述组织的数据资产以及这些数据如何被存储、访问和使用时使用。这有助于确保数据的一致性、安全性和有效性。 |
 | 技术架构   | 当需要理解和描述系统的硬件、软件和网络环境以及这些环境如何支持应用和数据架构时使用。这有助于选择和配置适当的技术解决方案。 |
 
-### 4+1 视图
+## 4+1 视图
+
+**4+1视图**是一种复杂系统的架构设计方法，让设计人员将一个系统进行自顶向下的设计分解
 
 ![41](../../assets/images/system-design-tools/41.png)
+
+### 用例视图（User-Case View）
+
+用例视图是一种需求分析技术，通常采用UML的用例图进行设计。通过用例视图的设计过程，可以正确的识别系统的用户和其它系统（Actor）、系统边界（Boundary）和用例（Use Case），并对系统的功能场景进行充分的分析，以确定系统提供的功能可以满足用户需求。它确定了以下信息：
+
+* 系统边界：确定系统的设计范围，通过边界能够识别出系统需要与用户或其它系统进行交互
+* 系统用户：明确的用户定义是系统需求分析的先决条件
+* 功能和场景：通过识别出系统与用户或其它系统的交互，可以分析出系统需要提供哪些功能，以及这些功能存在哪些应用场景
+
+![usecaseview](../../assets/images/system-design-tools/usercaseview.webp)
+
+### 逻辑视图（Logical View）
+
+用于描述系统的功能需求，即系统给用户提供哪些服务；以及描述系统软件功能拆解后的组件关系、组件约束和边界，反映系统整体组成与系统如何构建的过程。
+
+下面springcloud微服务的逻辑视图示例，就描述了spring cloud 中各个功能组件。
+
+![logicalview](../../assets/images/system-design-tools/logicalview.webp)
+
+### 实现视图（Implementation View）
+
+实现视图关注软件开发环境下实际模块的组织，反映系统开发实施过程。
+
+在一个良好的实现视图中，通过一个逻辑架构元素，能够找到它所有代码和所有的二进制交付件。
+
+每一个代码源文件，都能够找到它所属的逻辑架构元素 每一个二进制交付件，都能够找到它集成了哪些逻辑架构元素
+
+![implementationview](../../assets/images/system-design-tools/implementationview.webp)
+
+### 部署视图（Deployment View）
+
+开发出的软件系统，最终是要运行在物理或软件环境上。物理环境可能是服务器、PC机、移动终端等物理设备；软件环境可以是虚拟机、容器、进程或线程。部署视图就是对这个部署信息进行描述。在UML中通常由部署图表示。
+
+![deploymentview](../../assets/images/system-design-tools/deploymentview.webp)
+
+### 过程视图（Process View）
+
+用于描述系统软件组件之间的通信时序，数据的输入输出。在UML中通常由时序图和流程图表示，如下图所示：
+
+![processview](../../assets/images/system-design-tools/processview.webp)
 
 ## 参考
 
