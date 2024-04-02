@@ -13,3 +13,7 @@ description: ""
 ---
 
 ## Table of contents
+
+## Reference
+
+* [深入理解CPU的调度原理](https://zhuanlan.zhihu.com/p/449211231)
