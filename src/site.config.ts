@@ -66,6 +66,7 @@ export const theme: ThemeUserConfig = {
     /** Optional details about the social media accounts for this site. */
     social: [
       { icon: 'github', label: 'GitHub', href: 'https://github.com/tsonglew' },
+      { icon: 'zhihu', label: 'Zhihu', href: 'https://www.zhihu.com/people/tsonglew' },
       { icon: 'rss', label: 'RSS', href: '/rss.xml' }
     ]
   },
