@@ -1,0 +1,19 @@
+{
+  "friends": [
+    {
+      "id_name": "Common Links",
+      "desc": "Common links included in circle friends",
+      "link_list": []
+    },
+    {
+      "id_name": "Links with Bad Status",
+      "desc": "Links with bad status",
+      "link_list": []
+    },
+    {
+      "id_name": "Special Links",
+      "desc": "Special links",
+      "link_list": []
+    }
+  ]
+}
