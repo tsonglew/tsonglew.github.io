@@ -1,5 +1,6 @@
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import AstroPureIntegration from 'astro-pure'
+import mermaid from 'astro-mermaid'
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
@@ -117,7 +118,10 @@ export default defineConfig({
     // astro-pure will automatically add sitemap, mdx & unocss
     // sitemap(),
     // mdx(),
-    AstroPureIntegration(config)
+    AstroPureIntegration(config),
+    // Client-side mermaid rendering for diagram code blocks
+    // https://github.com/astrojs-community/astro-mermaid
+    mermaid()
   ],
 
   // [Experimental]
