@@ -214,6 +214,62 @@ flowchart TB
 | 中 | 无自动弹性 | 引入 HPA 或为实例预留节点资源 |
 | 低 | 证书人工维护 | 接入 cert-manager 自动续期 |
 
+## 复用指南:别人怎么把这套架构搬到自己的场景
+
+这套架构的最大特点就是**可复制**——它不是一个定制到无法移植的系统,而是一组模板 + 一个控制器。以下是完整落地路径。
+
+### 你需要什么
+
+- **一个 K8s 集群**:k3s 就够(本方案就是在 k3s 上运行的),不需要大型云集群。单机 k3s 也能跑通全流程
+- **OpenClaw**:开源 agent 框架,提供官方 helm chart 安装 operator
+- **基础工具**:kubectl、helm、make。没有其他专有依赖
+
+### 三步落地
+
+```bash
+# 第一步:安装 operator(一次性)
+helm install openclaw-operator oci://ghcr.io/openclaw-rocks/charts/openclaw-operator \
+    --namespace openclaw-operator-system --create-namespace
+
+# 第二步:复制一份实例模板,改成你的配置
+#   - 实例名 → 你的业务/环境语义
+#   - 模型供应商 → 你的模型网关或直接 API Key
+#   - 插件/技能包 → 你的 IM/工单/文档系统对接
+cp templates/instance.yaml my-claw.yaml
+vim my-claw.yaml
+
+# 第三步:声明实例,收工
+kubectl apply -f my-claw.yaml
+```
+
+从零到第一个实例跑起来,熟练的话**一个小时内**。
+
+### 替换清单:哪些必须改,哪些可以直接用
+
+| 项 | 必须改 | 说明 |
+|---|---|---|
+| 实例名与命名空间 | ✅ | 改成你的业务/环境语义(dev/qa/staging/...) |
+| 模型供应商 | ✅ | 换成你的网关地址,或直接填模型 API Key |
+| 插件 / 技能包 | ✅ | 对接你自己的 IM、工单、文档系统——这是实例能力的来源 |
+| 域名与证书 | ✅ | 你的域名体系 + cert-manager 自动签发 |
+| 存储 | ⚠️ 视情况 | 有 NFS 直接用,没有就换成你的 StorageClass(Ceph/云盘都行,PVC 抽象让切换零成本) |
+| 资源配额 | ⚠️ 视情况 | 先按单实例 1 CPU / 2Gi 起步,跑起来再调 |
+| Makefile | 直接用 | `make install-operator / deploy / restart / status / logs / shell` |
+| NetworkPolicy 模板 | 直接用 | 改一下标签选择器即可 |
+| 技能包两级组织(common + 业务线) | 直接用 | 组织方式本身就是最佳实践 |
+
+### 三个容易踩的坑
+
+1. **Secret 不是加密**:K8s 的 Secret 默认只是 base64 编码,会随 Git 泄漏。上线前务必迁到 Vault / Sealed Secrets / External Secrets。
+2. **一个实例一个 PVC,不要共享**:共享存储会瞬间摧毁实例间的隔离性——这正是"每个实例独立 PVC"存在的意义。
+3. **NetworkPolicy 要逐实例核对**:模板生成后,验证"实例内部端口只能被入口网关访问",可以用 `kubectl exec` 从另一个命名空间测试连通性。
+
+### 什么时候这套方案不合适
+
+- **只要 1~2 个实例**:直接 Docker Compose 或单机跑,引入 K8s 是过度设计
+- **实例要共享热数据**:如果多个 agent 必须读写同一份实时数据,StatefulSet 的"实例隔离"模型反而不方便,考虑共享数据库 + 无状态 worker
+- **没有 K8s 运维能力**:这套方案的收益全部建立在 K8s 之上,如果团队没人会排障集群问题,收益会被运维成本抵消
+
 ---
 
 ## 结语
