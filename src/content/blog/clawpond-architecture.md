@@ -224,6 +224,11 @@ flowchart TB
 # 0. 本地起一个 k3s 集群(一条命令,自带 Traefik 入口 + 本地存储,零配置)
 k3d cluster create clawpond
 
+# 0.5 下载一键脚本(或直接从文章配套仓库获取)
+curl -fsSL -o clawpond-new.sh \
+  https://gist.githubusercontent.com/tsonglew/a281693548c2b527f6b143ba477d9f7e/raw/f5ec86ebf81b49b65451fa46438fd242074c21db/clawpond-new.sh
+chmod +x clawpond-new.sh
+
 # 1. 安装 operator(一次性)
 helm install openclaw-operator oci://ghcr.io/openclaw-rocks/charts/openclaw-operator \
     --namespace openclaw-operator-system --create-namespace
