@@ -4,8 +4,10 @@
   "version": "4.1.4",
   "scripts": {
     "dev": "astro dev",
+    "predev": "node scripts/subset-fonts.mjs",
     "dev:check": "astro check --watch & astro dev",
-    "build": "astro-pure check && astro check && astro build",
+    "build": "npm run subset:fonts && astro-pure check && astro check && astro build",
+    "subset:fonts": "node scripts/subset-fonts.mjs",
     "preview": "astro preview",
     "sync": "astro sync",
     "check": "astro check",

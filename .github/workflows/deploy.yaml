@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+      # fonttools + brotli are required by scripts/subset-fonts.mjs, which runs
+      # as part of `npm run build` to subset the CJK webfont to used glyphs.
+      - name: Install fonttools for font subsetting
+        run: pip3 install --break-system-packages fonttools brotli
       - name: Install, build, and upload your site
         uses: withastro/action@v2
         with:

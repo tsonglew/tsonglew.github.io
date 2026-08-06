@@ -51,19 +51,32 @@ export default defineConfig({
   },
   // Enable font preloading and optimization
   // https://docs.astro.build/en/guides/fonts/
+  // LXGW WenKai is a CJK font; @fontsource ships it as one ~7MB file per weight.
+  // The `npm run subset:fonts` prebuild step (scripts/subset-fonts.mjs) generates
+  // subsetted files in src/assets/fonts/ containing only the glyphs the site uses.
   fonts: [
     {
-      provider: fontProviders.fontsource(),
+      provider: fontProviders.local(),
       name: 'LXGW WenKai',
       cssVariable: '--font-wenkai',
-      // Default included:
-      // weights: [400],
-      // styles: ["normal", "italics"],
-      // subsets: ["latin"],
-      // fallbacks: ["sans-serif"],
+      options: {
+        variants: [
+          {
+            src: [{ url: './src/assets/fonts/lxgw-wenkai-500.woff2' }],
+            weight: '500',
+            style: 'normal'
+          },
+          {
+            src: [{ url: './src/assets/fonts/lxgw-wenkai-700.woff2' }],
+            weight: '700',
+            style: 'normal'
+          }
+        ]
+      },
       styles: ['normal'],
-      weights: [400, 500, 700],
-      subsets: ['latin']
+      weights: [500, 700],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif']
     }
   ],
 

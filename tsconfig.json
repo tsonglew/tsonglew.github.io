@@ -4,8 +4,11 @@
   "compilerOptions": {
     // Basic
     "allowJs": true,
-    // Building for a library
-    "declaration": true,
+    // NOTE: `declaration` was removed — this is a blog (site project), not a
+    // library, so no .d.ts files are emitted or consumed. Keeping it on makes
+    // `astro check` fail with ts(2883) for configs that use the local font
+    // provider, whose inferred type references astro-internal types that can't
+    // be named in declaration files.
     // Code runs in the DOM
     "lib": ["es2022", "dom", "dom.iterable"],
     // Type Imports

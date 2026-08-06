@@ -25,7 +25,8 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 <link rel='manifest' href='/favicon/site.webmanifest' />
 
 {/* Font preloads */}
-<Font cssVariable='--font-wenkai' preload={[{ subset: 'latin', style: 'normal' }]} />
+{/* Local font variants have no subset, so only match on style to preload both weights */}
+<Font cssVariable='--font-wenkai' preload={[{ style: 'normal' }]} />
 <style>
   body {
     font-family: var(--font-wenkai);
