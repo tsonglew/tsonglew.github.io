@@ -2,11 +2,7 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 import ProjectSection from '@/components/projects/ProjectSection.astro'
 
-const headings = [
-  { depth: 2, slug: 'programs', text: 'Programs' },
-  { depth: 2, slug: 'learnings', text: 'Learnings' },
-  { depth: 2, slug: 'others', text: 'Others' }
-]
+const headings = [{ depth: 2, slug: 'programs', text: 'Programs' }]
 ---
 
 <PageLayout title='Projects' {headings} view>
@@ -15,15 +11,6 @@ const headings = [
   <h2 id='programs'>Programs</h2>
   <ProjectSection
     projects={[
-      {
-        name: 'chess-cn',
-        description: '3D 中国象棋 · 拟人战阵,Three.js 实现的 WebGL 象棋对战',
-        image: 'chess-cn.png',
-        links: [
-          { type: 'site', href: 'https://tsonglew.github.io/chess-cn/' },
-          { type: 'github', href: 'https://github.com/tsonglew/chess-cn' }
-        ]
-      },
       {
         name: 'dutis',
         description: 'macOS Application Extension Manager',
@@ -46,82 +33,23 @@ const headings = [
         ]
       },
       {
-        name: 'vex',
-        description: 'Vector Database Manager for VSCode/Cursor',
+        name: 'chess-cn',
+        description: '3D 中国象棋 · 拟人战阵,Three.js 实现的 WebGL 象棋对战',
+        image: 'chess-cn.png',
         links: [
-          { type: 'github', href: 'https://github.com/tsonglew/vex' },
-          { type: 'release', href: 'https://open-vsx.org/extension/tsonglew/vecx' }
+          { type: 'site', href: 'https://tsonglew.github.io/chess-cn/' },
+          { type: 'github', href: 'https://github.com/tsonglew/chess-cn' }
         ]
-      },
-      {
-        name: 'VibeHero',
-        description: 'Turning Vibe Coding Tokens into Hero Power!',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/VibeHero' }]
-      },
-      {
-        name: 'Gomoku',
-        description: 'TUI Gomoku Game with Programmed AI',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/Gomoku' }]
       },
       {
         name: 'yuri',
         description: 'Deep Learning StarCraft II AI',
         links: [{ type: 'github', href: 'https://github.com/tsonglew/yuri' }]
-      }
-    ]}
-  />
-
-  <h2 id='learnings'>Learnings</h2>
-  <ProjectSection
-    projects={[
-      {
-        name: 'moji',
-        description: 'Multimodal RAG engine for sticker search',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/moji' }]
       },
       {
-        name: 'feedpulse',
-        description: 'MCP server for subscribing, querying and summarizing RSS/Atom feeds',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/feedpulse' }]
-      },
-      {
-        name: 'python-free-thread-demo',
-        description: 'Python free-thread demo',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/python-free-thread-demo' }]
-      },
-      {
-        name: 'leetcode-solution',
-        description: 'LeetCode solutions',
-        links: [
-          { type: 'github', href: 'https://github.com/tsonglew/leetcode-solution' },
-          { type: 'site', href: 'https://leetcode.com/problemset/algorithms/' }
-        ]
-      },
-      {
-        name: 'redis-benchmark',
-        description: 'Redis benchmark scripts',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/redis-benchmark' }]
-      }
-    ]}
-  />
-
-  <h2 id='others'>Others</h2>
-  <ProjectSection
-    projects={[
-      {
-        name: 'gitmask',
-        description: 'No more wrong emails in your commits',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/gitmask' }]
-      },
-      {
-        name: 'homebrew-tap',
-        description: "Homebrew tap for tsonglew's projects",
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/homebrew-tap' }]
-      },
-      {
-        name: 'hiyoriclaw',
-        description: 'yet another desktop pet agent',
-        links: [{ type: 'github', href: 'https://github.com/tsonglew/hiyoriclaw' }]
+        name: 'Gomoku',
+        description: 'TUI Gomoku Game with Programmed AI',
+        links: [{ type: 'github', href: 'https://github.com/tsonglew/Gomoku' }]
       }
     ]}
   />
