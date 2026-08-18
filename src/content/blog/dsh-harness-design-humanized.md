@@ -1,5 +1,5 @@
 ---
-title: '自研 Agent Harness 之前，先过 DSH 这九个决策点'
+title: '拆解 DeepSeek Harness：九个设计决策，怎么让模型把能力兑现出来'
 description: '拆 DeepSeek Harness 的九个设计决策：每个讲清它解决什么、DSH 怎么做、代价在哪。九条里有一条 DSH 自己也没答全——判定者那一格。'
 publishDate: 2026-08-17
 tags: [Agent, Harness, 架构]
