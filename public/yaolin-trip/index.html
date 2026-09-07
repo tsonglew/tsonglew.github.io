@@ -298,6 +298,11 @@
   .cost b { display: block; font-size: 19px; color: var(--teal-deep); font-family: "Noto Serif SC", serif; }
   .cost span { font-size: 12px; color: var(--muted); }
 
+  /* ---- 配图 ---- */
+  .photo { margin: 0; }
+  .photo img { width: 100%; border-radius: 14px; display: block; box-shadow: 0 6px 20px rgba(23,60,58,.14); }
+  .photo figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; letter-spacing: 1px; }
+
   footer {
     max-width: 880px; margin: 0 auto;
     padding: 20px 20px 44px;
@@ -368,9 +373,10 @@
   <!-- 手机端底部快捷导航 -->
   <nav class="quicknav" id="quicknav">
     <a href="#plan">行程</a>
+    <a href="#extra">加游</a>
     <a href="#transport">导航</a>
-    <a href="#calc">费用</a>
     <a href="#ticket">门票</a>
+    <a href="#calc">费用</a>
     <a href="#checklist">清单</a>
   </nav>
 
@@ -378,6 +384,10 @@
   <section id="plan">
     <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY · 点击展开</span></div>
     <div class="card">
+      <figure class="photo" style="margin-bottom:22px">
+        <img src="images/fuchun-sunset.jpg" alt="富春江日落,小船泊在江面" loading="lazy" decoding="async" width="960" height="720">
+        <figcaption>富春江日落 — 返程前的晚霞,江边小舟正好歇了</figcaption>
+      </figure>
       <div class="timeline" id="timeline">
         <div class="tl-item">
           <span class="tl-chevron">▾</span>
@@ -397,7 +407,7 @@
         <div class="tl-item">
           <span class="tl-chevron">▾</span>
           <div class="tl-time">15:30</div><span class="tl-title">下午加游(可选)</span>
-          <div class="tl-desc">体力好再加一站:<b>瑶琳国家森林公园</b>(吊桥 → 石林 → 天坑展望台 → 镜心湖,走马观花 2 小时),或<b>天目溪漂流</b>(旺季带换洗衣物)。玩不动就拔营返程,时间照样很宽裕。</div>
+          <div class="tl-desc">体力好再加一站:<b>瑶琳国家森林公园</b>(吊桥 → 石林 → 天坑展望台 → 镜心湖)或<b>天目溪漂流</b>(竹筏 4 公里,夏季约 40 分钟)——详情见「下午加游」。玩不动就拔营返程,时间照样很宽裕。</div>
         </div>
         <div class="tl-item">
           <span class="tl-chevron">▾</span>
@@ -413,9 +423,41 @@
     </div>
   </section>
 
-  <!-- 02 交通 -->
+  <!-- 02 下午加游 -->
+  <section id="extra">
+    <div class="sec-title"><span class="no">贰</span><h2>下午加游 · 森林公园 / 漂流</h2><span class="en">OPTIONAL</span></div>
+    <div class="routes">
+      <div class="route">
+        <div class="badge">可选其一</div>
+        <h3>🏞️ 瑶琳国家森林公园</h3>
+        <ul>
+          <li><b>位置</b>:同在瑶琳镇,离景区不远,洞口看完换山景,一动一静</li>
+          <li><b>线路</b>:吊桥 → 石林 → 天坑展望台 → 镜心湖,走马观花约 2 小时、深度 3 小时</li>
+          <li><b>门票</b>:成人约 <b>65 元</b>(票价以景区当日公示为准)</li>
+          <li><b>适合</b>:脚程好、喜欢徒步和山景的人;和溶洞搭配刚好填满下午</li>
+        </ul>
+      </div>
+      <div class="route">
+        <figure class="photo" style="margin-bottom:14px">
+          <img src="images/fuchun-river.jpg" alt="富春江实景,江面与小船" loading="lazy" decoding="async" width="960" height="640">
+          <figcaption>富春江水系实景 — 天目溪为富春江支流,同属一幅山水</figcaption>
+        </figure>
+        <div class="badge">夏季限定</div>
+        <h3>🚣 天目溪漂流</h3>
+        <ul>
+          <li><b>位置</b>:瑶琳镇毕浦村油车边,沿徐霞客放舟踪迹开发</li>
+          <li><b>项目</b>:竹筏漂流,全程约 <b>4 公里 / 40 分钟</b>,溪水清、群山夹岸</li>
+          <li><b>开放</b>:<b>5月1日–10月31日 8:00–16:30</b>;冬季 8:30–15:30;下午 15:00 前赶到末班更稳</li>
+          <li><b>票价</b>:单票以景区为准(咨询 0571-64376173);推荐<b>联票(瑶琳仙境 + 漂流)约 160 元</b></li>
+          <li><b>提醒</b>:带替换衣物,手机装防水袋,漂完身上干不干全看浪</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 交通 -->
   <section id="transport">
-    <div class="sec-title"><span class="no">贰</span><h2>怎么去(自驾)</h2><span class="en">DRIVE</span></div>
+    <div class="sec-title"><span class="no">叁</span><h2>怎么去(自驾)</h2><span class="en">DRIVE</span></div>
     <div class="routes">
       <div class="route">
         <div class="badge">推荐 · 自由支配</div>
@@ -434,7 +476,7 @@
 
   <!-- 03 门票 -->
   <section id="ticket">
-    <div class="sec-title"><span class="no">叁</span><h2>门票信息</h2><span class="en">TICKETS</span></div>
+    <div class="sec-title"><span class="no">肆</span><h2>门票信息</h2><span class="en">TICKETS</span></div>
     <div class="card">
       <div class="tickets">
         <div class="tk"><b>≈116 元</b><span>成人票 / 线上约 108–112 元</span></div>
@@ -452,7 +494,7 @@
 
   <!-- 04 费用计算器 -->
   <section id="calc">
-    <div class="sec-title"><span class="no">肆</span><h2>费用计算器</h2><span class="en">BUDGET</span></div>
+    <div class="sec-title"><span class="no">伍</span><h2>费用计算器</h2><span class="en">BUDGET</span></div>
     <div class="card">
       <div class="calc-people">
         <label>同行人数</label>
@@ -477,7 +519,7 @@
 
   <!-- 05 行前清单 -->
   <section id="checklist">
-    <div class="sec-title"><span class="no">伍</span><h2>行前清单</h2><span class="en">CHECKLIST · 记得勾选</span></div>
+    <div class="sec-title"><span class="no">陆</span><h2>行前清单</h2><span class="en">CHECKLIST · 记得勾选</span></div>
     <div class="card">
       <div class="checklist" id="checklist">
         <div class="check-item"><div class="box">✓</div><span class="txt">提前 1–2 天,小程序预约门票</span></div>
@@ -498,7 +540,11 @@
 
   <!-- 06 必看 -->
   <section id="musts">
-    <div class="sec-title"><span class="no">陆</span><h2>洞内必看</h2><span class="en">HIGHLIGHTS</span></div>
+    <div class="sec-title"><span class="no">柒</span><h2>洞内必看</h2><span class="en">HIGHLIGHTS</span></div>
+    <figure class="photo" style="margin-bottom:20px">
+      <img src="images/cave-guilin.jpg" alt="溶洞内部,钟乳石倒映在水面" loading="lazy" decoding="async" width="960" height="600">
+      <figcaption>溶洞实景示意(桂林芦笛岩)— 与瑶琳同为喀斯特溶洞,水镜倒影百闻不如一见</figcaption>
+    </figure>
     <div class="musts">
       <div class="must">
         <div class="icon">🌊</div>
@@ -520,7 +566,7 @@
 
   <!-- 07 贴士 -->
   <section id="tips">
-    <div class="sec-title"><span class="no">柒</span><h2>实用贴士</h2><span class="en">TIPS</span></div>
+    <div class="sec-title"><span class="no">捌</span><h2>实用贴士</h2><span class="en">TIPS</span></div>
     <div class="card">
       <div class="tips">
         <div class="tip"><span class="dot">衣</span><div><b>带薄外套。</b>洞内 18℃ 恒温,洞口温差大,夏天刚从 35℃ 外头进去会忍不住抖。</div></div>
@@ -536,7 +582,7 @@
 
 <footer>
   <div>钟乳石长得极慢,洞穴已经等了几千万年——当天往返,时间刚刚好。</div>
-  <div class="credits">信息基于公开攻略整理(2026-09),票价/开放时间以景区与官方小程序当日公告为准。</div>
+  <div class="credits">信息基于公开攻略整理(2026-09),票价/开放时间以景区与官方小程序当日公告为准。摄影图:Wikimedia Commons(CC 自由许可),溶洞图为桂林芦笛岩实景示意。</div>
 </footer>
 
 <script>
