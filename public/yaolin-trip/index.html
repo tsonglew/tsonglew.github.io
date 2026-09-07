@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>杭州滨江出发 · 瑶琳仙境一日游</title>
-<meta name="description" content="从杭州滨江到桐庐瑶琳仙境的一日游完整攻略:自驾与高铁两种方案、时间轴、门票、必看景点与实用贴士。">
+<title>杭州滨江出发 · 瑶琳仙境自驾一日游</title>
+<meta name="description" content="从杭州滨江自驾到桐庐瑶琳仙境的一日游攻略:10:00 出发 22:00 到家,含可交互时间轴、费用计算器、行前清单与导航入口。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -33,11 +33,6 @@
   /* ================= Hero ================= */
   .hero {
     position: relative;
-    background:
-      radial-gradient(1200px 420px at 78% -10%, rgba(201,163,92,.22), transparent 60%),
-      radial-gradient(900px 500px at 12% 110%, rgba(31,111,107,.28), transparent 62%),
-      linear-gradient(168deg, #103c3e 0%, #17555338 45%, #175553 100%),
-      #175553;
     background: linear-gradient(168deg, #0e3536 0%, #15504f 48%, #1d6260 100%);
     color: #f4f1e8;
     padding: 64px 20px 120px;
@@ -128,7 +123,7 @@
     border: 1px solid rgba(31, 111, 107, .08);
   }
 
-  /* ---- 时间轴 ---- */
+  /* ---- 时间轴(可展开) ---- */
   .timeline { position: relative; padding-left: 34px; }
   .timeline::before {
     content: "";
@@ -137,7 +132,7 @@
     width: 2px;
     background: linear-gradient(180deg, var(--gold), var(--teal), var(--teal));
   }
-  .tl-item { position: relative; padding: 0 0 22px; }
+  .tl-item { position: relative; padding: 0 0 20px; cursor: pointer; }
   .tl-item:last-child { padding-bottom: 4px; }
   .tl-item::before {
     content: "";
@@ -147,7 +142,10 @@
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--teal);
+    transition: background .2s;
   }
+  .tl-item:hover::before { background: var(--teal-light); }
+  .tl-item.main { cursor: default; }
   .tl-item.main::before { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,163,92,.18); }
   .tl-time {
     font-family: "Noto Serif SC", serif;
@@ -157,24 +155,53 @@
     letter-spacing: 1px;
   }
   .tl-title { font-weight: 700; margin-left: 8px; font-size: 16px; }
-  .tl-desc { font-size: 14px; color: var(--muted); margin-top: 3px; }
-  .tl-desc b { color: var(--ink); font-weight: 500; }
+  .tl-chevron {
+    float: right;
+    font-size: 12px;
+    color: var(--gold);
+    transition: transform .25s;
+    user-select: none;
+  }
+  .tl-item.open .tl-chevron { transform: rotate(180deg); }
+  .tl-desc {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 0;
+    transition: max-height .3s ease, margin-top .3s ease;
+  }
+  .tl-item.open .tl-desc { max-height: 260px; margin-top: 5px; }
+  .tl-desc b { color: var(--ink); font-weight: 600; }
 
   /* ---- 交通 ---- */
-  .routes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .route { border: 1px solid rgba(31,111,107,.14); border-radius: 16px; padding: 22px; background: var(--card); box-shadow: 0 6px 22px rgba(23,60,58,.07); }
-  .route.recommend { border: 2px solid var(--teal); position: relative; }
+  .routes { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .route { border: 2px solid var(--teal); border-radius: 16px; padding: 22px; background: var(--card); box-shadow: 0 6px 22px rgba(23,60,58,.07); position: relative; }
   .route .badge {
     position: absolute; top: -12px; left: 18px;
     background: var(--teal); color: #fff;
     font-size: 12px; letter-spacing: 2px;
     padding: 3px 12px; border-radius: 999px;
   }
-  .route h3 { font-family: "Noto Serif SC", serif; font-size: 18px; margin-bottom: 12px; letter-spacing: 1px; }
+  .route h3 { font-family: "Noto Serif SC", serif; font-size: 20px; margin-bottom: 12px; letter-spacing: 1px; }
   .route ul { list-style: none; font-size: 14px; color: var(--muted); }
   .route li { padding: 5px 0 5px 22px; position: relative; }
   .route li::before { content: "◆"; position: absolute; left: 0; top: 5px; font-size: 10px; color: var(--gold); }
   .route li b { color: var(--ink); font-weight: 600; }
+  .nav-btn {
+    display: inline-block;
+    margin-top: 14px;
+    background: linear-gradient(180deg, #2a7f7a, var(--teal));
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    transition: transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 14px rgba(31, 111, 107, .3);
+  }
+  .nav-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(31,111,107,.4); }
 
   /* ---- 门票 ---- */
   .tickets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; text-align: center; }
@@ -192,7 +219,68 @@
   }
   .note b { color: var(--ink); }
 
-  /* ---- 必看 ---- */
+  /* ---- 费用计算器 ---- */
+  .calc-people { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .calc-people label { font-size: 14px; color: var(--muted); }
+  .stepper { display: flex; align-items: center; gap: 0; border: 1.5px solid rgba(31,111,107,.3); border-radius: 10px; overflow: hidden; }
+  .stepper button {
+    width: 44px; height: 44px;
+    border: none; background: var(--teal-light); color: var(--teal-deep);
+    font-size: 19px; cursor: pointer; transition: background .15s;
+  }
+  .stepper button:hover { background: #d0e4df; }
+  .stepper .val { width: 52px; text-align: center; font-size: 17px; font-weight: 700; font-family: "Noto Serif SC", serif; }
+  .calc-rows { display: flex; flex-direction: column; gap: 8px; }
+  .calc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--accent-bg); border-radius: 10px; padding: 10px 16px;
+    font-size: 14px;
+  }
+  .calc-row b { font-family: "Noto Serif SC", serif; font-size: 16px; color: var(--teal-deep); }
+  .calc-total {
+    margin-top: 14px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 2px dashed rgba(31,111,107,.25);
+    padding-top: 12px;
+    font-size: 15px;
+  }
+  .calc-total b { font-size: 24px; font-family: "Noto Serif SC", serif; color: var(--teal-deep); }
+  .calc-total .per { font-size: 13px; color: var(--muted); }
+
+  /* ---- 清单 ---- */
+  .checklist { display: flex; flex-direction: column; gap: 2px; }
+  .check-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .15s;
+    font-size: 14.5px;
+  }
+  .check-item:hover { background: rgba(31, 111, 107, .05); }
+  .check-item input { display: none; }
+  .check-item .box {
+    flex: 0 0 auto;
+    width: 22px; height: 22px;
+    border: 2px solid rgba(31,111,107,.4);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: transparent;
+    transition: all .15s;
+  }
+  .check-item.done .box { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .check-item .txt { color: var(--ink); }
+  .check-item.done .txt { color: var(--muted); text-decoration: line-through; opacity: .8; }
+  .progress-wrap {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 14px;
+  }
+  .progress-track { flex: 1; height: 8px; background: var(--accent-bg); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 999px; transition: width .3s; }
+  .progress-text { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+
+  /* ---- 必看 / 贴士 / 费用 ---- */
   .musts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .must { background: var(--accent-bg); border-radius: 14px; padding: 20px 18px; transition: transform .18s; }
   .must:hover { transform: translateY(-3px); }
@@ -200,13 +288,11 @@
   .must b { display: block; margin: 8px 0 4px; font-size: 15.5px; }
   .must p { font-size: 13px; color: var(--muted); }
 
-  /* ---- 贴士 ---- */
   .tips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
   .tip { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
   .tip .dot { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; background: var(--teal-light); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
   .tip b { color: var(--teal-deep); }
 
-  /* ---- 费用 ---- */
   .costs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; }
   .cost { background: var(--card); border: 1px solid rgba(31,111,107,.1); border-radius: 12px; padding: 14px 10px; }
   .cost b { display: block; font-size: 19px; color: var(--teal-deep); font-family: "Noto Serif SC", serif; }
@@ -222,9 +308,40 @@
   }
   footer .credits { margin-top: 6px; opacity: .8; }
 
+  /* ---- 手机端底部快捷导航 ---- */
+  .quicknav { display: none; }
+  @media (max-width: 700px) {
+    .quicknav {
+      display: flex;
+      position: fixed;
+      left: 12px; right: 12px; bottom: 12px;
+      background: rgba(20, 82, 84, .95);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 7px;
+      gap: 4px;
+      z-index: 60;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+    }
+    .quicknav a {
+      flex: 1;
+      text-align: center;
+      color: #e9f1ee;
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 11px 0;
+      border-radius: 999px;
+      transition: background .15s;
+    }
+    .quicknav a.act { background: rgba(255, 255, 255, .16); font-weight: 700; }
+    body { padding-bottom: 84px; }
+  }
+
   @media (max-width: 700px) {
     .hero { padding: 48px 16px 96px; }
-    .routes, .tips { grid-template-columns: 1fr; }
+    .tips { grid-template-columns: 1fr; }
     .tickets, .musts { grid-template-columns: 1fr; }
     .costs { grid-template-columns: 1fr 1fr; }
     .card { padding: 20px 18px; }
@@ -235,11 +352,11 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="kicker">杭州·桐庐 | 周末一日游</div>
+    <div class="kicker">杭州·桐庐 | 自驾一日游</div>
     <h1><span class="accent">瑶</span> 琳 仙 境 <span class="accent">一 日 游</span></h1>
-    <div class="sub">从滨江出发,钻一次恒温 18℃ 的金色溶洞——全国诸洞之冠</div>
+    <div class="sub">10:00 从滨江出发,钻一次恒温 18℃ 的金色溶洞,22:00 前到家</div>
     <div class="hero-stats">
-      <div class="stat"><b>≈ 11 小时</b><span>全程时长</span></div>
+      <div class="stat"><b>12 小时</b><span>10:00 – 22:00</span></div>
       <div class="stat"><b>≈ 90 km</b><span>自驾单程</span></div>
       <div class="stat"><b>18 ℃</b><span>洞内恒温</span></div>
       <div class="stat"><b>2 小时</b><span>洞内游程</span></div>
@@ -248,61 +365,69 @@
 </header>
 
 <main>
+  <!-- 手机端底部快捷导航 -->
+  <nav class="quicknav" id="quicknav">
+    <a href="#plan">行程</a>
+    <a href="#transport">导航</a>
+    <a href="#calc">费用</a>
+    <a href="#ticket">门票</a>
+    <a href="#checklist">清单</a>
+  </nav>
+
   <!-- 01 行程安排 -->
   <section id="plan">
-    <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY</span></div>
+    <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY · 点击展开</span></div>
     <div class="card">
-      <div class="timeline">
+      <div class="timeline" id="timeline">
         <div class="tl-item">
-          <div class="tl-time">07:30</div><span class="tl-title">滨江出发</span>
-          <div class="tl-desc">自驾走<b>杭新景高速</b>,全程约 1.5 小时;周末出发越早越顺。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">10:00</div><span class="tl-title">滨江出发</span>
+          <div class="tl-desc">加满油出发。自驾走<b>时代大道 → 杭新景高速</b>,全程约 <b>90 km / 1.5 小时</b>。车上可先登记小程序门票,省得到场再弄。</div>
         </div>
         <div class="tl-item">
-          <div class="tl-time">09:00</div><span class="tl-title">到达景区,停车取票</span>
-          <div class="tl-desc">导航「瑶琳仙境景区停车场」,小型车 <b>10 元/次</b>;周末赶在 9 点前,车位好找。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">11:30</div><span class="tl-title">到桐庐,先吃午饭</span>
+          <div class="tl-desc">推荐<b>红灯笼姥姥饭店(江景餐厅)</b>——瑶琳镇白冷线,红灯笼乡村家园南侧约 200 米,正对天目溪,有仿古凉亭江景座,营业到 22:00。招牌必点:<b>土鸡煲</b>(笋干香菇汤底)、<b>石锅杂鱼</b>(汪刺鱼/鲤鱼/江白鱼)、<b>咸肉炖笋</b>、红烧野猪肉。满座就去对面 30 米的<b>外公家饭店</b>,或<b>大娘舅饭店</b>。人均 60–80 元。</div>
         </div>
         <div class="tl-item main">
-          <div class="tl-time">09:30</div><span class="tl-title">洞内参观</span>
-          <div class="tl-desc">约 1 公里,全程 <b>2 小时</b>。经典路线:入口 → 石花溪 → 天光壁画 → 银河飞瀑 → 擎天玉柱 → 三十三重天 → 出口。此时人少,拍照正好。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">13:30</div><span class="tl-title">洞内参观</span>
+          <div class="tl-desc">约 <b>1 公里 / 2 小时</b>。经典路线:入口 → 石花溪 → 天光壁画 → 银河飞瀑 → 擎天玉柱 → 三十三重天 → 出口。下午场客比午高峰少,洞里越走越凉,外套穿好。</div>
         </div>
         <div class="tl-item">
-          <div class="tl-time">12:00</div><span class="tl-title">午餐</span>
-          <div class="tl-desc">洞外车程约 8 分钟到<b>红灯笼外婆家</b>一带,或回瑶琳镇农家乐,人均 50–70 元。桐庐米粿、酒酿馒头、地鸡汤、富春江杂鱼。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">15:30</div><span class="tl-title">下午加游(可选)</span>
+          <div class="tl-desc">体力好再加一站:<b>瑶琳国家森林公园</b>(吊桥 → 石林 → 天坑展望台 → 镜心湖,走马观花 2 小时),或<b>天目溪漂流</b>(旺季带换洗衣物)。玩不动就拔营返程,时间照样很宽裕。</div>
         </div>
         <div class="tl-item">
-          <div class="tl-time">14:00</div><span class="tl-title">下午加游(可选)</span>
-          <div class="tl-desc">体力好的可去<b>瑶琳国家森林公园</b>(吊桥 → 石林 → 天坑展望台 → 镜心湖,约 3 小时),或组合<b>天目溪漂流</b>。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">17:30</div><span class="tl-title">晚饭(视体力,县城吃)</span>
+          <div class="tl-desc">回<b>桐庐县城</b>吃一顿再上高速。两个选择:<b>胡王野鱼馆</b>(瑶琳路 133 号,格林豪泰旁,十年夫妻店,主营富春江江鲜,晚餐连烧烤,电话 0571-69902186)或<b>老太婆饭店(朝霞店)</b>(朝霞路春江景苑旁,入选「味美浙江·百县千碗」省级体验店,桐庐土菜,营业 16:00–20:30)。不想吃就车上补觉,直接回程。</div>
         </div>
         <div class="tl-item">
-          <div class="tl-time">16:30</div><span class="tl-title">返程</span>
-          <div class="tl-desc">原路返杭,约 18:00 前回到滨江,接得上晚饭。</div>
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">20:00</div><span class="tl-title">返程</span>
+          <div class="tl-desc"><b>19:30–20:00 左右启程</b>,走杭新景高速回家,21:30 前后到滨江,从容踩点 <b>22:00</b>。夜里高速大货车多,保持车距、去服务区放个空再走。</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 02 交通方案 -->
+  <!-- 02 交通 -->
   <section id="transport">
-    <div class="sec-title"><span class="no">贰</span><h2>怎么去</h2><span class="en">TRANSPORT</span></div>
+    <div class="sec-title"><span class="no">贰</span><h2>怎么去(自驾)</h2><span class="en">DRIVE</span></div>
     <div class="routes">
-      <div class="route recommend">
-        <div class="badge">推荐 · 自由</div>
+      <div class="route">
+        <div class="badge">推荐 · 自由支配</div>
         <h3>🚗 自驾</h3>
         <ul>
-          <li><b>路线</b>:滨江 → 时代大道 → 杭新景高速 → 瑶琳镇,导航直设「瑶琳仙境景区停车场」</li>
-          <li><b>时长</b>:约 80 km,1.5 小时</li>
+          <li><b>起点</b>:杭州滨江</li>
+          <li><b>路线</b>:时代大道 → 沪杭甬/杭新景高速 → 瑶琳镇,导航直设「<b>瑶琳仙境景区停车场</b>」</li>
+          <li><b>时长</b>:约 90 km,1.5 小时</li>
           <li><b>停车</b>:1200+ 车位,小型车 10 元/次</li>
-          <li><b>好处</b>:时间完全自主,顺路可加游</li>
+          <li><b>油费过路</b>:往返约 200 元(满车 4 人摊,人均约 50)</li>
         </ul>
-      </div>
-      <div class="route">
-        <h3>🚄 高铁 + 换乘</h3>
-        <ul>
-          <li><b>高铁</b>:滨江就近到杭州东/西站上车,车程 30–40 分钟,到<b>桐庐站</b></li>
-          <li><b>专线</b>:桐庐站转 <b>Y08 瑶琳旅游专线</b>直达景区——班次少(工作日约 2 小时一班),务必提前查时刻</li>
-          <li><b>备选</b>:出站打车,约 30 分钟、约 60 元;或杭州汽车西站去分水方向的班车在景区入口下</li>
-          <li><b>注意</b>:专线衔接不上的话,当天往返动线较赶,建议预留缓冲</li>
-        </ul>
+        <a class="nav-btn" href="https://ditu.amap.com/search?query=%E7%91%B6%E7%90%B3%E4%BB%99%E5%A2%83%E6%99%AF%E5%8C%BA%E5%81%9C%E8%BD%A6%E5%9C%BA" target="_blank" rel="noopener">🧭 高德搜「瑶琳仙境景区停车场」</a>
       </div>
     </div>
   </section>
@@ -317,14 +442,63 @@
         <div class="tk"><b>免费</b><span>1.2 米以下儿童</span></div>
       </div>
       <div class="note">
-        <b>开放时间约 8:00–17:00</b>(以景区当日公告为准)。旺季(尤其暑期)建议<b>提前 1–2 天在官方小程序预约购票</b>;留意「杭州文旅卡免费」、高考生免票等优惠活动。联票(瑶琳仙境 + 天目溪漂流)约 160 元,按需选择。
+        <b>开放时间约 8:00–17:00</b>(以景区当日公告为准)。旺季建议<b>提前 1–2 天在官方小程序预约购票</b>。
+      </div>
+      <div class="note">
+        <b>免费/优惠核验</b>(以官方当日公告为准):<b>杭州公园年卡 —— ✗ 不在范围</b>(2025 年官方名单覆盖西湖各景点及德清部分景区,无桐庐景点;<b>瑶琳仙境不在列</b>)。<b>杭州人才码 —— ✗ 未查到覆盖记录</b>,文旅权益名单以「杭州人才码」小程序当日列表为准,出发前花 1 分钟核验。学生、1.2–1.5 米儿童、60–69 岁老人半价 58 元;1.2 米以下免费;高考生凭准考证按当季公告优惠。联票(瑶琳仙境 + 天目溪漂流)约 160 元,按需选择。
       </div>
     </div>
   </section>
 
-  <!-- 04 必看 -->
+  <!-- 04 费用计算器 -->
+  <section id="calc">
+    <div class="sec-title"><span class="no">肆</span><h2>费用计算器</h2><span class="en">BUDGET</span></div>
+    <div class="card">
+      <div class="calc-people">
+        <label>同行人数</label>
+        <div class="stepper">
+          <button type="button" id="peopleMinus">−</button>
+          <div class="val" id="peopleVal">4</div>
+          <button type="button" id="peoplePlus">＋</button>
+        </div>
+      </div>
+      <div class="calc-rows">
+        <div class="calc-row"><span>门票(线上价)</span><b id="ticketCost">440</b></div>
+        <div class="calc-row"><span>午餐(人均 50–70)</span><b id="lunchCost">240</b></div>
+        <div class="calc-row"><span>油费+过路(往返,整车约 200)</span><b id="fuelCost">200</b></div>
+      </div>
+      <div class="calc-total">
+        <span>合计 <span class="per" id="totalPer"></span></span>
+        <b id="totalCost">880</b>
+      </div>
+      <div class="note">估算供参考:门票按线上价 110 元/人,午餐 60 元/人;加游(森林公园/漂流)另计。</div>
+    </div>
+  </section>
+
+  <!-- 05 行前清单 -->
+  <section id="checklist">
+    <div class="sec-title"><span class="no">伍</span><h2>行前清单</h2><span class="en">CHECKLIST · 记得勾选</span></div>
+    <div class="card">
+      <div class="checklist" id="checklist">
+        <div class="check-item"><div class="box">✓</div><span class="txt">提前 1–2 天,小程序预约门票</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">薄外套(洞内 18℃ 恒温,怕冷的多带一件)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">防滑运动鞋(洞内湿滑)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">充电宝与车充(导航 + 拍照双耗电)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">水和小零食(路上垫肚子)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">加满油出发(景区附近加油不便)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">核验免票资格:公园年卡 ✗,人才码/文旅卡以小程序列表为准</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">雨具刮雨/防雨(洞外阵雨说来就来)</span></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0 / 8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 必看 -->
   <section id="musts">
-    <div class="sec-title"><span class="no">肆</span><h2>洞内必看</h2><span class="en">HIGHLIGHTS</span></div>
+    <div class="sec-title"><span class="no">陆</span><h2>洞内必看</h2><span class="en">HIGHLIGHTS</span></div>
     <div class="musts">
       <div class="must">
         <div class="icon">🌊</div>
@@ -339,42 +513,121 @@
       <div class="must">
         <div class="icon">✨</div>
         <b>三十三重天</b>
-        <p>裸眼 3D 光影,钟乳石上的层层幻景,是全场最出片的一段。</p>
+        <p>裸眼 3D 光影,钟乳石上的层层幻景,全场最出片的一段。</p>
       </div>
     </div>
   </section>
 
-  <!-- 05 贴士 -->
+  <!-- 07 贴士 -->
   <section id="tips">
-    <div class="sec-title"><span class="no">伍</span><h2>实用贴士</h2><span class="en">TIPS</span></div>
+    <div class="sec-title"><span class="no">柒</span><h2>实用贴士</h2><span class="en">TIPS</span></div>
     <div class="card">
       <div class="tips">
         <div class="tip"><span class="dot">衣</span><div><b>带薄外套。</b>洞内 18℃ 恒温,洞口温差大,夏天刚从 35℃ 外头进去会忍不住抖。</div></div>
-        <div class="tip"><span class="dot">鞋</span><div><b>穿防滑鞋。</b>洞内潮湿,台阶长着薄薄水膜;3 岁以下幼童不建议同行。</div></div>
-        <div class="tip"><span class="dot">时</span><div><b>避开 10:00–13:00 高峰。</b>想拍无人的照片,选 9 点场或 14:30 后入洞。</div></div>
+        <div class="tip"><span class="dot">时</span><div><b>避开 10:00–13:00 高峰。</b>午后入洞人流明显回落,咱这行程正好卡在 13:30。</div></div>
         <div class="tip"><span class="dot">光</span><div><b>勿用闪光灯。</b>钟乳石越拍越黑,开闪光也拍不出效果,洞里官方灯光就很好。</div></div>
         <div class="tip"><span class="dot">玩</span><div><b>出口漂流慎选。</b>出口处推销的人造漂流(约 59 元)要排队,体验一般,可按需取舍。</div></div>
-        <div class="tip"><span class="dot">省</span><div><b>杭州文旅卡用户免票。</b>有卡记得提前核验预约,别白买门票。</div></div>
+        <div class="tip"><span class="dot">车</span><div><b>夜路开灯。</b>返程在傍晚到夜间,杭新景高速大货车多,保持车距,困了服务区歇 15 分钟。</div></div>
+        <div class="tip"><span class="dot">娃</span><div><b>3 岁以下幼童不建议同行。</b>洞内台阶多、通风一般,小小孩兜不住。</div></div>
       </div>
-    </div>
-  </section>
-
-  <!-- 06 费用估算 -->
-  <section id="cost">
-    <div class="sec-title"><span class="no">陆</span><h2>费用参考(人均)</h2><span class="en">BUDGET</span></div>
-    <div class="costs">
-      <div class="cost"><b>≈110</b><span>门票(线上价)</span></div>
-      <div class="cost"><b>≈55</b><span>油费+过路(满车 3 人摊)</span></div>
-      <div class="cost"><b>50–70</b><span>午餐(农家乐)</span></div>
-      <div class="cost"><b>≈220</b><span>人均合计</span></div>
     </div>
   </section>
 </main>
 
 <footer>
   <div>钟乳石长得极慢,洞穴已经等了几千万年——当天往返,时间刚刚好。</div>
-  <div class="credits">信息基于公开攻略整理(2026-09),票价/班次以景区与官方小程序当日公告为准。</div>
+  <div class="credits">信息基于公开攻略整理(2026-09),票价/开放时间以景区与官方小程序当日公告为准。</div>
 </footer>
 
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 时间轴(默认只展开核心段,点击任意项展开/收起) ---------- */
+  var items = document.querySelectorAll('#timeline .tl-item');
+  items.forEach(function (item) {
+    item.addEventListener('click', function () {
+      item.classList.toggle('open');
+    });
+  });
+  var mainItem = document.querySelector('#timeline .tl-item.main');
+  if (mainItem) mainItem.classList.add('open');
+
+  /* ---------- 手机端底部导航滚动高亮 ---------- */
+  var navLinks = document.querySelectorAll('#quicknav a');
+  var navSections = [];
+  navLinks.forEach(function (a) {
+    var sec = document.getElementById(a.getAttribute('href').slice(1));
+    if (sec) navSections.push({ sec: sec, a: a });
+  });
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY + window.innerHeight * 0.35;
+    var act = null;
+    navSections.forEach(function (s) { if (s.sec.offsetTop <= y) act = s; });
+    navLinks.forEach(function (a) { a.classList.remove('act'); });
+    if (act) act.a.classList.add('act');
+  }, { passive: true });
+
+  /* ---------- 费用计算器 ---------- */
+  var people = 4;
+  var TICKET = 110, LUNCH = 60, FUEL = 200;
+  var peopleVal = document.getElementById('peopleVal');
+  function calc() {
+    var t = TICKET * people;
+    var l = LUNCH * people;
+    document.getElementById('ticketCost').textContent = t;
+    document.getElementById('lunchCost').textContent = l;
+    document.getElementById('fuelCost').textContent = FUEL;
+    document.getElementById('totalCost').textContent = t + l + FUEL;
+    document.getElementById('totalPer').textContent = '人均 ' + Math.round((t + l + FUEL) / people) + ' 元';
+  }
+  document.getElementById('peoplePlus').addEventListener('click', function () {
+    if (people < 8) { people++; peopleVal.textContent = people; calc(); }
+  });
+  document.getElementById('peopleMinus').addEventListener('click', function () {
+    if (people > 1) { people--; peopleVal.textContent = people; calc(); }
+  });
+  calc();
+
+  /* ---------- 行前清单(localStorage 持久化) ---------- */
+  var KEY = 'yaolin.checklist';
+  var checks = document.querySelectorAll('#checklist .check-item');
+  var fill = document.getElementById('progressFill');
+  var txt = document.getElementById('progressText');
+  var itemsList = [];
+  checks.forEach(function (el) {
+    var text = el.querySelector('.txt').textContent.trim();
+    itemsList.push({ el: el, text: text });
+    el.addEventListener('click', function () {
+      el.classList.toggle('done');
+      save();
+      updateProgress();
+    });
+  });
+  function save() {
+    try {
+      var done = itemsList.map(function (it) { return it.el.classList.contains('done') ? 1 : 0; });
+      localStorage.setItem(KEY, done.join(''));
+    } catch (e) {}
+  }
+  function load() {
+    try {
+      var v = localStorage.getItem(KEY);
+      if (!v) return;
+      for (var i = 0; i < itemsList.length; i++) {
+        if (v[i] === '1') itemsList[i].el.classList.add('done');
+      }
+    } catch (e) {}
+  }
+  function updateProgress() {
+    var n = 0;
+    itemsList.forEach(function (it) { if (it.el.classList.contains('done')) n++; });
+    fill.style.width = (n / itemsList.length * 100) + '%';
+    txt.textContent = n + ' / ' + itemsList.length;
+  }
+  load();
+  updateProgress();
+})();
+</script>
 </body>
 </html>
