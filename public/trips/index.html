@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旅行笔记 · Trip Notes</title>
+<meta name="description" content="旅行笔记:记录每一次出发。杭州·桐庐瑶琳仙境一日游——自驾、溶洞、森林公园、桐庐美食。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1f6f6b;
+    --teal-deep: #145254;
+    --teal-light: #e3efec;
+    --gold: #c9a35c;
+    --ink: #24312f;
+    --muted: #5c6f6c;
+    --paper: #faf8f2;
+    --card: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    position: relative;
+    background: linear-gradient(168deg, #0e3536 0%, #15504f 48%, #1d6260 100%);
+    color: #f4f1e8;
+    padding: 60px 20px 84px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(46px);
+    opacity: .5;
+  }
+  .hero::before { width: 380px; height: 380px; background: #2a8280; top: -130px; left: -100px; }
+  .hero::after { width: 320px; height: 320px; background: #c9a35c; bottom: -160px; right: -70px; opacity: .32; }
+  .hero-inner { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; }
+  .kicker {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 6px;
+    padding: 6px 18px;
+    border: 1px solid rgba(244, 241, 232, .35);
+    border-radius: 999px;
+    margin-bottom: 22px;
+    color: #e9e4d3;
+  }
+  .hero h1 {
+    font-family: "Ma Shan Zheng", "Kaiti SC", cursive;
+    font-weight: 400;
+    font-size: clamp(40px, 6.6vw, 62px);
+    letter-spacing: 6px;
+    text-shadow: 0 3px 24px rgba(0,0,0,.28);
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero .sub {
+    margin-top: 14px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: rgba(244, 241, 232, .78);
+  }
+
+  main { max-width: 960px; margin: -40px auto 0; padding: 0 20px 72px; position: relative; z-index: 3; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 36px 0 18px;
+  }
+  .section-head .no { font-family: "Ma Shan Zheng", cursive; font-size: 30px; color: var(--gold); }
+  .section-head h2 {
+    font-family: "Noto Serif SC", serif;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--teal-deep);
+  }
+  .section-head .en { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
+
+  /* 卡片 */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .trip-card {
+    display: block;
+    background: var(--card);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: 0 8px 28px rgba(23, 60, 58, .09), 0 1px 3px rgba(23,60,58,.06);
+    border: 1px solid rgba(31, 111, 107, .08);
+    transition: transform .18s, box-shadow .18s;
+  }
+  .trip-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(23, 60, 58, .16); }
+  .trip-card .cover { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+  .trip-card .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .trip-card .cover .num {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: rgba(20, 82, 84, .85);
+    color: #f4f1e8;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .trip-card .body { padding: 18px 20px 20px; }
+  .trip-card .title {
+    font-family: "Noto Serif SC", serif;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--teal-deep);
+  }
+  .trip-card .desc { margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+  .trip-card .tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--teal-light);
+    color: var(--teal-deep);
+  }
+  .trip-card .more {
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .trip-card .more::after { content: " →"; }
+
+  .empty {
+    border: 2px dashed rgba(31, 111, 107, .25);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  footer {
+    max-width: 960px; margin: 0 auto;
+    padding: 18px 20px 44px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 46px 16px 76px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">TRAVEL NOTES</div>
+    <h1>旅 <span class="accent">行</span> 笔 记</h1>
+    <div class="sub">每一次出发,都有迹可循</div>
+  </div>
+</header>
+
+<main>
+  <div class="section-head">
+    <span class="no">壹</span>
+    <h2>行程记录</h2>
+    <span class="en">ALL TRIPS</span>
+  </div>
+
+  <div class="cards">
+    <!-- 第 1 篇:瑶琳仙境 -->
+    <a class="trip-card" href="yaolin-trip/">
+      <div class="cover">
+        <img src="yaolin-trip/images/fuchun-sunset.jpg" alt="富春江日落" loading="lazy" decoding="async" width="960" height="720">
+        <span class="num">第 ① 篇</span>
+      </div>
+      <div class="body">
+        <div class="title">瑶琳仙境一日游</div>
+        <div class="desc">杭州滨江出发,自驾往返 180 km。上午钻 18℃ 的金色溶洞,下午逛瑶琳国家森林公园,夜里带着富春江的晚霞回城。</div>
+        <div class="tags">
+          <span class="tag">杭州 → 桐庐</span>
+          <span class="tag">自驾</span>
+          <span class="tag">溶洞 · 森林</span>
+          <span class="tag">2026-09-12</span>
+        </div>
+        <div class="more">翻看笔记</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="empty" style="margin-top:20px">更多旅途,等你来记 —— 每次结束一段旅程,就在这儿新开一篇。</div>
+</main>
+
+<footer>
+  <div>旅行笔记 · Trip Notes</div>
+</footer>
+
+</body>
+</html>
