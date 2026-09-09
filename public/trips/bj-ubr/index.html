@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州出发 · 北京环球影城 | 三方案对比笔记</title>
+<meta name="description" content="杭州到北京环球影城的旅行笔记:舒适3天2晚 / 性价比2天1晚 / 极限1天闪击三种方案对比,含费用估算器、交通、门票优速通、提前入园酒店与园内路线。出行窗口 2026 年底—2027 年初。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1f6f6b;
+    --teal-deep: #145254;
+    --teal-light: #e3efec;
+    --gold: #c9a35c;
+    --ink: #24312f;
+    --muted: #5c6f6c;
+    --paper: #faf8f2;
+    --card: #ffffff;
+    --accent-bg: #f0efe6;
+    --red: #b23a2e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .back {
+    position: absolute; top: 18px; left: 18px;
+    color: rgba(244,241,232,.85);
+    text-decoration: none;
+    font-size: 13px; letter-spacing: 1px;
+    padding: 6px 14px;
+    border: 1px solid rgba(244,241,232,.3);
+    border-radius: 999px;
+    transition: background .15s;
+    z-index: 5;
+  }
+  .back:hover { background: rgba(255,255,255,.12); }
+
+  .hero {
+    position: relative;
+    background: linear-gradient(168deg, #0e3536 0%, #15504f 48%, #1d6260 100%);
+    color: #f4f1e8;
+    padding: 64px 20px 112px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(46px); opacity: .5;
+  }
+  .hero::before { width: 420px; height: 420px; background: #2a8280; top: -140px; left: -120px; }
+  .hero::after { width: 360px; height: 360px; background: #c9a35c; bottom: -180px; right: -80px; opacity: .32; }
+  .hero-inner { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; }
+  .kicker {
+    display: inline-block; font-size: 13px; letter-spacing: 5px;
+    padding: 6px 18px; border: 1px solid rgba(244,241,232,.35);
+    border-radius: 999px; margin-bottom: 24px; color: #e9e4d3;
+  }
+  .hero h1 {
+    font-family: "Ma Shan Zheng", "Kaiti SC", cursive;
+    font-weight: 400; font-size: clamp(34px, 5.6vw, 56px);
+    letter-spacing: 3px; text-shadow: 0 3px 24px rgba(0,0,0,.28);
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero .sub { margin-top: 14px; font-size: 14.5px; letter-spacing: 1.5px; color: rgba(244,241,232,.8); }
+  .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
+  .stat {
+    min-width: 140px; background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.14); border-radius: 14px;
+    padding: 12px 18px; backdrop-filter: blur(6px);
+  }
+  .stat b { display: block; font-size: 20px; font-family: "Noto Serif SC", serif; }
+  .stat span { font-size: 12px; color: rgba(244,241,232,.75); letter-spacing: 2px; }
+
+  main { max-width: 920px; margin: -52px auto 0; padding: 0 20px 72px; position: relative; z-index: 3; }
+  section { margin-top: 44px; }
+  .sec-title { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+  .sec-title .no { font-family: "Ma Shan Zheng", cursive; font-size: 30px; color: var(--gold); }
+  .sec-title h2 { font-family: "Noto Serif SC", serif; font-size: 23px; font-weight: 700; letter-spacing: 2px; color: var(--teal-deep); }
+  .sec-title .en { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
+
+  .card {
+    background: var(--card); border-radius: 18px; padding: 26px 28px;
+    box-shadow: 0 8px 30px rgba(23,60,58,.08), 0 1px 3px rgba(23,60,58,.06);
+    border: 1px solid rgba(31,111,107,.08);
+  }
+  .photo { margin: 0; }
+  .photo img { width: 100%; border-radius: 14px; display: block; box-shadow: 0 6px 20px rgba(23,60,58,.14); }
+  .photo figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; letter-spacing: 1px; }
+
+  /* ===== 方案切换 ===== */
+  .plan-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .plan-tab {
+    background: var(--card); border: 1.5px solid rgba(31,111,107,.18);
+    border-radius: 14px; padding: 14px 8px; text-align: center; cursor: pointer;
+    transition: all .18s; user-select: none;
+  }
+  .plan-tab .emoji { font-size: 24px; }
+  .plan-tab b { display: block; font-family: "Noto Serif SC", serif; font-size: 15px; margin-top: 4px; color: var(--teal-deep); }
+  .plan-tab span { font-size: 11.5px; color: var(--muted); }
+  .plan-tab.on {
+    border-color: var(--teal); background: linear-gradient(180deg, #fff, var(--teal-light));
+    box-shadow: 0 4px 14px rgba(31,111,107,.16); transform: translateY(-2px);
+  }
+  .plan-body { display: none; }
+  .plan-body.on { display: block; animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin-top: 6px; }
+  .pp { background: var(--accent-bg); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; }
+  .pp.good { border-left: 3px solid var(--teal); }
+  .pp.bad { border-left: 3px solid var(--red); }
+  .pp b { display: block; font-size: 13px; margin-bottom: 2px; color: var(--teal-deep); }
+  .pp.bad b { color: var(--red); }
+  .plan-fit { margin-top: 12px; font-size: 13.5px; color: var(--muted); }
+  .plan-fit b { color: var(--ink); }
+  .plan-head { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: baseline; margin-bottom: 4px; }
+  .plan-head .t { font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 18px; color: var(--teal-deep); }
+  .pill {
+    font-size: 12px; letter-spacing: 1px; padding: 3px 12px; border-radius: 999px;
+    background: var(--teal-light); color: var(--teal-deep);
+  }
+  .pill.gold { background: rgba(201,163,92,.16); color: #8a6a2f; }
+
+  /* ===== 计算器 ===== */
+  .calc-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin-bottom: 14px; }
+  .opt-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .seg { display: flex; border: 1.5px solid rgba(31,111,107,.22); border-radius: 10px; overflow: hidden; }
+  .seg button {
+    flex: 1; border: none; background: #fff; color: var(--muted);
+    font-family: inherit; font-size: 13px; padding: 10px 4px; cursor: pointer; transition: all .15s;
+  }
+  .seg button + button { border-left: 1.5px solid rgba(31,111,107,.22); }
+  .seg button.on { background: var(--teal); color: #fff; font-weight: 700; }
+  .calc-rows { display: flex; flex-direction: column; gap: 8px; }
+  .calc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--accent-bg); border-radius: 10px; padding: 10px 16px; font-size: 14px;
+  }
+  .calc-row b { font-family: "Noto Serif SC", serif; font-size: 16px; color: var(--teal-deep); }
+  .calc-total {
+    margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 2px dashed rgba(31,111,107,.25); padding-top: 12px; font-size: 15px;
+  }
+  .calc-total b { font-size: 26px; font-family: "Noto Serif SC", serif; color: var(--teal-deep); }
+
+  /* ===== 对比表 ===== */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 11px 10px; text-align: left; border-bottom: 1px solid rgba(31,111,107,.1); vertical-align: top; }
+  th { color: var(--teal-deep); font-family: "Noto Serif SC", serif; letter-spacing: 1px; white-space: nowrap; }
+  td b { color: var(--ink); }
+  .wrap-tbl { overflow-x: auto; }
+
+  .note {
+    margin-top: 16px; font-size: 13px; color: var(--muted);
+    background: rgba(201,163,92,.1); border-left: 3px solid var(--gold);
+    padding: 10px 14px; border-radius: 0 8px 8px 0;
+  }
+  .note b { color: var(--ink); }
+
+  .musts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .must { background: var(--accent-bg); border-radius: 14px; padding: 18px; transition: transform .18s; }
+  .must:hover { transform: translateY(-3px); }
+  .must b { display: block; margin: 6px 0 3px; font-size: 15px; }
+  .must p { font-size: 12.5px; color: var(--muted); }
+
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(180deg, var(--gold), var(--teal)); }
+  .tl-item { position: relative; padding-bottom: 14px; }
+  .tl-item::before { content: ""; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 3px solid var(--teal); }
+  .tl-time { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--teal); font-size: 15.5px; display: inline; }
+  .tl-title { font-weight: 700; margin-left: 6px; font-size: 15px; }
+  .tl-desc { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+  .tl-desc b { color: var(--ink); font-weight: 600; }
+
+  .tips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .tip { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; }
+  .tip .dot { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; background: var(--teal-light); color: var(--teal-deep); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .tip b { color: var(--teal-deep); }
+
+  footer { max-width: 920px; margin: 0 auto; padding: 18px 20px 56px; text-align: center; font-size: 12px; color: var(--muted); }
+  footer a { color: var(--teal); }
+
+  /* 手机端底部导航 */
+  .quicknav { display: none; }
+  @media (max-width: 700px) {
+    .hero { padding: 44px 16px 88px; }
+    .card { padding: 20px 16px; }
+    .plan-grid, .calc-opts, .tips { grid-template-columns: 1fr; }
+    .musts { grid-template-columns: 1fr; }
+    .plan-tabs { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .plan-tab b { font-size: 13px; }
+    .plan-tab span { display: none; }
+    .quicknav {
+      display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px;
+      background: rgba(20,82,84,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border-radius: 999px; padding: 7px; gap: 4px; z-index: 60;
+      box-shadow: 0 8px 24px rgba(0,0,0,.28);
+    }
+    .quicknav a {
+      flex: 1; text-align: center; color: #e9f1ee; text-decoration: none;
+      font-size: 12.5px; letter-spacing: 1px; padding: 11px 0; border-radius: 999px; transition: background .15s;
+    }
+    .quicknav a.act { background: rgba(255,255,255,.16); font-weight: 700; }
+    body { padding-bottom: 84px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="../">← 旅行笔记</a>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">杭州 → 北京·通州 | 2026 年底—2027 年初</div>
+    <h1>北京<span class="accent">环球影城</span>三方案</h1>
+    <div class="sub">同一个地球仪,三条玩法路线——按预算和时间挑一条</div>
+    <div class="hero-stats">
+      <div class="stat"><b>1 × 1400 km</b><span>往返距离</span></div>
+      <div class="stat"><b>3 种方案</b><span>1 天到 3 天 2 晚</span></div>
+      <div class="stat"><b>¥1700–4600</b><span>人均估算区间</span></div>
+      <div class="stat"><b>淡季窗口</b><span>票价最划算</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 壹 方案对比 -->
+  <section id="plans">
+    <div class="sec-title"><span class="no">壹</span><h2>三个方案,点着看</h2><span class="en">COMPARE</span></div>
+    <div class="card">
+      <div class="plan-tabs" id="planTabs">
+        <div class="plan-tab on" data-plan="A"><div class="emoji">🏰</div><b>舒适 3 天 2 晚</b><span>园区酒店·提前入园</span></div>
+        <div class="plan-tab" data-plan="B"><div class="emoji">⚖️</div><b>性价比 2 天 1 晚</b><span>平替酒店·经典玩法</span></div>
+        <div class="plan-tab" data-plan="C"><div class="emoji">⚡</div><b>极限 1 天闪击</b><span>飞机往返·当天回</span></div>
+      </div>
+
+      <div class="plan-body on" id="planA">
+        <div class="plan-head"><span class="t">🏰 舒适 3 天 2 晚 — 把乐园玩穿</span><span class="pill">人均 ≈¥3600–4600</span></div>
+        <div class="plan-grid">
+          <div class="pp good"><b>✔ 提前 1 小时入园</b>住园区官方酒店(大酒店/诺金),8:30 先进场,禁忌之旅基本不排队直接刷两遍。</div>
+          <div class="pp good"><b>✔ 2 日票节奏松弛</b>一天主刷热门,第二天补演出、购物、重玩;第三天返程顺路逛京城。</div>
+          <div class="pp bad"><b>✘ 贵</b>园区酒店淡季也要 ¥1300–1500/晚,旺季翻倍。</div>
+          <div class="pp bad"><b>✘ 请假多</b>3 天起步,适合年假充裕或干脆错峰寒假。</div>
+        </div>
+        <p class="plan-fit">适合:<b>追求体验完整度的核心玩家、亲子家庭</b>——多花的房钱,本质是买"早享 + 少排队 + 回房午休"。</p>
+      </div>
+
+      <div class="plan-body" id="planB">
+        <div class="plan-head"><span class="t">⚖️ 性价比 2 天 1 晚 — 大人都懂的平衡解</span><span class="pill">人均 ≈¥1700–2400</span></div>
+        <div class="plan-grid">
+          <div class="pp good"><b>✔ 平替酒店只差一步</b>丽柏/皇冠假日/湾里诺岚距园 0.7–1.2 km,¥400–700/晚,比园区酒店省一半以上。</div>
+          <div class="pp good"><b>✔ 1 天票 + 3 项优速通</b>淡季排队长龙减半,优速通挑 2–3 个最热的刷,性价比最高的一晚。</div>
+          <div class="pp bad"><b>✘ 没有提前入园</b>开园即高峰,早到 30 分钟自己排安检。</div>
+          <div class="pp bad"><b>✘ 只剩一个整白天</b>演出和商店要取舍。</div>
+        </div>
+        <p class="plan-fit">适合:<b>请假两天、想玩得完整又不想烧钱的多数派</b>——本笔记的默认推荐。</p>
+      </div>
+
+      <div class="plan-body" id="planC">
+        <div class="plan-head"><span class="t">⚡ 极限 1 天闪击 — 只烧一天假</span><span class="pill">人均 ≈¥2000–2600</span></div>
+        <div class="plan-grid">
+          <div class="pp good"><b>✔ 大兴机场快线直达</b>早班机 7:00 落地 → 快线巴士(¥60/55 分钟)9:00 前到园;晚班 21:30 前撤,红眼回杭。</div>
+          <div class="pp good"><b>✔ 零酒店钱</b>不占假期过夜预算,周三去周四上班都行。</div>
+          <div class="pp bad"><b>✘ 优速通几乎是必买</b>一天要刷全园热门,不买等于亏机票。</div>
+          <div class="pp bad"><b>✘ 全天 2 万步 + 早起晚归</b>体力票;票价加起来其实不比 B 省多少。</div>
+        </div>
+        <p class="plan-fit">适合:<b>时间比钱紧、体力好的特种兵</b>——省下的是一晚酒店,不是整个预算。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 贰 费用估算器 -->
+  <section id="calc">
+    <div class="sec-title"><span class="no">贰</span><h2>费用估算器</h2><span class="en">ESTIMATOR</span></div>
+    <div class="card">
+      <div class="calc-opts">
+        <div class="opt-group">
+          <label>出行日期档位(以官网价格日历为准)</label>
+          <div class="seg" id="tierSeg">
+            <button class="on" data-t="0">淡季日</button>
+            <button data-t="1">平季日</button>
+            <button data-t="2">旺季日</button>
+            <button data-t="3">特定日</button>
+          </div>
+        </div>
+        <div class="opt-group">
+          <label>是否加购优速通(约 3 项)</label>
+          <div class="seg" id="expressSeg">
+            <button class="on" data-e="0">不买</button>
+            <button data-e="1">+500</button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-rows" id="calcRows"></div>
+      <div class="calc-total"><span>人均合计</span><b id="calcTotal">—</b></div>
+      <div class="note">按 <b>两人同行、拼房分摊</b>估算。酒店按淡季 ¥1300(园区)/¥500(平替)每晚,旺季上浮约 80%;高铁二等座 ¥538.5/程,机票按 ¥550/程浮动;所有价格出行前以官方日历与 12306/航司当日价为准。</div>
+    </div>
+  </section>
+
+  <!-- 叁 大交通 -->
+  <section id="transport">
+    <div class="sec-title"><span class="no">叁</span><h2>杭州 ⇄ 北京,怎么飞怎么跑</h2><span class="en">GETTING THERE</span></div>
+    <div class="card">
+      <div class="wrap-tbl">
+        <table>
+          <tr><th></th><th>🚄 高铁(推荐)</th><th>✈️ 飞机</th></tr>
+          <tr><td><b>区间</b></td><td>杭州东 → 北京南</td><td>萧山 → 大兴(环球在东南,大兴反而顺)</td></tr>
+          <tr><td><b>门到门</b></td><td>最快 4.5–5 小时到市区;北京南换 7 号线约 1 小时到园区</td><td>飞行 2 小时 15 分;落地转<b>环球影城快线巴士,55 分钟直达</b>,约 5 小时出机场即达园</td></tr>
+          <tr><td><b>价格</b></td><td>二等座 ¥538–673,浮动折扣低至 ¥300 档</td><td>淡季 ¥400–600,旺季千元+</td></tr>
+          <tr><td><b>风险</b></td><td>准点,行李不限,深夜可补觉</td><td>冬季京杭两头都可能有延误;行李拖家带口麻烦</td></tr>
+        </table>
+      </div>
+      <div class="note"><b>到园区的最后一程</b>:地铁 7 号线/八通线「环球度假区站」出站步行约 700 米即到安检;北京南站过去约 1 小时。自驾不推荐——单日停车 ¥100 且早晚高峰周边拥堵。</div>
+    </div>
+  </section>
+
+  <!-- 肆 门票与优速通 -->
+  <section id="ticket">
+    <div class="sec-title"><span class="no">肆</span><h2>门票 & 优速通</h2><span class="en">TICKETS</span></div>
+    <div class="card">
+      <div class="wrap-tbl">
+        <table>
+          <tr><th>票种</th><th>价格(参考)</th><th>什么时候选</th></tr>
+          <tr><td><b>指定单日门票</b></td><td>四级浮动:淡季约 ¥418 → 特定日约 ¥748,现官网标「¥350 起」</td><td>1 日方案(B/C)</td></tr>
+          <tr><td><b>2 日联票</b></td><td>「¥550 起」促销档常见,正常约单日 ×1.7</td><td>住园区就买它(A)</td></tr>
+          <tr><td><b>1.5 日票</b></td><td>约 ¥700</td><td>首日下午 2 点即可进,搭配晚场烟花党</td></tr>
+          <tr><td><b>优速通</b></td><td>单项 ¥100–190 起;3 项约 ¥420–560;门票+优速通套餐 ¥885 起</td><td>见下方决策</td></tr>
+          <tr><td><b>儿童/长者</b></td><td>约 75 折;3 岁以下免票</td><td>凭身份证实名购</td></tr>
+        </table>
+      </div>
+      <div class="note"><b>优速通买不买?</b>年底到年初是淡季——平日单日票不贵、排队减半,<b>不买也能刷完热门</b>;周末 + 元旦/春节,或只有一天(C 方案),直接上 3 项。买前看 App 实时等候时间再决定最稳。</div>
+    </div>
+  </section>
+
+  <!-- 伍 住哪 -->
+  <section id="stay">
+    <div class="sec-title"><span class="no">伍</span><h2>住哪:提前入园是唯一分水岭</h2><span class="en">STAY</span></div>
+    <div class="card">
+      <figure class="photo" style="margin-bottom:16px">
+        <img src="images/grand-hotel.jpg" alt="环球影城大酒店外景" loading="lazy" decoding="async" width="960" height="640">
+        <figcaption>环球影城大酒店 — 就在园区城楼下,全球首家以「环球」命名的酒店</figcaption>
+      </figure>
+      <div class="wrap-tbl">
+        <table>
+          <tr><th>选择</th><th>价格/晚</th><th>权益</th></tr>
+          <tr><td><b>环球影城大酒店</b>(园内)</td><td>淡季 ¥1300–1500</td><td rowspan="2">提前至多 <b>1 小时入园</b> + 专属安检通道(限入住当日);大酒店离园最近,诺金房间大更安静</td></tr>
+          <tr><td><b>诺金度假酒店</b>(园内)</td><td>淡季 ¥1400–1600</td></tr>
+          <tr><td><b>丽柏/湾里诺岚/皇冠假日</b>(1 km 圈)</td><td>¥400–700</td><td>无提前入园,胜在价格与品质,步行可达</td></tr>
+        </table>
+      </div>
+      <div class="note">工银「环球度假区联名卡」持卡人每年另有 1 次提前入园礼遇——有这张卡,B 方案也能蹭早享。OTA 订官方酒店同样含权益,比价再下单。</div>
+    </div>
+  </section>
+
+  <!-- 陆 园内必看 -->
+  <section id="musts">
+    <div class="sec-title"><span class="no">陆</span><h2>园内必看</h2><span class="en">HIGHLIGHTS</span></div>
+    <div class="musts">
+      <div class="must"><div>🧙</div><b>哈利波特与禁忌之旅</b><p>全园排队王(旺季 90–120 分钟),4D 穿越霍格沃茨城堡。早享或优速通的第一顺位。</p></div>
+      <div class="must"><div>🎢</div><b>霸天虎过山车</b><p>刺激度天花板,开园直冲;冬天室外排队风大,先刷它再进室内项目回温。</p></div>
+      <div class="must"><div>🦖</div><b>侏罗纪世界大冒险</b><p>人气 TOP,越午排队越长;傍晚的飞越侏罗纪滑翔俯瞰全岛值回票价。</p></div>
+      <div class="must"><div>🐼</div><b>功夫熊猫盖世之地</b><p>全球首座主题区,室内为主——冬天正好当"暖气房"轮换,平先生面馆解决午饭。</p></div>
+      <div class="must"><div>💦</div><b>未来水世界</b><p>真人特技大片现场版,下午场看一场,坐中前排记得做好湿身觉悟。</p></div>
+      <div class="must"><div>🏰</div><b>霍格沃茨城堡夜光</b><p>闭园前回哈利波特区,城堡魔法庆典光影秀 + 圣诞季限定布景,年底来正是时候。</p></div>
+    </div>
+  </section>
+
+  <!-- 柒 一日动线 -->
+  <section id="route">
+    <div class="sec-title"><span class="no">柒</span><h2>经典单日动线</h2><span class="en">ONE-DAY ROUTE</span></div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item"><span class="tl-time">08:30</span><span class="tl-title">城市大道地球仪打卡</span><div class="tl-desc">开门前 30–60 分钟到安检口排队;园区酒店客走专属通道更早。</div></div>
+        <div class="tl-item"><span class="tl-time">09:30</span><span class="tl-title">开园直冲左侧</span><div class="tl-desc">禁忌之旅 → 鹰马飞行,哈利波特区一次刷干净;或反向先霸天虎。</div></div>
+        <div class="tl-item"><span class="tl-time">12:00</span><span class="tl-title">功夫熊猫区午饭 + 回温</span><div class="tl-desc">平先生面馆,室内动线避寒风;顺路补水补能量。</div></div>
+        <div class="tl-item"><span class="tl-time">14:00</span><span class="tl-title">侏罗纪 + 变形金刚</span><div class="tl-desc">侏罗纪大冒险(午后排队回落)→ 飞越侏罗纪 → 红摩天杜比剧院看片缓冲。</div></div>
+        <div class="tl-item"><span class="tl-time">16:30</span><span class="tl-title">未来水世界 + 小黄人</span><div class="tl-desc">水世界演出看好场次;小黄人闹翻天带娃必停。</div></div>
+        <div class="tl-item"><span class="tl-time">19:30</span><span class="tl-title">城堡夜光收官</span><div class="tl-desc">回哈利波特区看夜场光影,顺路奥利凡德魔杖店;出园前城市大道补个汉堡。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 捌 贴士 -->
+  <section id="tips">
+    <div class="sec-title"><span class="no">捌</span><h2>年底出行贴士</h2><span class="en">TIPS</span></div>
+    <div class="card">
+      <div class="tips">
+        <div class="tip"><span class="dot">衣</span><div><b>北京 12 月 = 物理攻击。</b>羽绒+帽子+手套+暖宝宝,室外项目排队一动不动比杭州冷得多;进室内项目脱、出来穿,分层穿。</div></div>
+        <div class="tip"><span class="dot">档</span><div><b>避开元旦/春节。</b>假期全是"特定日"票价 + 人海;11 月下旬—12 月中、1 月上中旬是全年最淡。</div></div>
+        <div class="tip"><span class="dot">票</span><div><b>官方 App 实名购 + 价格日历。</b>先锁日期再买票最便宜;入园带身份证原件,儿童用户口本。</div></div>
+        <div class="tip"><span class="dot">充</span><div><b>低温手机掉电快。</b>充电宝必备,相机也贴个暖宝宝。</div></div>
+        <div class="tip"><span class="dot">食</span><div><b>园内一顿人均 80–120。</b>想省:城市大道吃或自带面包;三把扫帚的黄油啤酒冬天可点热版。</div></div>
+        <div class="tip"><span class="dot">程</span><div><b>两天起更从容。</b>1 天方案能刷完热门但演出去一半;真玩穿要 1.5–2 日,正好把圣诞季布景看够。</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="quicknav" id="quicknav">
+  <a href="#plans" class="act">方案</a>
+  <a href="#calc">费用</a>
+  <a href="#transport">交通</a>
+  <a href="#ticket">门票</a>
+  <a href="#stay">住</a>
+  <a href="#route">路线</a>
+</nav>
+
+<footer>
+  <div>计划页 · 出发后回来补一篇「实际 vs 估算」。</div>
+  <div style="margin-top:6px">信息基于公开资料整理(2026-09),票价/班次/权益以官方当日为准。<a href="../">← 回旅行笔记</a></div>
+  <div style="margin-top:6px;opacity:.8">摄影:Wikimedia Commons(CC 自由许可)。</div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 方案切换 ---------- */
+  var tabs = document.querySelectorAll('.plan-tab');
+  var bodies = { A: document.getElementById('planA'), B: document.getElementById('planB'), C: document.getElementById('planC') };
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('on'); });
+      tab.classList.add('on');
+      Object.keys(bodies).forEach(function (k) { bodies[k].classList.toggle('on', k === tab.dataset.plan); });
+      plan = tab.dataset.plan;
+      recalc();
+    });
+  });
+
+  /* ---------- 费用估算 ---------- */
+  var plan = 'A';
+  var tier = 0;          // 0淡季 1平季 2旺季 3特定日
+  var express = 0;
+  var TIERS = [418, 528, 638, 748];   // 四级票价参考
+  var TIER_NAMES = ['淡季日', '平季日', '旺季日', '特定日'];
+  var HOTELS = { A: 1300, B: 500, C: 0 };  // 每晚每房(淡季价)
+  var PLANS = {
+    A: { train: 539 * 2, hotelNights: 2, days: 2, misc: 700, label: '高铁往返' },
+    B: { train: 539 * 2, hotelNights: 1, days: 1, misc: 450, label: '高铁往返' },
+    C: { train: 550 * 2 + 60 * 2, hotelNights: 0, days: 1, misc: 250, label: '机票往返+机场快线' }
+  };
+  var EXPRESS = 500;
+  var rows = document.getElementById('calcRows');
+  var totalEl = document.getElementById('calcTotal');
+
+  function fmt(n) { return '¥' + Math.round(n).toLocaleString(); }
+
+  function recalc() {
+    var p = PLANS[plan];
+    var ticketUnit = TIERS[tier];
+    var ticket;
+    if (p.days === 2) {
+      // 2日票:促销价 550 起,正常约 1.7 倍单日;取两者之间估
+      ticket = Math.max(550, Math.round(ticketUnit * 1.5));
+    } else {
+      ticket = ticketUnit;
+    }
+    var hotel = p.hotelNights ? HOTELS[plan] * p.hotelNights * (tier >= 2 ? 1.8 : 1) / 2 : 0;
+    var exp = express ? EXPRESS : 0;
+    var items = [
+      [p.label, p.train],
+      [p.days + ' 日门票 ×' + p.days + '(×' + TIER_NAMES[tier] + ')', ticket],
+      [exp ? '优速通 3 项' : '优速通(不买)', exp],
+      [p.hotelNights ? (plan === 'A' ? '园区酒店 ×' + p.hotelNights + ' 晚/2人摊' : '平替酒店 ×1 晚/2人摊') : '住宿(当天往返)', hotel],
+      ['餐饮杂项', p.misc]
+    ];
+    var html = '';
+    items.forEach(function (it) { html += '<div class="calc-row"><span>' + it[0] + '</span><b>' + fmt(it[1]) + '</b></div>'; });
+    rows.innerHTML = html;
+    var total = 0; items.forEach(function (it) { total += it[1]; });
+    totalEl.textContent = fmt(total);
+  }
+
+  document.querySelectorAll('#tierSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#tierSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); tier = +b.dataset.t; recalc();
+    });
+  });
+  document.querySelectorAll('#expressSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#expressSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); express = +b.dataset.e; recalc();
+    });
+  });
+
+  /* 初始:触发方案A(顺带计算),滚动高亮由下方 scroll 接管 */
+  tabs[0].click();
+
+  /* ---------- 底部导航滚动高亮 ---------- */
+  var links = document.querySelectorAll('#quicknav a');
+  var secs = [];
+  links.forEach(function (a) {
+    var s = document.getElementById(a.getAttribute('href').slice(1));
+    if (s) secs.push({ s: s, a: a });
+  });
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY + window.innerHeight * 0.35;
+    var act = null;
+    secs.forEach(function (o) { if (o.s.offsetTop <= y) act = o; });
+    links.forEach(function (a) { a.classList.remove('act'); });
+    if (act) act.a.classList.add('act');
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
