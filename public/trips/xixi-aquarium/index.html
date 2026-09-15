@@ -365,7 +365,7 @@
 
   <!-- 01 行程安排 -->
   <section id="plan">
-    <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY · 点击展开</span></div>
+    <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY · 默认展开 · 点击可收起</span></div>
     <div class="card">
       <figure class="photo" style="margin-bottom:22px">
         <img src="images/xixi-channel.jpg" alt="西溪国家湿地公园的河道,两岸绿树夹水" loading="lazy" decoding="async" width="1080" height="810">
@@ -925,13 +925,12 @@
     });
   }
 
-  /* ---------- 时间轴 ---------- */
+  /* ---------- 时间轴(默认全部展开,点击可收起) ---------- */
   var items = document.querySelectorAll('#timeline .tl-item');
   items.forEach(function (item) {
+    item.classList.add('open');
     item.addEventListener('click', function () { item.classList.toggle('open'); });
   });
-  var mainItem = document.querySelector('#timeline .tl-item.main');
-  if (mainItem) mainItem.classList.add('open');
 
   /* ---------- 底部导航滚动高亮 ---------- */
   var navLinks = document.querySelectorAll('#quicknav a');
