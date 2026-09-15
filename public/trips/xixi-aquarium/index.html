@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州西溪 · 西溪水族公园一日游 | 2026-09-19 周六</title>
+<meta name="description" content="杭州西溪水族公园(西溪天堂·栖悦城 B1)周六一日游:试营业信息、湿地—江河—海洋动线、剧场与展区、费用估算、行前清单,附 2026-09-19 当日天气预报、逐时降水与日落时间,顺路西溪国家湿地公园与中国湿地博物馆。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1f6f6b;
+    --teal-deep: #145254;
+    --teal-light: #e3efec;
+    --gold: #c9a35c;
+    --ink: #24312f;
+    --muted: #5c6f6c;
+    --paper: #faf8f2;
+    --card: #ffffff;
+    --accent-bg: #f0efe6;
+    --red: #b23a2e;
+    --new: #2f7d4f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ================= Hero ================= */
+  .hero {
+    position: relative;
+    background: linear-gradient(168deg, #0f3430 0%, #16524a 48%, #1e6a5e 100%);
+    color: #f4f1e8;
+    padding: 64px 20px 120px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(46px); opacity: .5;
+  }
+  .hero::before { width: 420px; height: 420px; background: #2a9a8a; top: -140px; left: -120px; }
+  .hero::after { width: 360px; height: 360px; background: #c9a35c; bottom: -180px; right: -80px; opacity: .32; }
+  .hero-inner { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; }
+  .hero .kicker {
+    display: inline-block; font-size: 14px; letter-spacing: 6px;
+    padding: 6px 18px; border: 1px solid rgba(244, 241, 232, .35);
+    border-radius: 999px; margin-bottom: 26px; color: #e9e4d3;
+  }
+  .hero h1 {
+    font-family: "Ma Shan Zheng", "Kaiti SC", cursive;
+    font-weight: 400; font-size: clamp(36px, 6vw, 60px);
+    letter-spacing: 4px; text-shadow: 0 3px 24px rgba(0,0,0,.28);
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero .sub {
+    margin-top: 18px; font-size: 15px; letter-spacing: 1px;
+    color: rgba(244, 241, 232, .8);
+  }
+  .hero .tags-line { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .hero .tags-line span {
+    font-size: 12px; letter-spacing: 1px; padding: 3px 12px; border-radius: 999px;
+    background: rgba(47,125,79,.28); border: 1px solid rgba(120,205,150,.45); color: #d8f0e0;
+  }
+  .countdown {
+    display: inline-block; margin-top: 16px; font-size: 13px; letter-spacing: 2px;
+    padding: 5px 18px; border-radius: 999px;
+    background: rgba(201,163,92,.16); border: 1px solid rgba(201,163,92,.42); color: #f2e8d2;
+  }
+  .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+  .stat {
+    min-width: 150px; background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .14); border-radius: 14px;
+    padding: 14px 20px; backdrop-filter: blur(6px);
+  }
+  .stat b { display: block; font-size: 21px; font-family: "Noto Serif SC", serif; letter-spacing: 1px; }
+  .stat span { font-size: 12.5px; color: rgba(244,241,232,.75); letter-spacing: 2px; }
+
+  /* ================= 主体 ================= */
+  main { max-width: 880px; margin: -56px auto 0; padding: 0 20px 72px; position: relative; z-index: 3; }
+
+  section { margin-top: 44px; }
+  .sec-title { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+  .sec-title .no { font-family: "Ma Shan Zheng", cursive; font-size: 30px; color: var(--gold); }
+  .sec-title h2 {
+    font-family: "Noto Serif SC", serif; font-size: 24px; font-weight: 700;
+    letter-spacing: 2px; color: var(--teal-deep);
+  }
+  .sec-title .en { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
+
+  .card {
+    background: var(--card); border-radius: 18px; padding: 26px 28px;
+    box-shadow: 0 8px 30px rgba(23, 60, 58, .08), 0 1px 3px rgba(23,60,58,.06);
+    border: 1px solid rgba(31, 111, 107, .08);
+  }
+
+  /* ---- 时间轴(可展开) ---- */
+  .timeline { position: relative; padding-left: 34px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 10px; top: 6px; bottom: 6px;
+    width: 2px; background: linear-gradient(180deg, var(--gold), var(--teal), var(--teal));
+  }
+  .tl-item { position: relative; padding: 0 0 20px; cursor: pointer; }
+  .tl-item:last-child { padding-bottom: 4px; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -30px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--teal); transition: background .2s;
+  }
+  .tl-item:hover::before { background: var(--teal-light); }
+  .tl-item.main { cursor: default; }
+  .tl-item.main::before { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,163,92,.18); }
+  .tl-time { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--teal); font-size: 17px; letter-spacing: 1px; }
+  .tl-title { font-weight: 700; margin-left: 8px; font-size: 16px; }
+  .tl-chevron { float: right; font-size: 12px; color: var(--gold); transition: transform .25s; user-select: none; }
+  .tl-item.open .tl-chevron { transform: rotate(180deg); }
+  .tl-desc {
+    max-height: 0; overflow: hidden; font-size: 14px; color: var(--muted);
+    margin-top: 0; transition: max-height .3s ease, margin-top .3s ease;
+  }
+  .tl-item.open .tl-desc { max-height: 340px; margin-top: 5px; }
+  .tl-desc b { color: var(--ink); font-weight: 600; }
+
+  /* ---- 交通 ---- */
+  .routes { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .route {
+    border: 2px solid var(--teal); border-radius: 16px; padding: 22px; background: var(--card);
+    box-shadow: 0 6px 22px rgba(23,60,58,.07); position: relative;
+  }
+  .route + .route { border-color: rgba(31,111,107,.28); }
+  .route .badge {
+    position: absolute; top: -12px; left: 18px; background: var(--teal); color: #fff;
+    font-size: 12px; letter-spacing: 2px; padding: 3px 12px; border-radius: 999px;
+  }
+  .route + .route .badge { background: var(--muted); }
+  .route h3 { font-family: "Noto Serif SC", serif; font-size: 20px; margin-bottom: 12px; letter-spacing: 1px; }
+  .route ul { list-style: none; font-size: 14px; color: var(--muted); }
+  .route li { padding: 5px 0 5px 22px; position: relative; }
+  .route li::before { content: "◆"; position: absolute; left: 0; top: 5px; font-size: 10px; color: var(--gold); }
+  .route li b { color: var(--ink); font-weight: 600; }
+  .nav-btn {
+    display: inline-block; margin-top: 14px;
+    background: linear-gradient(180deg, #2a7f7a, var(--teal)); color: #fff; text-decoration: none;
+    font-size: 14px; letter-spacing: 2px; padding: 10px 22px; border-radius: 999px;
+    transition: transform .15s, box-shadow .2s; box-shadow: 0 4px 14px rgba(31, 111, 107, .3);
+  }
+  .nav-btn:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(31,111,107,.4); }
+
+  /* ---- 门票 ---- */
+  .tickets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; }
+  .tk { background: var(--accent-bg); border-radius: 14px; padding: 16px 12px; }
+  .tk b { display: block; font-size: 21px; font-family: "Noto Serif SC", serif; color: var(--teal-deep); }
+  .tk span { font-size: 12.5px; color: var(--muted); letter-spacing: 1px; }
+  .tk.unknown b { color: #8a6a2f; font-size: 18px; }
+  .note {
+    margin-top: 16px; font-size: 13px; color: var(--muted);
+    background: rgba(201, 163, 92, .1); border-left: 3px solid var(--gold);
+    padding: 10px 14px; border-radius: 0 8px 8px 0;
+  }
+  .note b { color: var(--ink); }
+  .note.green { background: rgba(47,125,79,.09); border-left-color: var(--new); }
+  .note.red { background: rgba(178,58,46,.08); border-left-color: var(--red); }
+
+  /* ---- 表格 ---- */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 10px 10px; text-align: left; border-bottom: 1px solid rgba(31,111,107,.1); vertical-align: top; }
+  th { color: var(--teal-deep); font-family: "Noto Serif SC", serif; letter-spacing: 1px; white-space: nowrap; }
+  .wrap-tbl { overflow-x: auto; }
+
+  /* ---- 天气 / 时效 ---- */
+  .wx-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 16px; margin-bottom: 4px; }
+  .wx-head .big { font-family: "Noto Serif SC", serif; font-size: 34px; color: var(--teal-deep); letter-spacing: 1px; }
+  .wx-head .desc { font-size: 15px; color: var(--muted); }
+  .wx-live {
+    display: inline-block; margin-left: auto; font-size: 11.5px; letter-spacing: 1px;
+    padding: 3px 12px; border-radius: 999px; background: var(--teal-light);
+    color: var(--teal-deep); white-space: nowrap;
+  }
+  .wx-live.warn { background: rgba(201,163,92,.2); color: #8a6a2f; }
+  .wx-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .wx-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .wx-cell { background: var(--accent-bg); border-radius: 12px; padding: 11px 13px; }
+  .wx-cell span { display: block; font-size: 11.5px; color: var(--muted); letter-spacing: 1px; }
+  .wx-cell b { display: block; font-family: "Noto Serif SC", serif; font-size: 16.5px; color: var(--teal-deep); margin-top: 2px; }
+  .wx-chart { margin-top: 18px; background: linear-gradient(180deg, #fbfaf5, #f2f6f4); border-radius: 14px; padding: 8px 6px 2px; }
+  .wx-chart svg { width: 100%; height: auto; display: block; }
+  .wx-alerts { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .wx-alert { display: flex; gap: 10px; font-size: 13.5px; background: rgba(31,111,107,.05); border-radius: 10px; padding: 10px 13px; color: var(--muted); }
+  .wx-alert .k { flex: 0 0 auto; font-weight: 700; color: var(--teal-deep); }
+  .wx-alert b { color: var(--ink); }
+  .wx-alert.hot { background: rgba(201,163,92,.12); }
+  .wx-alert.new { background: rgba(47,125,79,.1); }
+  .wx-alert.new .k { color: var(--new); }
+  .wx-normals { margin-top: 18px; }
+  .wx-normals .cap { font-size: 13px; color: var(--muted); }
+  .wx-normals .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .wx-normals .n {
+    background: var(--card); border: 1px solid rgba(31,111,107,.14); border-radius: 10px;
+    padding: 8px 13px; font-size: 12.5px; color: var(--muted);
+  }
+  .wx-normals .n b { color: var(--teal-deep); font-family: "Noto Serif SC", serif; font-size: 15px; }
+
+  /* ---- 展区 / 动线 ---- */
+  .musts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .must { background: var(--accent-bg); border-radius: 14px; padding: 20px 18px; transition: transform .18s; }
+  .must:hover { transform: translateY(-3px); }
+  .must .icon { font-size: 26px; }
+  .must b { display: block; margin: 8px 0 4px; font-size: 15.5px; }
+  .must p { font-size: 13px; color: var(--muted); }
+  .must .flag { display: inline-block; font-size: 11px; letter-spacing: 1px; padding: 1px 8px; border-radius: 999px; background: rgba(178,58,46,.12); color: var(--red); margin-top: 6px; }
+  .dash { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 18px; }
+  .dash .step { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+  .dash .step .dot {
+    flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--teal-light); color: var(--teal-deep);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  }
+  .dash .step b { color: var(--teal-deep); }
+
+  /* ---- 费用计算器 ---- */
+  .calc-people { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .calc-people label { font-size: 14px; color: var(--muted); }
+  .stepper { display: flex; align-items: center; gap: 0; border: 1.5px solid rgba(31,111,107,.3); border-radius: 10px; overflow: hidden; }
+  .stepper button {
+    width: 44px; height: 44px; border: none; background: var(--teal-light);
+    color: var(--teal-deep); font-size: 19px; cursor: pointer; transition: background .15s;
+  }
+  .stepper button:hover { background: #d0e4df; }
+  .stepper .val { width: 52px; text-align: center; font-size: 17px; font-weight: 700; font-family: "Noto Serif SC", serif; }
+  .seg { display: flex; border: 1.5px solid rgba(31,111,107,.22); border-radius: 10px; overflow: hidden; width: 300px; max-width: 100%; }
+  .seg button {
+    flex: 1; border: none; background: #fff; color: var(--muted);
+    font-family: inherit; font-size: 13px; padding: 10px 6px; cursor: pointer; transition: all .15s;
+  }
+  .seg button + button { border-left: 1.5px solid rgba(31,111,107,.22); }
+  .seg button.on { background: var(--teal); color: #fff; font-weight: 700; }
+  .price-in {
+    width: 108px; padding: 10px 12px; font-family: "Noto Serif SC", serif; font-size: 16px;
+    color: var(--teal-deep); border: 1.5px solid rgba(31,111,107,.3); border-radius: 10px;
+    background: #fff; text-align: center;
+  }
+  .price-in:focus { outline: 2px solid rgba(31,111,107,.35); }
+  .calc-rows { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .calc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--accent-bg); border-radius: 10px; padding: 10px 16px; font-size: 14px;
+  }
+  .calc-row b { font-family: "Noto Serif SC", serif; font-size: 16px; color: var(--teal-deep); }
+  .calc-total {
+    margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 2px dashed rgba(31,111,107,.25); padding-top: 12px; font-size: 15px;
+  }
+  .calc-total b { font-size: 24px; font-family: "Noto Serif SC", serif; color: var(--teal-deep); }
+  .calc-total .per { font-size: 13px; color: var(--muted); }
+
+  /* ---- 清单 ---- */
+  .checklist { display: flex; flex-direction: column; gap: 2px; }
+  .check-item {
+    display: flex; align-items: center; gap: 12px; padding: 9px 10px;
+    border-radius: 10px; cursor: pointer; transition: background .15s; font-size: 14.5px;
+  }
+  .check-item:hover { background: rgba(31, 111, 107, .05); }
+  .check-item input { display: none; }
+  .check-item .box {
+    flex: 0 0 auto; width: 22px; height: 22px; border: 2px solid rgba(31,111,107,.4);
+    border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: transparent; transition: all .15s;
+  }
+  .check-item.done .box { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .check-item .txt { color: var(--ink); }
+  .check-item.done .txt { color: var(--muted); text-decoration: line-through; opacity: .8; }
+  .progress-wrap { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .progress-track { flex: 1; height: 8px; background: var(--accent-bg); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 999px; transition: width .3s; }
+  .progress-text { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+
+  /* ---- 贴士 / 周边 ---- */
+  .tips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .tip { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+  .tip .dot {
+    flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--teal-light); color: var(--teal-deep);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  }
+  .tip b { color: var(--teal-deep); }
+  .spots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .spot { border: 1px solid rgba(31,111,107,.14); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--muted); }
+  .spot b { display: block; color: var(--teal-deep); font-size: 14.5px; margin-bottom: 2px; }
+
+  /* ---- 配图 ---- */
+  .photo { margin: 0; }
+  .photo img { width: 100%; border-radius: 14px; display: block; box-shadow: 0 6px 20px rgba(23,60,58,.14); }
+  .photo figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; letter-spacing: 1px; }
+
+  footer {
+    max-width: 880px; margin: 0 auto; padding: 20px 20px 44px;
+    text-align: center; font-size: 12px; color: var(--muted); letter-spacing: .5px;
+  }
+  footer .credits { margin-top: 6px; opacity: .8; line-height: 1.8; }
+  footer a { color: var(--teal); }
+
+  /* ---- 手机端底部快捷导航 ---- */
+  .quicknav { display: none; }
+  @media (max-width: 700px) {
+    .quicknav {
+      display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px;
+      background: rgba(20, 82, 84, .95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border-radius: 999px; padding: 7px; gap: 2px; z-index: 60;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+    }
+    .quicknav a {
+      flex: 1; text-align: center; color: #e9f1ee; text-decoration: none;
+      font-size: 12px; letter-spacing: 0; padding: 11px 0; border-radius: 999px; transition: background .15s;
+    }
+    .quicknav a.act { background: rgba(255, 255, 255, .16); font-weight: 700; }
+    body { padding-bottom: 84px; }
+  }
+  @media (max-width: 700px) {
+    .hero { padding: 48px 16px 96px; }
+    .tips, .spots, .dash { grid-template-columns: 1fr; }
+    .tickets { grid-template-columns: 1fr 1fr; }
+    .musts, .wx-grid { grid-template-columns: 1fr 1fr; }
+    .wx-head .big { font-size: 28px; }
+    .wx-live { margin-left: 0; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">杭州·西溪天堂 | 周六一日游</div>
+    <h1><span class="accent">西</span> 溪 · 水 族 <span class="accent">公 园</span></h1>
+    <div class="sub">2026-09-19 周六 · 全国首个以湿地生态为主题的水族公园,今年 7 月 23 日刚试营业:近 1000 种鱼,从湿地一路看到海洋</div>
+    <div class="tags-line">
+      <span>试营业中 · 票价与营业时间未公示</span>
+      <span>室内为主 · 雨天照玩</span>
+    </div>
+    <div class="countdown" id="countdown">距出发 —</div>
+    <div class="hero-stats">
+      <div class="stat"><b>近 1000 种</b><span>全馆鱼类品种</span></div>
+      <div class="stat"><b>近 8000 ㎡</b><span>场馆面积 · 口径不一</span></div>
+      <div class="stat"><b>湿地 → 江河 → 海洋</b><span>游览主线</span></div>
+      <div class="stat"><b id="heroTmax">29.2 ℃</b><span>周六预报 · 日落 <span id="heroSunset">18:00</span></span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav class="quicknav" id="quicknav">
+    <a href="#plan">行程</a>
+    <a href="#weather">天气</a>
+    <a href="#transport">导航</a>
+    <a href="#ticket">门票</a>
+    <a href="#zones">场馆</a>
+    <a href="#calc">费用</a>
+    <a href="#checklist">清单</a>
+  </nav>
+
+  <!-- 01 行程安排 -->
+  <section id="plan">
+    <div class="sec-title"><span class="no">壹</span><h2>行程安排</h2><span class="en">ITINERARY · 点击展开</span></div>
+    <div class="card">
+      <figure class="photo" style="margin-bottom:22px">
+        <img src="images/xixi-channel.jpg" alt="西溪国家湿地公园的河道,两岸绿树夹水" loading="lazy" decoding="async" width="1080" height="810">
+        <figcaption>西溪湿地的河道 — 水族公园讲的就是这条水路的故事</figcaption>
+      </figure>
+      <div class="timeline" id="timeline">
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">08:30</div><span class="tl-title">滨江出发</span>
+          <div class="tl-desc">导航设「<b>西溪天堂·栖悦城</b>」或「<b>中国湿地博物馆</b>」(两者相邻,水族公园就在栖悦城 BF 层)。滨江过去约 <b>20 km</b>(OSM 路网测算),过江加市区,车程 <b>35–50 分钟</b>,周六上午紫金港路、文三路一段堵车是常态,留一小时最稳。</div>
+        </div>
+        <div class="tl-item main">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">09:40</div><span class="tl-title">到场先做两件事</span>
+          <div class="tl-desc">① <b>确认当天营业时间与票价</b>——这馆 7 月 23 日起试营业、9 月初仍在试营业,官方价目与开闭馆时间<b>尚未公示</b>,售票处问一句最准;② 领/拍下<b>当天演艺时刻表</b>(鲛人剧场、海兽剧场场次逐日调整)。<b>开业不到 10 天就卖出 10 万张票、日均客流过万</b>,周末能线上先买就先买,开馆头一小时人最少。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">10:00</div><span class="tl-title">主线:湿地 → 江河 → 海洋</span>
+          <div class="tl-desc">按场馆设计的叙事顺序走一遍:<b>西溪湿地生态缸</b>(水草成林,像一片水下森林)、<b>西湖生态缸</b>(鲫鱼、草鱼悠游)、<b>钱塘江流域缸</b>(鲢鱼、鳊鱼成群),再一路过渡到珊瑚礁鱼、淡水热带鱼与海洋展区。全馆鱼类品种接近 <b>1000 种</b>。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">11:00</div><span class="tl-title">两场特色演艺</span>
+          <div class="tl-desc"><b>鲛人剧场</b>以江南文化为底:中式石拱桥、水下荷塘做场景,水下表演配东方水墨意境,是国内少见的"中式人鱼秀";<b>海兽剧场</b>是海狮行为展示加科普互动,带孩子最买账。两场都<b>提前 15 分钟进场占位</b>,以当天时刻表为准。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">12:15</div><span class="tl-title">午饭</span>
+          <div class="tl-desc">出馆上楼就是栖悦城的餐饮层,西溪天堂商业街也在步行范围:<b>西溪别院</b>(杭帮菜,人均约 122 元,招牌吊烧脆皮乳鸭、私房铁锅鱼头,10:30–14:00 / 16:30–21:00)、<b>穿越·外婆家</b>(人均约 129 元);想快就肯德基、星巴克。<b>出闸前问一句能否当日再次入馆</b>。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">13:30</div><span class="tl-title">水母森林 + 海底隧道 + 西溪豚岛</span>
+          <div class="tl-desc">下午补上午没看的:<b>水母展示区</b>(关闪光灯、别拍玻璃,出片全靠反射光)、<b>海底隧道</b>、<b>爬行动物展示区</b>,以及独立分馆<b>「西溪豚岛」</b>——水豚萌宠互动加自然教育,一票畅玩,可在工作人员指导下参与互动;投喂与主题下午茶按现场运营逐步开放。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">14:40</div><span class="tl-title">顺便看一眼「蓝眼泪秘境」</span>
+          <div class="tl-desc">这是浙江首家室内蓝眼泪主题展馆,把温州、平潭的荧光海搬进室内。7 月底官方口径是"施工收尾、<b>预计八月正式亮相</b>"——<b>9 月是否已开放未核实</b>,到现场问一句;开了就是这趟的意外彩蛋,没开就当留个下次再来的理由。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">15:40</div><span class="tl-title">出馆 → 中国湿地博物馆</span>
+          <div class="tl-desc">隔壁就是<b>中国湿地博物馆</b>(天目山路 402 号),2024 年焕新回归,馆里有 32.5 米超长巨幕。<b>9:00–16:30 开放、16:00 停止入馆、周一闭馆,个人参观无需预约</b>,顺路看个大概刚刚好。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">16:30</div><span class="tl-title">西溪国家湿地公园</span>
+          <div class="tl-desc">政府公示口径 <b>8:00–17:30</b>(4 月 1 日–10 月 7 日;部分攻略写 7:30–18:30,以现场为准),进主园区门票 <b>80 元</b>、微信「西溪湿地」可提前预约;<b>福堤、绿堤、御临路沿线、雕塑园南北区免费开放</b>,不进闸也能沿水走一段。<b>九月下旬正逢西溪火柿节前后</b>(往年 9 月下旬–10 月中旬,以今年公告为准),园里通常有柿子主题的市集与活动。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">18:00</div><span class="tl-title">日落</span>
+          <div class="tl-desc">2026-09-19 日落 <b>18:00</b>,日出 05:46。湿地水网密、视野矮,看的是水面反光与树影;<b>福堤、绿堤一带</b>随便找个桥站定就好,别特意跑远。</div>
+        </div>
+        <div class="tl-item">
+          <span class="tl-chevron">▾</span>
+          <div class="tl-time">19:00</div><span class="tl-title">晚饭 + 返程</span>
+          <div class="tl-desc">就近在栖悦城/西溪天堂吃,或往蒋村、文二西路一带找馆子;不想收场还能在综合体里看场电影。吃完原路回滨江,<b>20:30 前后到家</b>——这条线比去湘湖多花一刻钟车程,换来的是整个下午都在室内外之间自由切换。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 天气与时效 -->
+  <section id="weather">
+    <div class="sec-title"><span class="no">贰</span><h2>当日天气 · 时效信息</h2><span class="en">SAT 2026-09-19</span></div>
+    <div class="card">
+      <div class="wx-head">
+        <div class="big" id="wxTmaxBig">29.2℃</div>
+        <div class="desc">周六 · <span id="wxText">阴</span> · <span id="wxRange">21.8 – 29.2 ℃</span></div>
+        <span class="wx-live" id="wxLive">快照 2026-09-15 11:15</span>
+      </div>
+      <div class="wx-sub">数据来自 Open-Meteo 公开数值预报(西溪坐标 30.27°N, 120.07°E)。<b>页面打开时自动刷新一次</b>,失败则显示下面这份出行前的快照。西溪与湘湖同一座城、同一天,但两头各有一小块自己的天气——这篇用的是西溪的点位。</div>
+
+      <div class="wx-grid">
+        <div class="wx-cell"><span>天气</span><b id="wxText2">阴</b></div>
+        <div class="wx-cell"><span>气温</span><b id="wxRange2">21.8–29.2℃</b></div>
+        <div class="wx-cell"><span>体感最高</span><b id="wxFeels">31.6℃</b></div>
+        <div class="wx-cell"><span>降水概率</span><b id="wxPop">≤29%</b></div>
+        <div class="wx-cell"><span>累计降水</span><b id="wxRain">0.0 mm</b></div>
+        <div class="wx-cell"><span>风 / 阵风</span><b id="wxWind">11.9 / 25.9 km/h</b></div>
+        <div class="wx-cell"><span>湿度</span><b id="wxHumid">55–77%</b></div>
+        <div class="wx-cell"><span>紫外线</span><b id="wxUv">7.1 · 强</b></div>
+        <div class="wx-cell"><span>日出</span><b id="wxSunrise">05:46</b></div>
+        <div class="wx-cell"><span>日落</span><b id="wxSunset">18:00</b></div>
+        <div class="wx-cell"><span>主要在场时段</span><b>10:00–17:30</b></div>
+        <div class="wx-cell"><span>建议出发</span><b>08:30 前</b></div>
+      </div>
+
+      <div class="wx-chart" id="wxChart"></div>
+
+      <div class="wx-alerts">
+        <div class="wx-alert new"><span class="k">试营业</span><div><b>这馆 7 月 23 日才开门试营业,票价和营业时间都还没见到公开公示。</b>出发前一天用官方公众号/小程序或直接打电话问清:几点开馆、当天是否限流预约、票价多少。别照抄网上攻略里的数字——新馆的价格体系往往边开边调。</div></div>
+        <div class="wx-alert hot"><span class="k">客流</span><div><b>这是"开业即爆"的场馆:开业不到 10 天售票突破 10 万张、日均客流过万。</b>周末排队、甚至当日现场票售罄都有可能——能线上先买就先买,到馆也尽量赶开馆头一小时。</div></div>
+        <div class="wx-alert hot"><span class="k">彩蛋</span><div><b>「蓝眼泪秘境」原计划 8 月亮相,现在是否已开放未核实。</b>浙江首家室内蓝眼泪主题展馆,真开了值得多留 30 分钟;没开也别失望,馆内本身就有水母森林和海底隧道。</div></div>
+        <div class="wx-alert"><span class="k">室内</span><div>场馆在 <b>栖悦城 B1</b>,以室内为主,<b>下阵雨基本不影响</b>,这是它比纯户外行程稳的地方。但湿地那段是露天的——伞要带。</div></div>
+        <div class="wx-alert"><span class="k">温差</span><div>室外 22–29℃,馆内为了养鱼常年偏凉、湿度高,<b>一进一出差好几度</b>。给孩子和自己都带一件薄外套,别在馆里冻着看鱼。</div></div>
+        <div class="wx-alert"><span class="k">周末</span><div>亲子场馆,<b>周六上午是高峰</b>。开馆即到,先看剧场场次表再定动线,比"走到哪看到哪"少排一半队。</div></div>
+        <div class="wx-alert"><span class="k">停车</span><div>栖悦城车库约 <b>1100 个车位、3 小时内免费</b>,超出约 6 元/小时;湿地入口停车场约 5 元/小时。周末车位紧,9:30 前到最稳——馆就在商场里,停好车一天不用挪。</div></div>
+        <div class="wx-alert hot"><span class="k">台风</span><div><b>9 月仍在台风影响期。</b>出发前 48 小时看中央气象台路径预报;大风大雨时湿地可能临时闭园,但室内场馆受影响小,行程有退路。</div></div>
+        <div class="wx-alert"><span class="k">防晒</span><div>紫外线 <b>7.1(强)</b>,午后体感 31℃ 上下。湿地那一段基本没有遮阴,遮阳帽、防晒、水都要带。</div></div>
+      </div>
+
+      <div class="wx-normals">
+        <div class="cap"><b>近十年同期气候</b>(2016–2025 年 9 月 15–23 日,西溪点位,Open-Meteo 历史再分析,90 天样本):</div>
+        <div class="row">
+          <div class="n">平均最高 <b>27.4℃</b></div>
+          <div class="n">平均最低 <b>20.8℃</b></div>
+          <div class="n">有雨日占比 <b>50%</b></div>
+          <div class="n">最大单日降水 <b>66.8 mm</b></div>
+          <div class="n">年份间最高温区间 <b>18.7–35.7℃</b></div>
+        </div>
+        <div class="note green">九月中下旬的杭州:十年里有雨的日子占一半,早晚已经转凉。<b>这趟行程的抗雨能力比一般户外游强</b>——水族馆全在室内,真下雨就把馆内展区和剧场排满,把湿地留到雨停的缝隙。<b>折叠伞 + 薄外套</b>照旧是最划算的两件装备。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 交通 -->
+  <section id="transport">
+    <div class="sec-title"><span class="no">叁</span><h2>怎么去</h2><span class="en">GETTING THERE</span></div>
+    <div class="routes">
+      <div class="route">
+        <div class="badge">推荐 · 自由支配</div>
+        <h3>🚗 自驾(滨江出发)</h3>
+        <ul>
+          <li><b>导航</b>:「西溪天堂·栖悦城」或「中国湿地博物馆」——水族公园在栖悦城 <b>BF 层</b>(西溪天堂:西湖区<b>紫金港路 21 号</b>,西溪湿地东南角、紫金港路与天目山路口)</li>
+          <li><b>里程</b>:约 <b>20 km</b>(OSM 路网测算),车程 35–50 分钟;周六上午过江与紫金港路、文三路一段堵车是常态</li>
+          <li><b>停车</b>:栖悦城车库约 <b>1100 个车位</b>、<b>3 小时内免费</b>,超出约 <b>6 元/小时</b>;湿地各入口停车场约 5 元/小时、40 元/天封顶(来自商业体投放稿与攻略口径,以现场公示为准)</li>
+          <li><b>顺路</b>:出馆步行可到中国湿地博物馆与西溪湿地福堤一带,不用挪车</li>
+        </ul>
+        <a class="nav-btn" href="https://ditu.amap.com/search?query=%E8%A5%BF%E6%BA%AA%E5%A4%A9%E5%A0%82%E6%A0%96%E6%82%A6%E5%9F%8E" target="_blank" rel="noopener">🧭 高德搜「西溪天堂·栖悦城」</a>
+      </div>
+      <div class="route">
+        <div class="badge">不想开车</div>
+        <h3>🚇 地铁 / 🚌 公交</h3>
+        <ul>
+          <li><b>3 号线「东岳」站</b>(首选):车站与栖悦城衔接,也是中国湿地博物馆那一站,<b>A 口出来步行约 600 米</b>到西溪天堂/栖悦城——水族公园在 BF 层,基本不用再打车</li>
+          <li><b>公交 49 路、149 路</b>:直接停「<b>西溪天堂</b>」站,下车就是综合体出入口</li>
+          <li><b>顺带记下别的门</b>:周家村主入口走 3 号线西溪湿地南站,高庄走花坞站,龙舌嘴走洪园站,北门走 19 号线西溪湿地北站(<b>E2 口往西溪国家湿地公园、福堤</b>)——取决于你从哪个口进湿地</li>
+          <li><b>适合</b>:晚上在湿地看完日落后回城,地铁比找车位省心</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px">新馆刚开,<b>门口的导视与入口位置可能还在调整</b>:到了栖悦城先找 B1 的水族公园指引牌,或直接问商场服务台。</div>
+  </section>
+
+  <!-- 04 门票 -->
+  <section id="ticket">
+    <div class="sec-title"><span class="no">肆</span><h2>门票与开放口径</h2><span class="en">TICKETS</span></div>
+    <div class="card">
+      <div class="tickets">
+        <div class="tk unknown"><b>未公示</b><span>西溪水族公园票价(试行期)</span></div>
+        <div class="tk"><b>80 元</b><span>西溪国家湿地公园(官方公示)</span></div>
+        <div class="tk"><b>免费</b><span>福堤 · 绿堤 · 御临路 · 雕塑园</span></div>
+      </div>
+      <div class="note red">
+        <b>先把话说清楚:西溪水族公园的票价与营业时间,我没有查到官方公示。</b>这馆 2026 年 7 月 23 日开始试营业、<b>9 月初仍在试营业</b>,官方只留了一句"营业时间与演出场次以官方平台和现场公告为准";面积口径也不统一(政府口径近 8000 ㎡,另有报道写近 1 万㎡、约 1.2 万㎡)。网上能搜到的票价数字要么是别的场馆、要么是回收的旧数据——<b>别照着下单</b>。
+      </div>
+      <div class="note green">
+        <b>能确认的计费结构:一票畅玩双馆。</b>门票包含主馆与独立分馆「西溪豚岛」,不分开卖(商业体与行业报道口径一致,在售的"水族公园 + 西溪豚岛"套餐就是这个结构)。具体金额仍未见公示,以官方渠道/售票处为准。
+      </div>
+      <div class="note green">
+        <b>西溪国家湿地公园(就在隔壁,同一个大门片区)</b>:地址 <b>天目山路 518 号</b>,门票 <b>80 元</b>;开放时间 <b>8:00–17:30(4 月 1 日–10 月 7 日)</b>、8:00–17:00(10 月 8 日–次年 3 月 31 日)。<b>免费开放区域</b>:福堤沿线、绿堤沿线、御临路沿线、雕塑园南北区域——不想买票也能沿水走一段。以上为杭州市园林文物局 2026-05-15 公示口径。
+      </div>
+      <div class="note">
+        <b>中国湿地博物馆</b>(天目山路 402 号)紧邻场馆西侧,2024 年焕新回归、馆内有 32.5 米超长巨幕。<b>9:00–16:30 开放、16:00 停止入馆,周一闭馆</b>;<b>个人参观无需预约</b>,团队预约 0571-89514033。3 号线东岳站 A 口步行约 600 米。是否免票没查到官方口径,身份证带上。
+      </div>
+      <div class="note">
+        <b>年卡类</b>:水族公园<b>不在</b>杭州公园年卡适用范围(年卡覆盖动物园、植物园、岳王庙、六和塔、虎跑、云栖竹径等);西溪湿地能否凭公园年卡/市民卡免票,攻略口径说可以、政府收费公示未单列,<b>未核实</b>——带卡的话在闸口问一句。
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 场馆与演艺 -->
+  <section id="zones">
+    <div class="sec-title"><span class="no">伍</span><h2>场馆与演艺</h2><span class="en">WHAT'S INSIDE</span></div>
+    <figure class="photo" style="margin-bottom:20px">
+      <img src="images/xixi-shidi.jpg" alt="西溪湿地水面与岸上植被" loading="lazy" decoding="async" width="1080" height="810">
+      <figcaption>西溪湿地实景 — 馆内把这条水路的生态搬进了缸里</figcaption>
+    </figure>
+    <div class="musts">
+      <div class="must">
+        <div class="icon">🌿</div>
+        <b>西溪湿地生态缸</b>
+        <p>全馆最"西溪"的一缸:根系发达的水草密集成林,像一片水下森林,虎纹银板鱼、红魔王银板鱼、石美人在其间群游。</p>
+      </div>
+      <div class="must">
+        <div class="icon">🐟</div>
+        <b>西湖 / 钱塘江流域缸</b>
+        <p>西湖缸里鲫鱼、草鱼闲适穿梭;钱塘江流域缸里鲢鱼在石缝探头、鳊鱼成群巡游——全是你从小认识的本土鱼。</p>
+      </div>
+      <div class="must">
+        <div class="icon">🧜</div>
+        <b>鲛人剧场</b>
+        <p>以江南文化为灵感:中式石拱桥、水下荷塘做场景,水下表演配东方水墨意境。国内少见的中式"人鱼"秀。</p>
+      </div>
+      <div class="must">
+        <div class="icon">🦭</div>
+        <b>海兽剧场</b>
+        <p>海狮行为展示 + 趣味互动 + 海洋知识科普,节奏轻快,是全场最适合带孩子的一站。</p>
+      </div>
+      <div class="must">
+        <div class="icon">🎐</div>
+        <b>水母展示区 · 海底隧道</b>
+        <p>水母区出片率最高(关闪光灯、别拍玻璃);海底隧道抬头就是鱼群,人多时靠边走,别停在通道中间。</p>
+      </div>
+      <div class="must">
+        <div class="icon">🦫</div>
+        <b>西溪豚岛(独立分馆)</b>
+        <p>以"自然绿洲"为主题的水豚萌宠互动与自然教育空间,与主馆<b>一票畅玩</b>;可在工作人员指导下参与互动。投喂、主题下午茶等按现场运营逐步开放。</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="musts" style="grid-template-columns:1fr;gap:12px">
+        <div class="must" style="background:rgba(178,58,46,.06)">
+          <b>✨ 蓝眼泪秘境(在建 / 可能已开)</b>
+          <p>浙江首家室内蓝眼泪主题展馆,把温州、平潭海边的蓝色荧光海搬进室内。2026-07-28 官方报道口径是"加紧建设、预计八月正式亮相",<b>9 月 19 日是否已开放未核实</b>——到场馆问一句,开了就多留半小时。</p>
+        </div>
+      </div>
+      <div class="note">全馆主线是「<b>湿地 → 江河 → 海洋</b>」,叙事线索取自西溪湿地、西湖、钱塘江这三处杭州代表性水域;这也是它被称为<b>全国首个以湿地生态为核心主题的水族公园</b>的原因。建议至少留 <b>2–2.5 小时</b>在馆内(不含演艺占位时间)。</div>
+    </div>
+  </section>
+
+  <!-- 06 动线 -->
+  <section id="route">
+    <div class="sec-title"><span class="no">陆</span><h2>一天怎么走</h2><span class="en">ONE-DAY ROUTE</span></div>
+    <div class="card">
+      <figure class="photo" style="margin-bottom:18px">
+        <img src="images/xixi-boats.jpg" alt="西溪湿地水道上的摇橹船" loading="lazy" decoding="async" width="1080" height="715">
+        <figcaption>西溪湿地水道 — 下午出馆后沿福堤、绿堤走一段最舒服</figcaption>
+      </figure>
+      <div class="dash">
+        <div class="step"><span class="dot">1</span><div><b>上午 · 水族公园</b>:开馆即入,先走湿地→江河→海洋主线,再看 11 点前后的演艺</div></div>
+        <div class="step"><span class="dot">2</span><div><b>中午 · 栖悦城</b>:商场里解决午饭,顺便出馆透气、补防晒</div></div>
+        <div class="step"><span class="dot">3</span><div><b>下午 · 回馆补漏</b>:水母区、海底隧道、西溪豚岛、爬行动物区,以及可能已开的蓝眼泪秘境</div></div>
+        <div class="step"><span class="dot">4</span><div><b>傍晚 · 中国湿地博物馆</b>:隔壁十几分钟,看一眼巨幕与湿地科普</div></div>
+        <div class="step"><span class="dot">5</span><div><b>日落前 · 西溪湿地</b>:走福堤/绿堤免费区域,或买 80 元门票进主园区</div></div>
+        <div class="step"><span class="dot">6</span><div><b>18:00 · 日落收尾</b>:水面反光 + 树影,然后回栖悦城吃饭返程</div></div>
+      </div>
+      <div class="note"><b>为什么把湿地放在最后</b>:湿地开放到 17:30、日落 18:00,而水族公园是室内、全天都能进。先用室内馆吃掉上下午最热最晒的时段,把户外留给光线最好的一段——这也是这篇不建议"先湿地后水族馆"的原因。</div>
+    </div>
+  </section>
+
+  <!-- 07 费用 -->
+  <section id="calc">
+    <div class="sec-title"><span class="no">柒</span><h2>费用计算器</h2><span class="en">BUDGET</span></div>
+    <div class="card">
+      <div class="calc-people">
+        <label>同行人数</label>
+        <div class="stepper">
+          <button type="button" id="peopleMinus">−</button>
+          <div class="val" id="peopleVal">2</div>
+          <button type="button" id="peoplePlus">＋</button>
+        </div>
+      </div>
+      <div class="calc-people">
+        <label>水族公园门票(每人,官方未公示 → 按当日实际填)</label>
+        <input class="price-in" id="aqPrice" type="number" min="0" step="10" value="0" inputmode="numeric" aria-label="水族公园门票单价">
+        <span style="font-size:13px;color:var(--muted)">元/人</span>
+      </div>
+      <div class="calc-people">
+        <label>西溪湿地主园区(80 元/人)</label>
+        <div class="seg" id="wetSeg">
+          <button class="on" data-w="0">只走免费区</button>
+          <button data-w="1">进主园区</button>
+        </div>
+      </div>
+      <div class="calc-rows">
+        <div class="calc-row"><span>水族公园门票</span><b id="aqCost">0</b></div>
+        <div class="calc-row"><span>西溪湿地门票</span><b id="wetCost">0</b></div>
+        <div class="calc-row"><span>午餐(商场/馆内,人均约 60)</span><b id="lunchCost">120</b></div>
+        <div class="calc-row"><span>油费 + 停车(整车,估算)</span><b id="carCost">140</b></div>
+      </div>
+      <div class="calc-total">
+        <span>合计 <span class="per" id="totalPer"></span></span>
+        <b id="totalCost">260</b>
+      </div>
+      <div class="note">门票一栏默认 0,是因为<b>它确实还没公示</b>——请按官方渠道当日票价填入,计算器会自动重算。<b>一票畅玩双馆</b>(主馆 + 西溪豚岛),不用另买豚岛票。午餐按人均 60 元估(商场餐饮人均 120 上下也常见,按自己的吃法调);油费加停车按整车 140 元估——栖悦城 3 小时内免费、超出约 6 元/小时,实际停车费可能更低。西溪湿地 80 元为杭州市园林文物局公示价。</div>
+    </div>
+  </section>
+
+  <!-- 08 清单 -->
+  <section id="checklist">
+    <div class="sec-title"><span class="no">捌</span><h2>行前清单</h2><span class="en">CHECKLIST · 记得勾选</span></div>
+    <div class="card">
+      <div class="checklist" id="checklist">
+        <div class="check-item"><div class="box">✓</div><span class="txt">出发前确认水族公园营业时间、票价与是否限流预约(官方公众号/小程序/电话)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">确认「蓝眼泪秘境」是否已开放(现场问售票处)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">薄外套(馆内常年偏凉、湿度高)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">折叠伞 + 防晒(近十年同期一半的日子有雨,紫外线 7.1)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">充电宝(拍照 + 导航;馆内光线暗,续航掉得快)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">出发前查台风预警与景区开放公告</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">9:30 前到栖悦城(周末车位紧张)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">进场先拍当天演艺时刻表,按场次倒排动线</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">若出馆吃饭,先问闸口能否当日再次入馆</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">停车位置拍张照(商场车库分区多)</span></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0 / 10</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 顺路 -->
+  <section id="nearby">
+    <div class="sec-title"><span class="no">玖</span><h2>顺路:湿地与博物馆</h2><span class="en">NEARBY</span></div>
+    <div class="card">
+      <figure class="photo" style="margin-bottom:18px">
+        <img src="images/xixi-park.jpg" alt="西溪国家湿地公园的水面与岸边绿植" loading="lazy" decoding="async" width="1080" height="721">
+        <figcaption>西溪国家湿地公园 — 出馆步行可达,免费区域也够走一下午</figcaption>
+      </figure>
+      <div class="spots">
+        <div class="spot"><b>西溪国家湿地公园(4A)</b>天目山路 518 号,门票 80 元(政府公示 4/1–10/7 开放 8:00–17:30),微信「西溪湿地」可预约 7 日内、每证每日 1 次,咨询 0571-88106688。<b>免费区域</b>:福堤、绿堤、御临路沿线、雕塑园南北区。经典走法是周家村 → 深潭口 → 河渚街「西溪且留下」→ 高庄;秋雪庵是赏芦最佳点。</div>
+        <div class="spot"><b>中国湿地博物馆</b>天目山路 402 号,就在场馆西侧。2024 年焕新回归,有 32.5 米超长巨幕与湿地生态科普。<b>开放时间/门票以官方公告为准</b>。</div>
+        <div class="spot"><b>福堤 / 绿堤</b>免费开放的堤岸线,是看水面、拍倒影、推婴儿车散步的首选;日落前后光线最好,人也不算多。</div>
+        <div class="spot"><b>栖悦城(奥莱商业)</b>场馆所在的商业体,吃饭、逛街、避雨、补给、看电影都在这里解决;停车也停这儿(约 1100 位,3 小时内免费)。</div>
+        <div class="spot"><b>西溪火柿节</b>西溪的柿子季是这一带的年度大事(往年 9 月下旬–10 月中旬,以今年官方公告为准),园内通常有市集与主题活动——9 月 19 日正好卡在开幕前后,进园先看当天公告。</div>
+      </div>
+      <div class="note">这一片的最大好处是<b>三种玩法叠在同一处</b>:室内水族馆 + 免费湿地堤岸 + 博物馆。下雨就多待馆内,天晴就把下午交给水面,不用为天气改行程——这是它比跑远郊景区更适合"周六临时起意"的地方。</div>
+    </div>
+  </section>
+
+  <!-- 10 贴士 -->
+  <section id="tips">
+    <div class="sec-title"><span class="no">拾</span><h2>实用贴士</h2><span class="en">TIPS</span></div>
+    <div class="card">
+      <div class="tips">
+        <div class="tip"><span class="dot">新</span><div><b>把它当"新馆"对待。</b>试营业期的票价、开闭馆时间、展区开放范围都可能调整,出发前一天确认一次,到了现场再确认一次。</div></div>
+        <div class="tip"><span class="dot">时</span><div><b>8:30 前出发,开馆即入。</b>亲子场馆的周末高峰在 10:30 之后,早到一小时,剧场好位置和车位都还在。</div></div>
+        <div class="tip"><span class="dot">演</span><div><b>先定场次,再排动线。</b>鲛人剧场与海兽剧场的时间逐日调整,进场先看时刻表,提前 15 分钟入场。</div></div>
+        <div class="tip"><span class="dot">拍</span><div><b>关闪光灯、别拍玻璃。</b>水母区与暗光展缸靠反射光最好看;闪光既惊扰动物,也只会拍到一片白。</div></div>
+        <div class="tip"><span class="dot">娃</span><div><b>推车能带进商场,馆内动线也友好。</b>西溪豚岛有互动环节,听工作人员安排;馆内凉,给孩子多备一件。</div></div>
+        <div class="tip"><span class="dot">食</span><div><b>吃饭交给栖悦城。</b>场馆在商场 B1,上楼就是餐饮层,比景区餐厅省事也便宜;想省钱可以逛完再吃。</div></div>
+        <div class="tip"><span class="dot">车</span><div><b>车停商场,人走湿地。</b>出馆后去湿地、博物馆都在步行范围,不用来回挪车。</div></div>
+        <div class="tip"><span class="dot">险</span><div><b>9 月看台风。</b>大风大雨时湿地可能临时闭园,室内场馆影响小——把馆内排满,行程照样成立。</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>从湿地到海洋,这条线路正好是西溪自己的故事——只是这次,它在 8000 平方米里走完了。</div>
+  <div class="credits">
+    信息整理自公开资料(截至 2026-09-15):场馆信息来源为杭州市政府门户(2026-07-27/28)、杭州网与都市快报(2026-07-26)、钱江晚报(2026-09-02,确认仍在试营业)及行业媒体报道(栖悦城车位与客流数据),已核实项:试营业起始日、一票畅玩双馆、近 1000 种鱼、场馆与演艺构成、地址(西湖区紫金港路 21 号西溪天堂·栖悦城 BF)与最近地铁(3 号线东岳站 A 口约 600 米)。西溪国家湿地公园票价与开放时间取自杭州市园林文物局 2026-05-15 公示,中国湿地博物馆时间与预约信息取自杭州本地宝。<b>水族公园的票价、营业时间、预约与限流规则官方尚未公示,一律以官方渠道与现场为准</b>;蓝眼泪秘境开放状态、演出场次、面积口径(8000 ㎡ / 近 1 万㎡ / 约 1.2 万㎡)、公园年卡是否覆盖湿地等未核实项已在正文逐条标注。<br>
+    天气数据:Open-Meteo 公开数值预报与历史再分析(CC BY 4.0),快照抓取于 2026-09-15 11:15,页面打开时会自动刷新一次。<br>
+    摄影:四张图都是西溪国家湿地公园的实拍,来自 Wikimedia Commons——<a href="https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E6%BA%AA%E5%9B%BD%E5%AE%B6%E6%B9%BF%E5%9C%B0%E5%85%AC%E5%9B%AD%E7%9A%84%E6%B2%B3%E9%81%93_-_panoramio.jpg" target="_blank" rel="noopener">湿地河道</a>(江上清风1961,CC BY 3.0)、<a href="https://commons.wikimedia.org/wiki/File:Boats_from_the_humped_pedestrian_bridge_(36566222466).jpg" target="_blank" rel="noopener">水道摇橹船</a>(shankar s.,CC BY 2.0)、<a href="https://commons.wikimedia.org/wiki/File:20250401_Xixi_Shidi.jpg" target="_blank" rel="noopener">2025 年 4 月的西溪水面</a>(Yumeto,CC BY-SA 4.0)、<a href="https://commons.wikimedia.org/wiki/File:Xixi_Wetland_Park,_Hangzhou,_China.jpg" target="_blank" rel="noopener">湿地景区一角</a>(Yoshi Canopus,CC BY-SA 3.0),已在图注处逐张对应。<b>本页没有场馆内部照片</b>——新馆开放不足两个月,Commons 上还没有它的自由许可图片,所以场馆部分以文字描述为主,配图用的是它讲述的那片湿地本身。
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     基础数据:2026-09-19 西溪(30.269N, 120.065E)数值预报快照
+     抓取时间 2026-09-15 11:15 CST(Open-Meteo)
+     hourly: [时, 气温℃, 体感℃, 降水概率%]
+     ============================================================ */
+  var TRIP = { y: 2026, m: 8, d: 19, label: '2026-09-19 周六' };
+  var WX = {
+    text: '阴',
+    tmin: 21.8, tmax: 29.2, feels: 31.6,
+    pop: 29, rain: 0.0, wind: 11.9, gust: 25.9,
+    humidLo: 55, humidHi: 77, uv: 7.1,
+    sunrise: '05:46', sunset: '18:00',
+    snap: '2026-09-15 11:15',
+    hourly: [
+      [8, 24.4, 27.3, 2], [9, 25.6, 28.4, 5], [10, 27.0, 29.5, 8],
+      [11, 28.1, 30.7, 12], [12, 28.7, 31.3, 15], [13, 29.1, 31.6, 17],
+      [14, 29.2, 31.3, 20], [15, 28.9, 30.8, 24], [16, 28.3, 30.1, 28],
+      [17, 27.6, 29.5, 29], [18, 26.7, 29.0, 24], [19, 25.7, 28.6, 17],
+      [20, 24.8, 28.2, 12]
+    ]
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function setText(id, v) { var el = $(id); if (el) el.textContent = v; }
+
+  /* ---------- 倒计时 ---------- */
+  function daysToTrip() {
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var trip = new Date(TRIP.y, TRIP.m, TRIP.d);
+    return Math.round((trip - today) / 86400000);
+  }
+  function paintCountdown() {
+    var d = daysToTrip(), txt;
+    if (d > 1) txt = '距出发还有 ' + d + ' 天 · ' + TRIP.label;
+    else if (d === 1) txt = '明天出发 · ' + TRIP.label;
+    else if (d === 0) txt = '今天出发 · ' + TRIP.label + ' · 玩得开心';
+    else txt = TRIP.label + ' · 行程已完成,本页保留当日记录';
+    setText('countdown', txt);
+  }
+
+  /* ---------- 天气面板 ---------- */
+  function codeText(c) {
+    if (c === 0) return '晴';
+    if (c === 1) return '大致晴朗';
+    if (c === 2) return '多云';
+    if (c === 3) return '阴';
+    if (c === 45 || c === 48) return '有雾';
+    if (c >= 51 && c <= 57) return '毛毛雨';
+    if (c >= 61 && c <= 67) return '有雨';
+    if (c >= 71 && c <= 77) return '有雪';
+    if (c >= 80 && c <= 82) return '阵雨';
+    if (c >= 95) return '雷阵雨';
+    return '多云';
+  }
+  function uvText(v) {
+    if (v == null) return '—';
+    var lv = v < 3 ? '弱' : v < 6 ? '中等' : v < 8 ? '强' : v < 11 ? '很强' : '极强';
+    return (+v).toFixed(1) + ' · ' + lv;
+  }
+
+  function paintWx() {
+    var rng = WX.tmin.toFixed(1) + '–' + WX.tmax.toFixed(1) + '℃';
+    setText('wxTmaxBig', WX.tmax.toFixed(1) + '℃');
+    setText('wxText', WX.text);
+    setText('wxText2', WX.text);
+    setText('wxRange', WX.tmin.toFixed(1) + ' – ' + WX.tmax.toFixed(1) + ' ℃');
+    setText('wxRange2', rng);
+    setText('wxFeels', WX.feels.toFixed(1) + '℃');
+    setText('wxPop', '≤' + Math.round(WX.pop) + '%');
+    setText('wxRain', (+WX.rain).toFixed(1) + ' mm');
+    setText('wxWind', WX.wind.toFixed(1) + ' / ' + WX.gust.toFixed(1) + ' km/h');
+    setText('wxHumid', Math.round(WX.humidLo) + '–' + Math.round(WX.humidHi) + '%');
+    setText('wxUv', uvText(WX.uv));
+    setText('wxSunrise', WX.sunrise);
+    setText('wxSunset', WX.sunset);
+    setText('heroTmax', WX.tmax.toFixed(1) + ' ℃');
+    setText('heroSunset', WX.sunset);
+    renderChart(WX.hourly);
+  }
+
+  function renderChart(hourly) {
+    var host = $('wxChart');
+    if (!host || !hourly || !hourly.length) return;
+    var W = 720, H = 250, padL = 38, padR = 14, padT = 18, padB = 42;
+    var temps = [], feels = [];
+    hourly.forEach(function (d) { temps.push(d[1]); feels.push(d[2]); });
+    var all = temps.concat(feels);
+    var lo = Math.floor((Math.min.apply(null, all) - 2) / 2) * 2;
+    var hi = Math.ceil((Math.max.apply(null, all) + 2) / 2) * 2;
+    if (hi - lo < 6) hi = lo + 6;
+    var n = hourly.length;
+    var innerW = W - padL - padR, innerH = H - padT - padB;
+    var base = padT + innerH;
+    function X(i) { return padL + (n === 1 ? innerW / 2 : innerW * i / (n - 1)); }
+    function Y(v) { return padT + innerH * (1 - (v - lo) / (hi - lo)); }
+
+    var s = '<title>' + TRIP.label + ' 西溪逐时气温与降水概率预报</title>';
+    s += '<defs><linearGradient id="wxFill" x1="0" y1="0" x2="0" y2="1">'
+       + '<stop offset="0%" stop-color="#2a8280" stop-opacity=".30"/>'
+       + '<stop offset="100%" stop-color="#2a8280" stop-opacity="0"/></linearGradient></defs>';
+
+    for (var v = lo; v <= hi; v += 4) {
+      s += '<line x1="' + padL + '" y1="' + Y(v).toFixed(1) + '" x2="' + (W - padR) + '" y2="' + Y(v).toFixed(1) + '" stroke="rgba(31,111,107,.14)" stroke-width="1"/>'
+         + '<text x="' + (padL - 6) + '" y="' + (Y(v) + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#5c6f6c">' + v + '°</text>';
+    }
+
+    hourly.forEach(function (d, i) {
+      var h = Math.max(0, d[3]) / 100 * innerH * 0.5;
+      if (h > 0.6) {
+        s += '<rect x="' + (X(i) - 7).toFixed(1) + '" y="' + (base - h).toFixed(1) + '" width="14" height="' + h.toFixed(1) + '" rx="3" fill="#9dc4d8" opacity=".6"/>';
+      }
+    });
+
+    function linePath(arr) {
+      return arr.map(function (v, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' ');
+    }
+    s += '<path d="' + linePath(temps) + ' L' + X(n - 1).toFixed(1) + ' ' + base.toFixed(1) + ' L' + X(0).toFixed(1) + ' ' + base.toFixed(1) + ' Z" fill="url(#wxFill)"/>';
+    s += '<path d="' + linePath(feels) + '" fill="none" stroke="#c9a35c" stroke-width="2" stroke-dasharray="5 4"/>';
+    s += '<path d="' + linePath(temps) + '" fill="none" stroke="#1f6f6b" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>';
+
+    var mi = temps.indexOf(Math.max.apply(null, temps));
+    s += '<circle cx="' + X(mi).toFixed(1) + '" cy="' + Y(temps[mi]).toFixed(1) + '" r="4.5" fill="#fff" stroke="#1f6f6b" stroke-width="2.6"/>'
+       + '<text x="' + X(mi).toFixed(1) + '" y="' + (Y(temps[mi]) - 10).toFixed(1) + '" text-anchor="middle" font-size="12" font-weight="700" fill="#145254">' + temps[mi].toFixed(1) + '℃</text>';
+
+    hourly.forEach(function (d, i) {
+      if (d[0] % 2 === 0) {
+        s += '<text x="' + X(i).toFixed(1) + '" y="' + (base + 17) + '" text-anchor="middle" font-size="11" fill="#5c6f6c">' + d[0] + ':00</text>';
+      }
+    });
+    s += '<text x="' + padL + '" y="' + (H - 6) + '" font-size="11" fill="#9aa8a5">气温(实线)· 体感(虚线)· 降水概率(柱)</text>';
+
+    host.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + TRIP.label + ' 西溪逐时气温与降水概率折线图,14 时最高约 ' + temps[mi].toFixed(1) + ' 摄氏度">' + s + '</svg>';
+  }
+
+  function wxStatus(msg, warn) {
+    var el = $('wxLive');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.toggle('warn', !!warn);
+  }
+
+  function refreshWx() {
+    var d = daysToTrip();
+    if (d < 0) { wxStatus('行程已结束 · 显示 ' + WX.snap + ' 的快照', true); return; }
+    if (d > 15) { wxStatus('距出行超 16 天,暂无法预报 · 快照 ' + WX.snap, true); return; }
+    if (typeof fetch !== 'function') { wxStatus('快照 ' + WX.snap, true); return; }
+
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=30.269&longitude=120.065'
+      + '&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,'
+      + 'precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,'
+      + 'uv_index_max,sunrise,sunset'
+      + '&hourly=temperature_2m,apparent_temperature,precipitation_probability,relative_humidity_2m'
+      + '&timezone=Asia%2FShanghai&start_date=' + TRIP.y + '-09-19&end_date=' + TRIP.y + '-09-19';
+
+    var timeout = setTimeout(function () { wxStatus('刷新超时 · 显示 ' + WX.snap + ' 的快照', true); }, 8000);
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      clearTimeout(timeout);
+      var dd = j.daily, hh = j.hourly;
+      if (!dd || !hh || !dd.time || !dd.time.length) throw new Error('empty');
+      function num(a) { return a && a[0] != null ? +a[0] : null; }
+      var tmax = num(dd.temperature_2m_max), tmin = num(dd.temperature_2m_min);
+      if (tmax != null) WX.tmax = tmax;
+      if (tmin != null) WX.tmin = tmin;
+      var f = num(dd.apparent_temperature_max); if (f != null) WX.feels = f;
+      var p = num(dd.precipitation_probability_max); if (p != null) WX.pop = p;
+      var rn = num(dd.precipitation_sum); if (rn != null) WX.rain = rn;
+      var w = num(dd.wind_speed_10m_max); if (w != null) WX.wind = w;
+      var g = num(dd.wind_gusts_10m_max); if (g != null) WX.gust = g;
+      var u = num(dd.uv_index_max); if (u != null) WX.uv = u;
+      if (dd.weather_code && dd.weather_code[0] != null) WX.text = codeText(dd.weather_code[0]);
+      if (dd.sunrise && dd.sunrise[0]) WX.sunrise = dd.sunrise[0].slice(11, 16);
+      if (dd.sunset && dd.sunset[0]) WX.sunset = dd.sunset[0].slice(11, 16);
+
+      var hourly = [], hLo = null, hHi = null;
+      for (var i = 0; i < hh.time.length; i++) {
+        var hr = +hh.time[i].slice(11, 13);
+        if (hr < 8 || hr > 20) continue;
+        var t = hh.temperature_2m[i], ap = hh.apparent_temperature[i];
+        var po = hh.precipitation_probability[i];
+        var rh = hh.relative_humidity_2m ? hh.relative_humidity_2m[i] : null;
+        if (rh != null) {
+          hLo = hLo == null ? rh : Math.min(hLo, rh);
+          hHi = hHi == null ? rh : Math.max(hHi, rh);
+        }
+        if (t == null) continue;
+        hourly.push([hr, t, ap == null ? t : ap, po == null ? 0 : po]);
+      }
+      if (hourly.length) WX.hourly = hourly;
+      if (hLo != null) { WX.humidLo = hLo; WX.humidHi = hHi; }
+
+      paintWx();
+      var now = new Date();
+      wxStatus('已更新为最新预报 · ' + ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2), false);
+    }).catch(function () {
+      clearTimeout(timeout);
+      wxStatus('实时刷新失败 · 显示 ' + WX.snap + ' 的快照', true);
+    });
+  }
+
+  /* ---------- 时间轴 ---------- */
+  var items = document.querySelectorAll('#timeline .tl-item');
+  items.forEach(function (item) {
+    item.addEventListener('click', function () { item.classList.toggle('open'); });
+  });
+  var mainItem = document.querySelector('#timeline .tl-item.main');
+  if (mainItem) mainItem.classList.add('open');
+
+  /* ---------- 底部导航滚动高亮 ---------- */
+  var navLinks = document.querySelectorAll('#quicknav a');
+  var navSections = [];
+  navLinks.forEach(function (a) {
+    var sec = document.getElementById(a.getAttribute('href').slice(1));
+    if (sec) navSections.push({ sec: sec, a: a });
+  });
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY + window.innerHeight * 0.35;
+    var act = null;
+    navSections.forEach(function (s) { if (s.sec.offsetTop <= y) act = s; });
+    navLinks.forEach(function (a) { a.classList.remove('act'); });
+    if (act) act.a.classList.add('act');
+  }, { passive: true });
+
+  /* ---------- 费用计算器 ---------- */
+  var people = 2, wetland = 0;
+  var LUNCH = 60, CAR = 140, WETLAND = 80;
+  var peopleVal = $('peopleVal'), aqInput = $('aqPrice');
+  function calc() {
+    var aq = Math.max(0, parseFloat(aqInput.value) || 0);
+    var aqc = Math.round(aq * people);
+    var wet = wetland ? WETLAND * people : 0;
+    var l = LUNCH * people;
+    setText('aqCost', String(aqc));
+    setText('wetCost', String(wet));
+    setText('lunchCost', String(l));
+    setText('carCost', String(CAR));
+    var total = aqc + wet + l + CAR;
+    setText('totalCost', String(total));
+    setText('totalPer', '人均 ' + Math.round(total / people) + ' 元');
+  }
+  $('peoplePlus').addEventListener('click', function () {
+    if (people < 8) { people++; peopleVal.textContent = people; calc(); }
+  });
+  $('peopleMinus').addEventListener('click', function () {
+    if (people > 1) { people--; peopleVal.textContent = people; calc(); }
+  });
+  aqInput.addEventListener('input', calc);
+  document.querySelectorAll('#wetSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#wetSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      wetland = +b.dataset.w;
+      calc();
+    });
+  });
+
+  /* ---------- 行前清单 ---------- */
+  var KEY = 'xixi.checklist';
+  var checks = document.querySelectorAll('#checklist .check-item');
+  var fill = $('progressFill'), txt = $('progressText');
+  var itemsList = [];
+  checks.forEach(function (el) {
+    itemsList.push(el);
+    el.addEventListener('click', function () {
+      el.classList.toggle('done');
+      save();
+      updateProgress();
+    });
+  });
+  function save() {
+    try {
+      localStorage.setItem(KEY, itemsList.map(function (el) { return el.classList.contains('done') ? 1 : 0; }).join(''));
+    } catch (e) {}
+  }
+  function load() {
+    try {
+      var v = localStorage.getItem(KEY);
+      if (!v) return;
+      for (var i = 0; i < itemsList.length; i++) {
+        if (v[i] === '1') itemsList[i].classList.add('done');
+      }
+    } catch (e) {}
+  }
+  function updateProgress() {
+    var n = 0;
+    itemsList.forEach(function (el) { if (el.classList.contains('done')) n++; });
+    fill.style.width = (n / itemsList.length * 100) + '%';
+    txt.textContent = n + ' / ' + itemsList.length;
+  }
+
+  /* ---------- 启动 ---------- */
+  paintCountdown();
+  paintWx();
+  refreshWx();
+  calc();
+  load();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
