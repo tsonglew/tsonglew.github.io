@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州出发 · 西双版纳 | 出行时间待定 · 季节、动线与花费笔记</title>
+<meta name="description" content="杭州到西双版纳的行程笔记(出行时间待定):12 个月气候面板帮你挑窗口、直飞与昆明中转+中老铁路对比、门票官方口径、4天3晚与5天4晚两套动线、费用估算器、防蚊与避坑清单。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1f6f6b;
+    --teal-deep: #145254;
+    --teal-light: #e3efec;
+    --gold: #c9a35c;
+    --ink: #24312f;
+    --muted: #5c6f6c;
+    --paper: #faf8f2;
+    --card: #ffffff;
+    --accent-bg: #f0efe6;
+    --red: #b23a2e;
+    --new: #2f7d4f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Sans SC", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ================= Hero ================= */
+  .hero {
+    position: relative;
+    background: linear-gradient(168deg, #102f28 0%, #1b5240 46%, #2a7a52 100%);
+    color: #f4f1e8;
+    padding: 64px 20px 120px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(46px); opacity: .5;
+  }
+  .hero::before { width: 430px; height: 430px; background: #2f9a72; top: -150px; left: -120px; }
+  .hero::after { width: 360px; height: 360px; background: #c9a35c; bottom: -180px; right: -80px; opacity: .3; }
+  .hero-inner { position: relative; z-index: 2; max-width: 880px; margin: 0 auto; }
+  .hero .kicker {
+    display: inline-block; font-size: 14px; letter-spacing: 6px;
+    padding: 6px 18px; border: 1px solid rgba(244, 241, 232, .35);
+    border-radius: 999px; margin-bottom: 26px; color: #e9e4d3;
+  }
+  .hero h1 {
+    font-family: "Ma Shan Zheng", "Kaiti SC", cursive;
+    font-weight: 400; font-size: clamp(40px, 7vw, 68px);
+    letter-spacing: 8px; text-shadow: 0 3px 24px rgba(0,0,0,.3);
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero .sub {
+    margin-top: 18px; font-size: 15px; letter-spacing: 1px;
+    color: rgba(244, 241, 232, .8);
+  }
+  .hero .tags-line { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .hero .tags-line span {
+    font-size: 12px; letter-spacing: 1px; padding: 3px 12px; border-radius: 999px;
+    background: rgba(47,125,79,.3); border: 1px solid rgba(120,205,150,.45); color: #d8f0e0;
+  }
+  .window-chip {
+    display: inline-block; margin-top: 18px; font-size: 13.5px; letter-spacing: 1px;
+    padding: 6px 18px; border-radius: 999px;
+    background: rgba(201,163,92,.16); border: 1px solid rgba(201,163,92,.42); color: #f2e8d2;
+  }
+  .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+  .stat {
+    min-width: 150px; background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .14); border-radius: 14px;
+    padding: 14px 20px; backdrop-filter: blur(6px);
+  }
+  .stat b { display: block; font-size: 20px; font-family: "Noto Serif SC", serif; letter-spacing: 1px; }
+  .stat span { font-size: 12.5px; color: rgba(244,241,232,.75); letter-spacing: 2px; }
+
+  /* ================= 主体 ================= */
+  main { max-width: 900px; margin: -56px auto 0; padding: 0 20px 72px; position: relative; z-index: 3; }
+  section { margin-top: 44px; }
+  .sec-title { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .sec-title .no { font-family: "Ma Shan Zheng", cursive; font-size: 30px; color: var(--gold); }
+  .sec-title h2 {
+    font-family: "Noto Serif SC", serif; font-size: 24px; font-weight: 700;
+    letter-spacing: 2px; color: var(--teal-deep);
+  }
+  .sec-title .en { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
+
+  .card {
+    background: var(--card); border-radius: 18px; padding: 26px 28px;
+    box-shadow: 0 8px 30px rgba(23, 60, 58, .08), 0 1px 3px rgba(23,60,58,.06);
+    border: 1px solid rgba(31, 111, 107, .08);
+  }
+  .card + .card { margin-top: 16px; }
+
+  .note {
+    margin-top: 16px; font-size: 13px; color: var(--muted);
+    background: rgba(201, 163, 92, .1); border-left: 3px solid var(--gold);
+    padding: 10px 14px; border-radius: 0 8px 8px 0;
+  }
+  .note b { color: var(--ink); }
+  .note.green { background: rgba(47,125,79,.09); border-left-color: var(--new); }
+  .note.red { background: rgba(178,58,46,.08); border-left-color: var(--red); }
+  .note:first-child { margin-top: 0; }
+
+  /* ---- 月份选择器 ---- */
+  .months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; margin-bottom: 16px; }
+  .month {
+    border: 1.5px solid rgba(31,111,107,.2); background: #fff; border-radius: 10px;
+    padding: 9px 2px; cursor: pointer; text-align: center; font-family: inherit;
+    font-size: 13px; color: var(--muted); transition: all .15s;
+  }
+  .month small { display: block; font-size: 10px; letter-spacing: 1px; color: #9aa8a5; margin-top: 2px; }
+  .month:hover { border-color: rgba(31,111,107,.45); }
+  .month.on { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 700; }
+  .month.on small { color: rgba(255,255,255,.75); }
+  .month.best { box-shadow: inset 0 -3px 0 rgba(47,125,79,.55); }
+  .month.rain { box-shadow: inset 0 -3px 0 rgba(90,140,190,.5); }
+
+  .mw { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .mw-cell { background: var(--accent-bg); border-radius: 12px; padding: 11px 13px; }
+  .mw-cell span { display: block; font-size: 11.5px; color: var(--muted); letter-spacing: 1px; }
+  .mw-cell b { display: block; font-family: "Noto Serif SC", serif; font-size: 16.5px; color: var(--teal-deep); margin-top: 2px; }
+  .mw-verdict { margin-top: 14px; font-size: 14px; }
+  .mw-verdict .lv {
+    display: inline-block; font-size: 12px; letter-spacing: 1px; padding: 2px 10px; border-radius: 999px;
+    margin-right: 8px; background: rgba(47,125,79,.14); color: var(--new); font-weight: 700;
+  }
+  .mw-verdict .lv.warn { background: rgba(201,163,92,.2); color: #8a6a2f; }
+  .mw-verdict .lv.bad { background: rgba(178,58,46,.12); color: var(--red); }
+
+  .chart { margin-top: 18px; background: linear-gradient(180deg, #fbfaf5, #f1f6f3); border-radius: 14px; padding: 8px 6px 2px; }
+  .chart svg { width: 100%; height: auto; display: block; }
+
+  /* ---- 方案切换(动线) ---- */
+  .plan-tabs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+  .plan-tab {
+    background: var(--card); border: 1.5px solid rgba(31,111,107,.18); border-radius: 14px;
+    padding: 14px 8px; text-align: center; cursor: pointer; transition: all .18s; user-select: none;
+  }
+  .plan-tab .emoji { font-size: 22px; }
+  .plan-tab b { display: block; font-family: "Noto Serif SC", serif; font-size: 15px; margin-top: 4px; color: var(--teal-deep); }
+  .plan-tab span { font-size: 11.5px; color: var(--muted); }
+  .plan-tab.on {
+    border-color: var(--teal); background: linear-gradient(180deg, #fff, var(--teal-light));
+    box-shadow: 0 4px 14px rgba(31,111,107,.16); transform: translateY(-2px);
+  }
+  .plan-body { display: none; }
+  .plan-body.on { display: block; animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ---- 时间轴 ---- */
+  .timeline { position: relative; padding-left: 34px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 10px; top: 6px; bottom: 6px;
+    width: 2px; background: linear-gradient(180deg, var(--gold), var(--teal), var(--teal));
+  }
+  .tl-item { position: relative; padding: 0 0 20px; cursor: pointer; }
+  .tl-item:last-child { padding-bottom: 4px; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -30px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--teal); transition: background .2s;
+  }
+  .tl-item:hover::before { background: var(--teal-light); }
+  .tl-item.main::before { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,163,92,.18); }
+  .tl-time { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--teal); font-size: 16px; letter-spacing: 1px; }
+  .tl-title { font-weight: 700; margin-left: 8px; font-size: 15.5px; }
+  .tl-chevron { float: right; font-size: 12px; color: var(--gold); transition: transform .25s; user-select: none; }
+  .tl-item.open .tl-chevron { transform: rotate(180deg); }
+  .tl-desc {
+    max-height: 0; overflow: hidden; font-size: 14px; color: var(--muted);
+    margin-top: 0; transition: max-height .3s ease, margin-top .3s ease;
+  }
+  .tl-item.open .tl-desc { max-height: 420px; margin-top: 5px; }
+  .tl-desc b { color: var(--ink); font-weight: 600; }
+
+  /* ---- 交通 ---- */
+  .routes { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .route {
+    border: 2px solid var(--teal); border-radius: 16px; padding: 22px; background: var(--card);
+    box-shadow: 0 6px 22px rgba(23,60,58,.07); position: relative;
+  }
+  .route + .route { border-color: rgba(31,111,107,.28); }
+  .route .badge {
+    position: absolute; top: -12px; left: 18px; background: var(--teal); color: #fff;
+    font-size: 12px; letter-spacing: 2px; padding: 3px 12px; border-radius: 999px;
+  }
+  .route + .route .badge { background: var(--muted); }
+  .route h3 { font-family: "Noto Serif SC", serif; font-size: 20px; margin-bottom: 12px; letter-spacing: 1px; }
+  .route ul { list-style: none; font-size: 14px; color: var(--muted); }
+  .route li { padding: 5px 0 5px 22px; position: relative; }
+  .route li::before { content: "◆"; position: absolute; left: 0; top: 5px; font-size: 10px; color: var(--gold); }
+  .route li b { color: var(--ink); font-weight: 600; }
+
+  /* ---- 表格 ---- */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 10px 10px; text-align: left; border-bottom: 1px solid rgba(31,111,107,.1); vertical-align: top; }
+  th { color: var(--teal-deep); font-family: "Noto Serif SC", serif; letter-spacing: 1px; white-space: nowrap; }
+  td b { color: var(--ink); }
+  .wrap-tbl { overflow-x: auto; }
+  .tag-official, .tag-ota {
+    display: inline-block; font-size: 11px; letter-spacing: 1px; padding: 1px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .tag-official { background: rgba(47,125,79,.14); color: var(--new); }
+  .tag-ota { background: rgba(201,163,92,.2); color: #8a6a2f; }
+
+  /* ---- 费用计算器 ---- */
+  .calc-row-line { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .calc-row-line label { font-size: 14px; color: var(--muted); }
+  .stepper { display: flex; align-items: center; border: 1.5px solid rgba(31,111,107,.3); border-radius: 10px; overflow: hidden; }
+  .stepper button {
+    width: 44px; height: 44px; border: none; background: var(--teal-light);
+    color: var(--teal-deep); font-size: 19px; cursor: pointer; transition: background .15s;
+  }
+  .stepper button:hover { background: #d0e4df; }
+  .stepper .val { width: 52px; text-align: center; font-size: 17px; font-weight: 700; font-family: "Noto Serif SC", serif; }
+  .seg { display: flex; border: 1.5px solid rgba(31,111,107,.22); border-radius: 10px; overflow: hidden; width: 300px; max-width: 100%; }
+  .seg button {
+    flex: 1; border: none; background: #fff; color: var(--muted);
+    font-family: inherit; font-size: 13px; padding: 10px 6px; cursor: pointer; transition: all .15s;
+  }
+  .seg button + button { border-left: 1.5px solid rgba(31,111,107,.22); }
+  .seg button.on { background: var(--teal); color: #fff; font-weight: 700; }
+  .calc-rows { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .calc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--accent-bg); border-radius: 10px; padding: 10px 16px; font-size: 14px;
+  }
+  .calc-row b { font-family: "Noto Serif SC", serif; font-size: 16px; color: var(--teal-deep); }
+  .calc-total {
+    margin-top: 14px; display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 2px dashed rgba(31,111,107,.25); padding-top: 12px; font-size: 15px;
+  }
+  .calc-total b { font-size: 26px; font-family: "Noto Serif SC", serif; color: var(--teal-deep); }
+  .calc-total .per { font-size: 13px; color: var(--muted); }
+
+  /* ---- 清单 ---- */
+  .checklist { display: flex; flex-direction: column; gap: 2px; }
+  .check-item {
+    display: flex; align-items: center; gap: 12px; padding: 9px 10px;
+    border-radius: 10px; cursor: pointer; transition: background .15s; font-size: 14.5px;
+  }
+  .check-item:hover { background: rgba(31, 111, 107, .05); }
+  .check-item input { display: none; }
+  .check-item .box {
+    flex: 0 0 auto; width: 22px; height: 22px; border: 2px solid rgba(31,111,107,.4);
+    border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: transparent; transition: all .15s;
+  }
+  .check-item.done .box { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .check-item.done .txt { color: var(--muted); text-decoration: line-through; opacity: .8; }
+  .progress-wrap { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .progress-track { flex: 1; height: 8px; background: var(--accent-bg); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 999px; transition: width .3s; }
+  .progress-text { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+
+  /* ---- 必看 / 贴士 / 餐 ---- */
+  .musts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .must { background: var(--accent-bg); border-radius: 14px; padding: 20px 18px; transition: transform .18s; }
+  .must:hover { transform: translateY(-3px); }
+  .must .icon { font-size: 26px; }
+  .must b { display: block; margin: 8px 0 4px; font-size: 15.5px; }
+  .must p { font-size: 13px; color: var(--muted); }
+  .tips { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .tip { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+  .tip .dot {
+    flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--teal-light); color: var(--teal-deep);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  }
+  .tip b { color: var(--teal-deep); }
+  .spots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .spot { border: 1px solid rgba(31,111,107,.14); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--muted); }
+  .spot b { display: block; color: var(--teal-deep); font-size: 14.5px; margin-bottom: 2px; }
+
+  .photo { margin: 0; }
+  .photo img { width: 100%; border-radius: 14px; display: block; box-shadow: 0 6px 20px rgba(23,60,58,.14); }
+  .photo figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; letter-spacing: 1px; }
+
+  footer {
+    max-width: 900px; margin: 0 auto; padding: 20px 20px 44px;
+    text-align: center; font-size: 12px; color: var(--muted); letter-spacing: .5px;
+  }
+  footer .credits { margin-top: 6px; opacity: .85; line-height: 1.8; }
+  footer a { color: var(--teal); }
+
+  /* ---- 手机端底部快捷导航 ---- */
+  .quicknav { display: none; }
+  @media (max-width: 700px) {
+    .quicknav {
+      display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px;
+      background: rgba(20, 82, 84, .95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border-radius: 999px; padding: 7px; gap: 2px; z-index: 60;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+    }
+    .quicknav a {
+      flex: 1; text-align: center; color: #e9f1ee; text-decoration: none;
+      font-size: 12px; padding: 11px 0; border-radius: 999px; transition: background .15s;
+    }
+    .quicknav a.act { background: rgba(255, 255, 255, .16); font-weight: 700; }
+    body { padding-bottom: 84px; }
+  }
+  @media (max-width: 700px) {
+    .hero { padding: 48px 16px 96px; }
+    .hero h1 { letter-spacing: 4px; }
+    .tips, .spots { grid-template-columns: 1fr; }
+    .musts { grid-template-columns: 1fr 1fr; }
+    .months { grid-template-columns: repeat(6, 1fr); gap: 5px; }
+    .mw { grid-template-columns: 1fr 1fr; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">云南 · 西双版纳 | 出行时间待定</div>
+    <h1>西 双 <span class="accent">版 纳</span></h1>
+    <div class="sub">从杭州飞过去不到 4 小时,落地就是另一个季节:同一年里,雨季和旱季差着一千多毫米的雨。日期还没定,所以这份笔记先解决"什么时候去""怎么去""花多少"</div>
+    <div class="tags-line">
+      <span>日期待定,价格为区间口径</span>
+      <span>建议 11 月 — 次年 4 月</span>
+    </div>
+    <div class="window-chip" id="windowChip">最佳窗口:11–12 月(凉爽少雨,避开春节)</div>
+    <div class="hero-stats">
+      <div class="stat"><b>3h50m</b><span>杭州直飞 · 约</span></div>
+      <div class="stat"><b>旱季 11–4 月</b><span>雨季 5–10 月</span></div>
+      <div class="stat"><b>5 天 4 晚</b><span>推荐时长</span></div>
+      <div class="stat"><b>¥2000–6000</b><span>人均 · 经济到舒适</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav class="quicknav" id="quicknav">
+    <a href="#when">时机</a>
+    <a href="#transport">交通</a>
+    <a href="#ticket">门票</a>
+    <a href="#route">动线</a>
+    <a href="#calc">花费</a>
+    <a href="#checklist">清单</a>
+    <a href="#tips">避坑</a>
+  </nav>
+
+  <!-- 01 什么时候去 -->
+  <section id="when">
+    <div class="sec-title"><span class="no">壹</span><h2>什么时候去</h2><span class="en">WHEN · 点月份看数据</span></div>
+    <div class="card">
+      <div class="note green" style="margin-top:0">
+        <b>日期待定,所以这一节按"窗口"来选。</b>下面是景洪近十年(2016–2025)的逐月实测气候:点任意月份,看它的平均高低温、月降水量和雨日数。<b>西双版纳一年只分两季</b>——旱季 11 月到次年 4 月(半年降水 277 mm),雨季 5–10 月(半年降水 <b>1584 mm</b>,是旱季的 5.7 倍)。
+      </div>
+
+      <div class="months" id="months"></div>
+
+      <div class="mw" id="mwCells">
+        <div class="mw-cell"><span>平均最高</span><b id="mwHi">—</b></div>
+        <div class="mw-cell"><span>平均最低</span><b id="mwLo">—</b></div>
+        <div class="mw-cell"><span>月降水</span><b id="mwRain">—</b></div>
+        <div class="mw-cell"><span>雨日(≥1mm)</span><b id="mwRd">—</b></div>
+        <div class="mw-cell"><span>夜间气温</span><b id="mwNight">—</b></div>
+      </div>
+
+      <div class="mw-verdict" id="mwVerdict"></div>
+
+      <div class="chart" id="monthChart"></div>
+
+      <div class="note">
+        <b>数据说明</b>:Open-Meteo 历史再分析(ERA5 系),景洪点位 22.01°N / 100.79°E,2016–2025 共 10 年逐日数据聚合。<b>雨季两季的边界不是精确日期</b>,各年入汛、出汛时间会浮动;中国气象局科普口径另有一组常年值(年均温 22.6℃、最冷月 1 月 17.2℃、最热月 6 月 26.4℃、年均湿度 79%),与上表互相印证。十年内出现过的极端值:最高 <b>41.5℃</b>、最低 <b>5.5℃</b>。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title" style="margin-bottom:14px"><h2 style="font-size:19px">三个窗口怎么选</h2><span class="en">PICK A WINDOW</span></div>
+      <div class="spots">
+        <div class="spot"><b>11 月 — 12 月 · 首选</b>平均 25.4/15.3℃,月降水 60 mm、雨日约 7 天。旱季刚开场,空气干爽、白天不闷,避开了 12 月以后的避寒大军和春节。这一档机票和房价还没起飞。</div>
+        <div class="spot"><b>3 月 — 4 月上旬 · 次选</b>最干的时段(月降水 44 mm、雨日 5 天),白天 32℃ 偏热但雨最少,雨林花期好。<b>但 4 月中旬一旦撞上泼水节,全州人流量级会翻倍</b>(2026 年 4 月 11–15 日全州接待 238.08 万人次),价格也跟着翻。</div>
+        <div class="spot"><b>1 月 — 2 月 · 避寒旺季</b>平均 25.6/12.6℃,是杭州人最想逃过来的时段,但也是房价最高的时段。适合把预算花在住宿上的人。</div>
+        <div class="spot"><b>5 月 — 10 月 · 雨季</b>便宜、绿得最浓、萤火虫和瀑布都在这几个月,但要接受 6–8 月每月 253–367 mm 的降水和 25 天以上的雨日,以及山地路况与蚊媒风险。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title" style="margin-bottom:14px"><h2 style="font-size:19px">日期相关的硬提醒</h2><span class="en">TIME-SENSITIVE</span></div>
+      <div class="tips">
+        <div class="tip"><span class="dot">水</span><div><b>泼水节是傣历新年,每年公历 4 月中旬。</b>2026 年是 <b>4 月 12–15 日</b>:12 日晚会、13 日庆祝大会与孔明灯、14 日大游演与水灯、<b>15 日 11:00 泼水狂欢</b>(主场景洪泼水广场,告庄西双景是赶摆点)。<b>2027 年官方日期尚未发布</b>,历年都在 4 月中旬——想卡这个时间去,先确认日期再订票。</div></div>
+        <div class="tip"><span class="dot">蚊</span><div><b>登革热与基孔肯雅热的流行期是 6 月中下旬到 11 月初</b>,云南蚊密度 6–10 月达峰;白纹伊蚊是<b>白天叮咬</b>,没有特效疫苗。这两个病 2026-04-01 起已列入乙类法定传染病。旱季去风险低,雨季去必须认真防蚊。</div></div>
+        <div class="tip"><span class="dot">雨</span><div><b>汛期约 5 月 1 日 — 10 月中旬是地质灾害重点期</b>,景洪的勐龙—勐罕—景哈、嘎洒—景洪城周边—基诺山—勐养—大渡岗都在名单上。雨季走山路、进雨林景区前先看当天预警。</div></div>
+        <div class="tip"><span class="dot">象</span><div><b>野生亚洲象是活的风险,不是传说。</b>景洪市林草部门会逐日发布象群活动提示(2026 年 9 月 11 日的提示涉及勐旺、普文、大渡岗、景讷、勐养——野象谷所在的勐养镇就在其中)。自驾遇上象群不要下车、不要鸣笛、保持距离。</div></div>
+        <div class="tip"><span class="dot">萤</span><div><b>萤火虫爆发期 5–8 月</b>,植物园夜游是正经项目(见下节收费),要提前预约;错过这几个月就没有了。</div></div>
+        <div class="tip"><span class="dot">茶</span><div><b>春茶季在 4 月</b>(景迈山等茶山开采)。想看采茶、买春茶,就挑 4 月上旬——正好在泼水节人潮之前。</div></div>
+      </div>
+      <div class="note red"><b>一句实话</b>:如果你只有一次机会、又不想赌天气,<b>选 11 月</b>。这是十年数据里"降水少、气温舒适、又还没到旺季价"三条同时成立的那个月。</div>
+    </div>
+  </section>
+
+  <!-- 02 怎么去 -->
+  <section id="transport">
+    <div class="sec-title"><span class="no">贰</span><h2>怎么去</h2><span class="en">GETTING THERE</span></div>
+    <div class="routes">
+      <div class="route">
+        <div class="badge">方案 A · 最省时间</div>
+        <h3>✈️ 杭州直飞嘎洒</h3>
+        <ul>
+          <li><b>时长</b>:约 <b>3 小时 50 分</b>(如 JD5787 杭州 17:10 → 版纳 21:00 一类航班)</li>
+          <li><b>注意</b>:这条线<b>班次少、班期随航季调整</b>,部分挂着"直飞"名义的航班实际耗时接近 5 小时(疑为经停)——下单前看清"经停/直飞"标注与总时长</li>
+          <li><b>票价参考</b>:杭州→版纳单程 9 月约 460 元起、10 月约 560 元起、<b>11 月约 1040 元起</b>(越接近旱季旺季越贵);9 月下旬往返直飞约 1400 元起</li>
+          <li><b>适合</b>:假期短、只想玩 4 天 3 晚的人</li>
+        </ul>
+      </div>
+      <div class="route">
+        <div class="badge">方案 B · 最稳、顺便玩昆明</div>
+        <h3>✈️ + 🚄 飞昆明,转中老铁路动车</h3>
+        <ul>
+          <li><b>动车</b>:昆明 → 西双版纳 <b>每天 43 班</b>,C 字头 <b>3 小时 08 分 – 3 小时 42 分</b>,二等座 <b>178–239 元</b>;昆明站、昆明南站都有发车</li>
+          <li><b>也可以</b>:昆明 → 嘎洒飞机 50–65 分钟,9–11 月单程最低约 404 元</li>
+          <li><b>关键细节</b>:<b>西双版纳站就在嘎洒机场旁边,相距约 600 米</b>——不管是飞过来还是坐动车过来,落地那一站几乎重合,接驳很简单</li>
+          <li><b>适合</b>:想在昆明停一天、或直飞没票/太贵的时候</li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="photo" style="margin-top:16px">
+      <img src="images/river.jpg" alt="景洪市区的澜沧江大桥" loading="lazy" decoding="async" width="1000" height="666">
+      <figcaption>景洪市区的澜沧江大桥 — 落地之后最先认出的地标就是这条江,它往下游就叫湄公河</figcaption>
+    </figure>
+
+    <div class="card" style="margin-top:16px">
+      <div class="sec-title" style="margin-bottom:14px"><h2 style="font-size:19px">落地之后</h2><span class="en">ON THE GROUND</span></div>
+      <div class="wrap-tbl">
+        <table>
+          <tr><th>环节</th><th>怎么走</th><th>价格口径</th></tr>
+          <tr><td><b>机场 → 市区</b></td><td>嘎洒机场距城区约 5 公里;有公交专线,6:30–22:00 每 30 分钟一班;打车到告庄约 15–20 分钟</td><td>专线约 <b>4 元</b>;出租到告庄 <b>15–35 元</b>(两个来源口径不同) <span class="tag-ota">二手口径</span></td></tr>
+          <tr><td><b>车站 → 市区</b></td><td>西双版纳站在嘎洒镇,<b>与机场相距约 600 米</b>;到告庄打车约 20 分钟,也可坐 4 路公交</td><td>打车约 <b>15–20 元</b> <span class="tag-ota">二手口径</span></td></tr>
+          <tr><td><b>市区 → 植物园</b></td><td>官方给了四条路:① 出租;② 版纳客运站(当地叫"翻胎厂")坐去勐仑的班车;③ 滴滴"站点巴士"输"勐腊县版纳植物园";④ <b>告庄的景区直通车</b>直达</td><td>出租 <b>250–300 元</b>、班车 <b>约 25 元</b>、站点巴士 <b>19.5 元起</b>、直通车单程约 <b>40 元</b> <span class="tag-official">园区官方</span></td></tr>
+          <tr><td><b>直通车 / 套票</b></td><td>远郊景点基本都有直通车,但<b>要提前一天订</b>:景洪 ⇌ 望天树往返 55 元(单程 35 元);傣族园"往返车 + 门票 + 电瓶车"套票约 118 元/人</td><td>比包车便宜,但班次固定、时间不自由 <span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>包车</b></td><td>远郊约 <b>300–400 元/天</b>,连包 2–3 天均价约 400 元/天;去望天树(单程 2.5h)5 座往返淡季 850–880 元、旺季 1200–1300 元</td><td>先谈清<b>含不含油费过路费、司机餐、超时怎么算</b> <span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>市区代步</b></td><td>网约车(滴滴/高德)在市区好用,起步约 8 元;共享电动车 30–80 元/天、租车 40–60 元/天。<b>偏远景区的返程车不好叫</b>,别指望现场打车</td><td>— <span class="tag-ota">攻略/OTA</span></td></tr>
+        </table>
+      </div>
+      <div class="note red">
+        <b>⚠️ 一条跟证件有关、攻略里常被漏掉的事</b>:西双版纳的<b>景洪市、勐海县、勐腊县三个县市全域都在边境管理区名录内</b>,按规定非边境管理区居民前往需持<b>边境管理区通行证</b>。<b>2026-04-15 起已启用电子边境管理区通行证、停发纸质证</b>:内地 16 岁以上可在"移民局 12367"APP 或微信/支付宝小程序申领,有效期 3 个月,<b>须与身份证同时使用</b>。<br>
+        <b>怎么理解这件事</b>:常规旅游线路(景洪市区、告庄、植物园、野象谷、傣族园)日常并不逐个查验;真正容易设卡的是<b>往边境一线走的线路</b>(打洛、勐景来、磨憨方向)。<b>具体查验点位与执行细节未核实</b>——稳妥做法是:只要行程里有"打洛/勐景来/边境口岸",就提前在手机上把电子证办好(免费、几分钟),别到检查站才想起来。<b>身份证原件全程随身</b>。
+      </div>
+      <div class="note"><b>结论式建议</b>:4 天 3 晚就<b>直飞</b>,把时间留给雨林;5 天以上且不赶,走<b>昆明中转 + 动车</b>,票价便宜还能顺路停昆明。当地交通别硬凑公交——<b>景点分散,直通车(便宜)或包车(自由)才是省时间的做法</b>。</div>
+    </div>
+  </section>
+
+  <!-- 03 门票 -->
+  <section id="ticket">
+    <div class="sec-title"><span class="no">叁</span><h2>门票与官方口径</h2><span class="en">TICKETS</span></div>
+    <div class="card">
+      <div class="note green" style="margin-top:0">
+        <b>先说清楚哪几个数字是官方给的。</b>下面带绿色标记的是<b>园区官网/官方小程序口径</b>(中科院西双版纳热带植物园,官网 2026 年更新);带金色标记的是攻略与 OTA 流传的价格,<b>政府那份《等级旅游景区价格信息》页面已经打不开</b>,所以这几个数只能当估算,现场以售票处为准。
+      </div>
+      <figure class="photo" style="margin:16px 0">
+        <img src="images/jungle.jpg" alt="中科院西双版纳热带植物园内的雨林" loading="lazy" decoding="async" width="1000" height="750">
+        <figcaption>中科院西双版纳热带植物园内的雨林(2025 年 12 月实拍)— 东游览区走的正是这种沟谷雨林</figcaption>
+      </figure>
+      <div class="wrap-tbl">
+        <table>
+          <tr><th>景点</th><th>门票</th><th>区间车 / 其他</th><th>口径</th></tr>
+          <tr>
+            <td><b>中科院西双版纳热带植物园</b>(勐仑)</td>
+            <td>全价 <b>80 元</b><br>半价 40 元</td>
+            <td>西区 <b>50</b> / 东区 <b>50</b> / <b>全园 100 元</b>;游览车 8:00–18:00<br>夜游:5 人内 450 元/场,6–14 人 90 元/人</td>
+            <td><span class="tag-official">官方</span></td>
+          </tr>
+          <tr><td><b>野象谷</b>(勐养镇)</td><td>成人 <b>58–61 元</b>,儿童约 30 元</td><td>高空索道 单程 <b>50</b> / 双程 <b>70 元</b>;"雨林牧象"198 元(需预约);<b>16:30 停止检票</b>;看象靠 2280 米观象栈道(含 690 米高架)+ 索道</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>曼听公园</b></td><td><b>30–40 元</b>(含总佛寺)</td><td>园内御象园 10:30 / 14:50 / 16:30,鹦鹉乐园 9:50 / 12:00 / 15:40;<b>「澜沧江·湄公河之夜」篝火晚会</b> VIP 300 / 贵宾楼 480 元,含自助餐,约 18:50–21:40</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>傣族园</b>(橄榄坝)</td><td><b>45 元</b>;门票 + 观光车 105 元</td><td><b>泼水 14:00–14:40、15:40–16:20</b>;孔雀舞 11:00、14:30–15:50、16:50;斗鸡 10:30。距市区约 27 km / 40 分钟</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>望天树景区</b>(勐腊)</td><td>套票(门票 + 单程游船 + 树冠走廊)现场 <b>198</b> / 平台 180 元;走廊单买 120 元,游船 40 元</td><td><b>树冠走廊 500 米长、离地 36 米、单向通行</b>,17:00 关闭,恐高慎入;16:30 停止入园</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>勐泐大佛寺</b></td><td><b>80 元</b></td><td>电动车 单程 40 / 往返 60 元;距市区仅 4 km</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>热带花卉园</b></td><td><b>40 元</b></td><td>观光车 40 元;距告庄约 10 分钟</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>原始森林公园</b></td><td>约 <b>45 元</b></td><td>—</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>独树成林</b>(打洛)</td><td><b>35 元</b></td><td>观光车 50 元;<b>距景洪约 130 km、2–2.5 小时</b>,属边境一线方向</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>基诺山寨</b></td><td>套票约 <b>160 元</b>(含向导讲解 + 民俗演出 + 品茶)</td><td>仅单一游记来源,含什么以现场为准;景洪自驾 40 余分钟</td><td><span class="tag-ota">未核实</span></td></tr>
+          <tr><td><b>曼掌村 / 曼远村</b></td><td><b>免费</b></td><td>曼掌村市区自驾约 30 分钟;曼远村在勐罕镇</td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+          <tr><td><b>告庄西双景 · 星光夜市 · 总佛寺</b></td><td><b>免费</b></td><td>夜市约 17:00 开到深夜(23:00 与 24:00 两种说法);最佳 19:00–22:00,<b>最挤 20:30–22:00</b></td><td><span class="tag-ota">攻略/OTA</span></td></tr>
+        </table>
+      </div>
+      <div class="note">
+        <b>植物园的免票与半价政策(官方,值得记)</b>:<br>
+        <b>免票</b>:6 周岁或 1.2 米以下儿童;70 周岁以上;残疾人(重度可带 1 名陪护);现役、残疾、退役军人及"三属";在职与退休消防救援人员;<b>人民警察</b>;持"雨林惠才卡"可带 2 名随行、持"兴滇惠才卡"A 卡最多免 5 人 / B 卡最多免 3 人、持"无忧惠才卡"可带 2 名随行。<br>
+        <b>半价</b>:7–18 周岁;60–70 周岁;全日制本科及以下在读学生。<br>
+        <b>证件</b>:享受优惠要同时出示<b>优惠证件原件 + 二代身份证原件</b>,实名制购检票;官方小程序与携程/美团/同程/飞象/安心游/游云南六家合作平台才靠谱,别在小平台买。
+      </div>
+      <div class="note">
+        <b>植物园怎么逛(官方建议)</b>:<b>西游览区</b>是园林园艺,游览车 5 个上车站点,约 <b>2.5 小时</b>(荫生植物园 → 水生植物园王莲池 → 棕榈园 → 榕树园 → 奇花异卉园 → 树木园 → 百果园 → 藤本园);<b>东游览区</b>是原始森林与热带雨林,约 <b>2.5 小时</b>,下车后要徒步。<b>全园 4–5 小时</b>。王莲最佳观赏期是 <b>7–8 月</b>;园内还有王莲酒店可住(客房 0691-8717066)。
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 动线 -->
+  <section id="route">
+    <div class="sec-title"><span class="no">肆</span><h2>两套动线</h2><span class="en">ITINERARY · 默认展开 · 点击可收起</span></div>
+    <div class="card">
+      <div class="plan-tabs" id="planTabs">
+        <div class="plan-tab on" data-plan="A"><div class="emoji">🌿</div><b>5 天 4 晚 · 从容版</b><span>雨林 + 傣寨 + 夜市</span></div>
+        <div class="plan-tab" data-plan="B"><div class="emoji">⚡</div><b>4 天 3 晚 · 紧凑版</b><span>只留最不能省的</span></div>
+      </div>
+
+      <figure class="photo" style="margin-bottom:18px">
+        <img src="images/pagoda.jpg" alt="景洪曼飞龙塔" loading="lazy" decoding="async" width="1000" height="666">
+        <figcaption>景洪曼飞龙塔 — 傣族佛塔的样子;进这类场所要脱鞋、着装过膝不露肩</figcaption>
+      </figure>
+
+      <div class="plan-body on" id="planA">
+        <div class="timeline" id="timelineA">
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D1 下午</div><span class="tl-title">落地,先进城</span>
+            <div class="tl-desc">直飞一般傍晚落地(如 21:00 到),动车则下午到。<b>住告庄西双景一带</b>:夜市、大金塔、总佛寺、江边都在步行范围。<b>当晚就去星光夜市</b>(免费,17:00 开到深夜,<b>19:00–22:00 最好逛,20:30–22:00 最挤</b>)吃第一顿傣味,人均 60–80 元。顺手把第二天的直通车或包车定下来。</div></div>
+          <div class="tl-item main"><span class="tl-chevron">▾</span><div class="tl-time">D2 全天</div><span class="tl-title">中科院热带植物园(重头戏)</span>
+            <div class="tl-desc">从告庄坐<b>景区直通车(单程约 40 元)</b>或包车去勐仑,约 60 km / 1 小时。<b>买全园游览车票(100 元)</b>:上午西区看水生植物园的王莲池、榕树园、奇花异卉园,下午东区进原始雨林与绿石林看绞杀榕、大板根——<b>全园 4–5 小时</b>。<b>5–8 月来的话加一场夜游看萤火虫</b>:6–14 人 90 元/人,须提前 1 天在官方小程序预约,参加夜游不用再买门票。</div></div>
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D3 全天</div><span class="tl-title">野象谷 → 曼听公园夜场</span>
+            <div class="tl-desc">上午北上<b>野象谷</b>(勐养镇,约 36 km / 40 分钟,门票 58–61 元,<b>16:30 停止检票</b>):走 2280 米观象栈道(含 690 米高架)、坐索道找野象。<b>野象遇见概率最高的是 12 月–次年 4 月的晨昏,但谁都不能保证</b>——园内"大象科普园"的自然行为展示与野生象是两回事。傍晚回城进<b>曼听公园</b>(30–40 元,含总佛寺;御象园 10:30/14:50/16:30),晚上看「澜沧江·湄公河之夜」篝火晚会(约 18:50–21:40,含自助餐,场次以官方当日为准)。</div></div>
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D4 全天</div><span class="tl-title">傣族园(或基诺山寨 / 边境一线)</span>
+            <div class="tl-desc">往东南去橄榄坝的<b>傣族园</b>(约 27 km / 40 分钟,门票 45 元;往返车 + 门票 + 电瓶车套票约 118 元):傣家竹楼、佛寺,<b>泼水 14:00–14:40 与 15:40–16:20</b>,孔雀舞 11:00 / 14:30–15:50 / 16:50。<b>三选一</b>:傣族园最民俗最近;基诺山寨(套票约 160 元)看基诺族文化;想走边境一线就去打洛方向的独树成林(35 元 + 观光车 50 元,<b>130 km / 2–2.5 小时,记得先办电子边境通行证</b>)。</div></div>
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D5 上午</div><span class="tl-title">市区收尾 + 返程</span>
+            <div class="tl-desc">最后半天留给市区:总佛寺、告庄江边、热带花卉园(40 元 + 观光车 40 元,距告庄约 10 分钟),或者去免费的<b>曼掌村</b>看傣寨。买点普洱茶和小粒咖啡。<b>返程留足 3 小时</b>——西双版纳站紧挨着机场,但旺季的值机与安检队伍会很长。</div></div>
+        </div>
+        <div class="note" style="margin-top:14px"><b>如果一定要去望天树</b>:它在勐腊县,单程约 2.5 小时山路,当天往返很赶。<b>正确做法是 D4 下午赴勐腊住一晚,D5 一早进景区(建议 9 点前),树冠走廊 500 米、离地 36 米、单向通行,然后从勐腊返程</b>。5 座车往返淡季 850–880 元、旺季 1200–1300 元。</div>
+      </div>
+
+      <div class="plan-body" id="planB">
+        <div class="timeline" id="timelineB">
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D1 下午</div><span class="tl-title">落地即入住告庄</span>
+            <div class="tl-desc">紧凑版没有缓冲,<b>建议直飞</b>。落地放行李,当晚星光夜市吃傣味(人均 60–80 元),顺便把第二天的直通车/包车定下来——<b>直通车要提前一天订</b>。</div></div>
+          <div class="tl-item main"><span class="tl-chevron">▾</span><div class="tl-time">D2 全天</div><span class="tl-title">植物园一整天</span>
+            <div class="tl-desc">全园 4–5 小时,加上往返 1 小时车程就是一整天。<b>如果只来得及去一个地方,就是这里</b>:80 元门票 + 100 元全园游览车,是这份笔记里唯一有官方价目表、也最不会失望的一站。</div></div>
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D3 全天</div><span class="tl-title">野象谷 或 傣族园(二选一)</span>
+            <div class="tl-desc">只有一天可选:<b>想看雨林与野生象去野象谷(北边 36 km),想看傣族生活与泼水去傣族园(东南 27 km)</b>。别贪心串两个——一南一北,一天串完等于全在路上。傍晚都来得及回城,想吃夜市就回告庄。</div></div>
+          <div class="tl-item"><span class="tl-chevron">▾</span><div class="tl-time">D4 上午</div><span class="tl-title">市区 + 返程</span>
+            <div class="tl-desc">上午曼听公园 + 总佛寺(30–40 元,御象园 10:30 那一场),或者去距告庄 10 分钟的热带花卉园。下午飞回杭州。紧凑版的代价很直白:<b>夜游萤火虫(仅 5–8 月)和曼听公园的篝火晚会基本都要放弃</b>。</div></div>
+        </div>
+      </div>
+
+      <div class="note"><b>两套动线的差别</b>:5 天版多出来的是<b>夜游萤火虫(仅 5–8 月)</b>、<b>曼听公园篝火晚会</b>和一个"D4 三选一"的名额;4 天版必须在野象谷和傣族园之间选一个。<b>必须包车的地方</b>:望天树(单程 2.5h)、打洛/独树成林(130 km)、南糯山;<b>可以直通车或打车的地方</b>:植物园、野象谷、傣族园、曼听公园、勐泐大佛寺、花卉园、告庄。<b>如果你冲着泼水节去</b>,4 月中旬那几天景洪市区本身就是主会场(告庄 + 泼水广场承载近六成客流、会封路),动线要整体重排。</div>
+    </div>
+  </section>
+
+  <!-- 05 花费 -->
+  <section id="calc">
+    <div class="sec-title"><span class="no">伍</span><h2>花费估算器</h2><span class="en">BUDGET</span></div>
+    <div class="card">
+      <div class="calc-row-line">
+        <label>同行人数</label>
+        <div class="stepper">
+          <button type="button" id="peopleMinus">−</button>
+          <div class="val" id="peopleVal">2</div>
+          <button type="button" id="peoplePlus">＋</button>
+        </div>
+      </div>
+      <div class="calc-row-line">
+        <label>出行窗口</label>
+        <div class="seg" id="seasonSeg">
+          <button class="on" data-s="0">淡季(5–6 / 9 月)</button>
+          <button data-s="1">旱季(11–12 / 3 月)</button>
+          <button data-s="2">旺季(寒假 / 泼水节 / 国庆)</button>
+        </div>
+      </div>
+      <div class="calc-row-line">
+        <label>住宿档位</label>
+        <div class="seg" id="hotelSeg">
+          <button class="on" data-h="0">经济(民宿 / 快捷)</button>
+          <button data-h="1">舒适(度假酒店)</button>
+        </div>
+      </div>
+      <div class="calc-rows">
+        <div class="calc-row"><span>往返机票(杭州 ↔ 版纳)</span><b id="airCost">—</b></div>
+        <div class="calc-row"><span>住宿 × 4 晚(每间,两人摊)</span><b id="hotelCost">—</b></div>
+        <div class="calc-row"><span>门票 + 区间车(植物园全园票为主)</span><b id="ticketCost">—</b></div>
+        <div class="calc-row"><span>当地交通(包车 / 直通车 / 打车)</span><b id="localCost">—</b></div>
+        <div class="calc-row"><span>餐饮(5 天,含夜市)</span><b id="foodCost">—</b></div>
+      </div>
+      <div class="calc-total">
+        <span>人均合计 <span class="per" id="totalNote"></span></span>
+        <b id="totalCost">—</b>
+      </div>
+      <div class="note">按<b>两人同行、住宿平摊</b>估算。<b>机票按季节给区间</b>(淡季单程约 460 元、旱季约 1040 元、旺季更高),住宿经济档约 150–250 元/晚、舒适档约 500–900 元/晚,门票与区间车按植物园全园 180 元 + 其他景点 200 元估,当地交通按包车/直通车均摊 400 元估,餐饮 5 天约 500 元。<b>这些是"日期待定"下的区间估算,不是报价</b>——旺季(寒假、泼水节、国庆)请整体上浮。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title" style="margin-bottom:14px"><h2 style="font-size:19px">住哪:三个片区,三种玩法</h2><span class="en">WHERE TO STAY</span></div>
+      <div class="wrap-tbl">
+        <table>
+          <tr><th>片区</th><th>优点</th><th>代价</th><th>参考价(每晚)</th></tr>
+          <tr><td><b>告庄西双景</b></td><td>下楼就是星光夜市与大金塔,傣式客栈多,夜生活最旺,去机场/车站都方便</td><td>旺季吵、价格上浮最猛</td><td>普通民宿 <b>150–250</b>、精品客栈 <b>280–350</b>;旺季上浮 30%–100%(春节可能从 150 涨到 300–400)</td></tr>
+          <tr><td><b>景洪市区 / 泼水广场</b></td><td>市中心、近江边,老牌酒店实惠,生活气息浓</td><td>设施偏旧,临街房间吵</td><td>全季一类 <b>250–350</b>、经济连锁 <b>150–250</b>、青旅床位 <b>50–80</b></td></tr>
+          <tr><td><b>万达 / 融创度假区</b></td><td>五星与别墅型,安静、离机场近,适合带娃</td><td>距告庄约 15 km,没有夜生活,出行依赖车</td><td>融创(华美达)一类 <b>300–600</b>;高星另有更高口径</td></tr>
+        </table>
+      </div>
+      <div class="note green"><b>一个能救命的参照价</b>:节假日期间西双版纳对标准客房执行<b>政府诚信指导价上限</b>——五星/豪华 <b>3800</b>、四星 <b>2100</b>、三星 <b>1300</b>、两星及以下 <b>600 元/间·天</b>。如果泼水节或春节期间有人报出远高于这个的数字,先问清楚房型和依据。</div>
+      <div class="note"><b>怎么选</b>:第一次来、以吃和夜逛为主 → <b>告庄</b>;想要安静、预算优先 → <b>市区</b>;带老人小孩、自驾 → <b>度假区</b>。如果行程里有望天树,<b>最后一晚建议住勐腊县城</b>,否则单程 2.5 小时的山路会把一整天吃掉。</div>
+    </div>
+  </section>
+
+  <!-- 06 吃什么 -->
+  <section id="food">
+    <div class="sec-title"><span class="no">陆</span><h2>吃什么</h2><span class="en">EAT</span></div>
+    <div class="card">
+      <div class="musts">
+        <div class="must"><div class="icon">🐟</div><b>傣味烧烤 · 香茅草烤鱼</b><p>夜市和街边摊的主力:鱼肚里塞香茅草与香料,炭火上烤。配上蘸水和糯米饭,是第一顿最容易惊艳的东西。</p></div>
+        <div class="must"><div class="icon">🍍</div><b>菠萝饭</b><p>菠萝掏空装糯米与果肉蒸,甜口,配辣的傣味刚好解辣。星光夜市几乎每家都有。</p></div>
+        <div class="must"><div class="icon">🐔</div><b>舂鸡脚 / 舂木瓜</b><p>木臼里舂出来的凉拌,酸辣冲鼻,配冰镇饮料;怕辣要提前说"不要小米辣"。</p></div>
+        <div class="must"><div class="icon">🍜</div><b>米干 · 撒撇</b><p>米干是当地早餐主角(汤的/拌的都有);撒撇是牛苦肠水调的蘸水,味道两极分化,敢试的人会记一辈子(也可能只记一次)。</p></div>
+        <div class="must"><div class="icon">☕</div><b>小粒咖啡 · 老挝冰咖啡</b><p>普洱与版纳一带产咖啡,夜市的老挝冰咖啡(炼乳 + 塑料袋装)是标配,边逛边喝。</p></div>
+        <div class="must"><div class="icon">🍵</div><b>普洱茶</b><p>南糯山等茶山在版纳境内,4 月春茶季。买茶注意:茶山推销和"免费品茶"是常见套路,想买去正规茶店或就地在茶园买。</p></div>
+      </div>
+      <div class="note green"><b>价格参照(星光夜市)</b>:人均 <b>50–100 元</b>就能吃得很饱,按 60–80 元算比较实在。摊价:舂鸡脚 <b>15–25 元/份</b>、香茅草烤鱼 <b>30–40 元/条</b>、泡鲁达 10–15 元、老挝冰咖啡 15–20 元。<b>"孔雀宴 / 手抓饭"是当地最省事的正餐形式</b>——一桌十几样小菜配糯米饭,告庄一带的傣王府孔雀宴人均约 50 元起、小玉家约 61 元、喃傣·老味道约 60 元。
+      </div>
+      <div class="note">还有两个值得记住的名字:<b>包烧</b>(用芭蕉叶包着烧的鱼、肉、菜,香气全锁在叶子里)和<b>毫糯索</b>(石梓花粉加糯米粉做的粑粑,傣历新年必备——想吃到它,基本要赶上泼水节)。
+      </div>
+      <div class="note"><b>一个提醒</b>:傣味整体<b>偏酸辣、生冷与烧烤多</b>,肠胃敏感的人第一两天别猛上。夜市的价格透明、人多的地方翻台快,相对最不容易踩雷。</div>
+    </div>
+  </section>
+
+  <!-- 07 清单 -->
+  <section id="checklist">
+    <div class="sec-title"><span class="no">柒</span><h2>行前清单</h2><span class="en">CHECKLIST · 记得勾选</span></div>
+    <div class="card">
+      <div class="checklist" id="checklist">
+        <div class="check-item"><div class="box">✓</div><span class="txt">先定窗口再定票:避 6–8 月雨季、避寒假/泼水节/国庆高峰</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">身份证原件 + 若走边境一线(打洛/勐景来/磨憨),提前在"移民局 12367"办电子边境通行证</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">防蚊三件套:驱蚊液(含避蚊胺/派卡瑞丁)、长袖长裤、蚊帐或电蚊香——6–11 月重点</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">防晒:热带紫外线强,遮阳帽 + 防晒霜 + 墨镜</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">雨具(雨季):轻便雨衣优于伞,雨林徒步要防蚂蟥与湿滑</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">好走的鞋 + 一双能湿的凉鞋(泼水节/傣族园用得上)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">进佛寺的着装:过膝下装、不裸露肩背,进殿脱鞋</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">提前 1–3 天预约:植物园门票与夜游(夜游建议提前 1 天)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">常用药:肠胃药、止泻药、防中暑、创可贴(生冷酸辣是主要变量)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">充电宝(雨林与夜市拍照耗电快,山里信号弱更费电)</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">出发前用官方公众号确认夜间演出/篝火晚会当天场次</span></div>
+        <div class="check-item"><div class="box">✓</div><span class="txt">订直通车要提前一天(望天树、植物园、傣族园都有直通车)</span></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0 / 12</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 避坑 -->
+  <section id="tips">
+    <div class="sec-title"><span class="no">捌</span><h2>避坑与安全</h2><span class="en">TIPS</span></div>
+    <div class="card">
+      <div class="note red" style="margin-top:0">
+        <b>低价团已经被央视点名。</b>2026 年 8 月央视《财经调查》曝光云南(含昆明、西双版纳)"999 元六天五晚"一类低价团<b>强制购物、层层转包</b>,云南省文旅厅当晚通报查处。西双版纳是这条线路的重灾区——<b>凡是"含全程门票 + 五星酒店 + 只要几百块"的团,都别报</b>。
+      </div>
+      <figure class="photo" style="margin:16px 0">
+        <img src="images/walkway.jpg" alt="西双版纳野象谷的木栈道" loading="lazy" decoding="async" width="1000" height="750">
+        <figcaption>西双版纳野象谷的木栈道 — 观象基本都在这类栈道上,不要下栈道、不要追</figcaption>
+      </figure>
+      <div class="tips">
+        <div class="tip"><span class="dot">票</span><div><b>只在官方渠道买。</b>植物园官方明确点名:官方小程序 + 携程/美团/同程/飞象/安心游/游云南六家平台,<b>其他平台买了可能无法检票入园</b>。</div></div>
+        <div class="tip"><span class="dot">象</span><div><b>遇野象有明确的禁令</b>(林草部门口径):<b>严禁围观、尾随、拍照、投喂、挑逗、驱赶</b>,也禁放鞭炮、扔石块棍棒;<b>避开清晨、傍晚、夜间与阴雨大雾</b>——这些时段人象相遇概率最高。看到脚印、粪便或听到异响,<b>安静快速撤离,不要奔跑</b>。2025 年 5 月勐腊县曾有一名村民遭野象攻击身亡,事前林草部门已发过预警——这不是景区表演,是真实风险。</div></div>
+        <div class="tip"><span class="dot">边</span><div><b>边境一线要办电子边境通行证。</b>西双版纳三个县市全域在边境管理区名录内;<b>2026-04-15 起停发纸质证、改发电子证</b>(有效期 3 个月,须与身份证同用)。常规线路日常不查验,但走<b>打洛、勐景来、磨憨</b>方向请提前在"移民局 12367"小程序上办——免费、几分钟,别到检查站才想起。</div></div>
+        <div class="tip"><span class="dot">演</span><div><b>夜间演出与篝火晚会的时间、票价我没有拿到带日期的官方口径</b>(现有票价 VIP 300 / 贵宾楼 480 来自无日期的老页面)。这类演出最容易调整场次,<b>订票前用官方公众号确认当天是否照常、几点开始</b>。</div></div>
+        <div class="tip"><span class="dot">价</span><div><b>几个价格本身就是"多口径"的</b>:野象谷门票 58–61 元、索道 50/70 元,望天树套票现场 198 与平台 180 元,曼听公园 30–40 元。<b>差几十块不值得纠结,但别为了省二三十块在小平台买到不能实名核销的票</b>。</div></div>
+        <div class="tip"><span class="dot">茶</span><div><b>茶山"免费品茶"是销售场景。</b>不买就礼貌离开;真买记得问清树龄、山头、年份,并要求开票。</div></div>
+        <div class="tip"><span class="dot">雨</span><div><b>雨季比"半年"还要长一点。</b>2025 年景洪的雨季是 <b>5 月 1 日 — 11 月 23 日</b>;9 月是主汛期收尾,土壤已经饱和,滑坡、崩塌、滚石风险在这时最实在。暴雨预警时景区会关停高风险项目——<b>别硬闯</b>。</div></div>
+        <div class="tip"><span class="dot">蚊</span><div><b>登革热没有特效疫苗。</b>白天也要防蚊(白纹伊蚊白天咬人),出现发热 + 关节痛尽早就医并说明去过哪里。</div></div>
+        <div class="tip"><span class="dot">礼</span><div><b>傣族村寨与佛寺讲规矩。</b>进佛寺脱鞋、着装遮肩过膝;不摸佛像、不摸小和尚的头;寨子里的"寨门"与祭祀物别乱拍。</div></div>
+        <div class="tip"><span class="dot">价</span><div><b>包车按天议价,先谈清三件事</b>:含不含油费过路费、是否含司机餐、超时怎么算。旺季价格会明显上浮。</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="note" style="margin-top:0"><b>这份笔记的边界</b>:出行日期未定,所以所有价格都是<b>核查日(2026-09-15)的快照或区间</b>,不是报价;植物园的部分为园区官方口径,其余门票、包车行情、住宿价格来自攻略与 OTA,<b>未获官方价目表</b>。动线是建议版,具体哪天去哪,等你定了日期再按季节和天气重排一次。</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>先定窗口,再定机票——西双版纳的雨季和旱季,是两个不同的地方。</div>
+  <div class="credits">
+    气候数据:Open-Meteo 历史再分析(2016–2025 年逐年逐日,景洪点位 22.01°N / 100.79°E),本站独立聚合;常年值另参考中国气象局科普中心口径。<br>
+    门票与园区信息:中国科学院西双版纳热带植物园官网「门票预订」页(2026 年更新,含票价、免票与半价政策、游览车、夜游收费、景洪往返交通)为官方口径;野象谷、曼听公园、傣族园、望天树、勐泐大佛寺、热带花卉园、独树成林、基诺山寨等的开放时间与价格来自 2026 年 4–9 月的游客与 OTA 资料(政府《等级旅游景区价格信息》页面已失效),<b>多处存在来源冲突,已在正文逐条标注</b>。<br>
+    交通与时机:国铁集团(西双版纳站位置)、国家移民管理局(2026-04-02 电子边境管理区通行证公告)、西双版纳州与景洪市政府(象群活动预警、地灾重点区)、云南疾控与云南网(蚊媒病流行期)、新华网云南(泼水节日程)、杭州网与央视财经(低价团曝光)。住宿与餐饮价格来自 2026 年 4–9 月 OTA 与攻略口径,并参考节假日政府诚信指导价上限。<br>
+    摄影:四张均为西双版纳实拍,来自 Wikimedia Commons——景洪曼飞龙塔(Xin,CC BY-SA 4.0)、中科院西双版纳热带植物园内的雨林(Yumeto,CC BY-SA 4.0,2025-12-25)、景洪澜沧江大桥(Chlukoe,CC BY-SA 4.0)、野象谷木栈道(Hanno Böck,CC0);CC BY-SA 图片按相同许可分发。<br>
+    <b>出行日期待定,页面内所有价格均为区间估算或核查日快照,不作为报价</b>;未核实项已在正文逐条标注。
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     景洪逐月气候(近十年 2016–2025 实测聚合,Open-Meteo 历史再分析)
+     [月, 平均最高℃, 平均最低℃, 月降水 mm, 雨日(≥1mm) 天, 均温℃]
+     ============================================================ */
+  var MONTHLY = [
+    [1, 24.0, 12.3, 42, 6.4, 18.2],
+    [2, 27.3, 12.8, 27, 3.4, 20.1],
+    [3, 31.4, 15.8, 21, 3.5, 23.6],
+    [4, 32.6, 18.8, 67, 7.1, 25.7],
+    [5, 32.8, 21.5, 154, 14.7, 27.2],
+    [6, 30.9, 23.0, 253, 25.6, 27.0],
+    [7, 30.5, 22.9, 340, 25.2, 26.7],
+    [8, 29.9, 22.7, 367, 27.2, 26.3],
+    [9, 30.2, 22.1, 266, 22.3, 26.2],
+    [10, 28.6, 20.4, 203, 18.4, 24.5],
+    [11, 26.5, 17.0, 85, 8.5, 21.8],
+    [12, 24.3, 13.7, 34, 5.8, 19.0]
+  ];
+  var RAINY = [5, 6, 7, 8, 9, 10];          // 雨季
+  var BEST  = [11, 12];                      // 首选窗口
+  var GOOD  = [1, 2, 3, 4];                  // 旱季其余月份
+
+  var ADVICE = {
+    1:  ['推荐', '', '旱季里最凉的白天,也是杭州人最想逃过来的月份——代价是避寒旺季的机票与房价。'],
+    2:  ['推荐', '', '雨水最少(月均 27 mm),夜里偏凉要带外套;春节假期价格会顶到全年高点。'],
+    3:  ['推荐', '', '全年最干的月份之一,白天 31℃ 偏热、但拍照出片率最高,人还不算多。'],
+    4:  ['看情况', 'warn', '上半月极好;一到泼水节(4 月中)全州人流量级翻倍,酒店与交通都要提前抢。'],
+    5:  ['看情况', 'warn', '进入雨季,月降水跳到 154 mm,但萤火虫季开始了(5–8 月),雨林也最绿。'],
+    6:  ['不推荐', 'bad', '雨日约 26 天、月降水 253 mm,山路与蚊媒风险同时上来——除非你专程来看雨林与萤火虫。'],
+    7:  ['不推荐', 'bad', '降水 340 mm、雨日 25 天,是全年最难安排行程的月份之一;好处是王莲最佳观赏期就在 7–8 月。'],
+    8:  ['不推荐', 'bad', '全年降水最多(367 mm)、雨日 27 天,叠加暑期亲子高峰:又挤又湿。'],
+    9:  ['不推荐', 'bad', '雨季尾声但雨量仍大(266 mm),好处是全年价格低谷之一,适合预算优先的人。'],
+    10: ['看情况', 'warn', '降水回落到 203 mm、雨日 18 天,前半月仍湿;国庆假期会撞上高峰价。'],
+    11: ['最佳', '', '十年数据里三条同时成立的那个月:降水少(85 mm)、气温舒适(26.5/17.0℃)、旺季价还没来。'],
+    12: ['最佳', '', '干燥凉爽(月降水 34 mm),是旱季里最舒服的一段;12 月下旬起进入避寒旺季。']
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function setText(id, v) { var el = $(id); if (el) el.textContent = v; }
+  var current = 11;   // 默认展示 11 月
+
+  /* ---------- 月份按钮 ---------- */
+  function buildMonths() {
+    var host = $('months');
+    if (!host) return;
+    var html = '';
+    MONTHLY.forEach(function (m) {
+      var cls = 'month';
+      if (BEST.indexOf(m[0]) >= 0) cls += ' best';
+      else if (RAINY.indexOf(m[0]) >= 0) cls += ' rain';
+      html += '<button type="button" class="' + cls + '" data-m="' + m[0] + '">' + m[0] + '月<small>' + m[2] + '–' + m[1] + '℃</small></button>';
+    });
+    host.innerHTML = html;
+    host.querySelectorAll('.month').forEach(function (b) {
+      b.addEventListener('click', function () { current = +b.dataset.m; paintMonth(); });
+    });
+  }
+
+  function paintMonth() {
+    var row = MONTHLY.filter(function (m) { return m[0] === current; })[0];
+    if (!row) return;
+    document.querySelectorAll('#months .month').forEach(function (b) {
+      b.classList.toggle('on', +b.dataset.m === current);
+    });
+    setText('mwHi', row[1].toFixed(1) + '℃');
+    setText('mwLo', row[2].toFixed(1) + '℃');
+    setText('mwRain', Math.round(row[3]) + ' mm');
+    setText('mwRd', row[4].toFixed(1) + ' 天');
+    setText('mwNight', row[5].toFixed(1) + '℃');
+    var a = ADVICE[current] || ['—', '', ''];
+    var lvCls = a[1] ? 'lv ' + a[1] : 'lv';
+    var verdict = document.getElementById('mwVerdict');
+    if (verdict) verdict.innerHTML = '<span class="' + lvCls + '">' + a[0] + '</span>' + current + ' 月:' + a[2];
+    var chip = $('windowChip');
+    if (chip) {
+      chip.textContent = current + ' 月 · 窗口评价:' + a[0] + (BEST.indexOf(current) >= 0 ? ' · 推荐窗口' : '');
+    }
+    renderMonthChart();
+  }
+
+  /* ---------- 月度图:降水柱 + 最高温线 ---------- */
+  function renderMonthChart() {
+    var host = $('monthChart');
+    if (!host) return;
+    var W = 760, H = 260, padL = 44, padR = 16, padT = 20, padB = 46;
+    var n = MONTHLY.length, innerW = W - padL - padR, innerH = H - padT - padB, base = padT + innerH;
+    var maxRain = Math.max.apply(null, MONTHLY.map(function (m) { return m[3]; }));
+    var hiMax = 36, hiMin = 20;
+    function X(i) { return padL + innerW * (i / (n - 1)); }
+    function YT(v) { return padT + innerH * (1 - (v - hiMin) / (hiMax - hiMin)); }
+    function barW() { return Math.min(30, innerW / n * 0.5); }
+
+    var s = '<title>景洪逐月降水量与平均最高气温(2016–2025)</title>';
+    s += '<defs><linearGradient id="mgFill" x1="0" y1="0" x2="0" y2="1">'
+       + '<stop offset="0%" stop-color="#2a8280" stop-opacity=".28"/>'
+       + '<stop offset="100%" stop-color="#2a8280" stop-opacity="0"/></linearGradient></defs>';
+
+    // 温度网格
+    for (var v = 20; v <= 36; v += 4) {
+      s += '<line x1="' + padL + '" y1="' + YT(v).toFixed(1) + '" x2="' + (W - padR) + '" y2="' + YT(v).toFixed(1) + '" stroke="rgba(31,111,107,.12)" stroke-width="1"/>'
+         + '<text x="' + (padL - 6) + '" y="' + (YT(v) + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#5c6f6c">' + v + '°</text>';
+    }
+    // 降水柱
+    MONTHLY.forEach(function (m, i) {
+      var h = m[3] / maxRain * innerH;
+      var x = X(i) - barW() / 2;
+      var rainy = RAINY.indexOf(m[0]) >= 0;
+      s += '<rect x="' + x.toFixed(1) + '" y="' + (base - h).toFixed(1) + '" width="' + barW().toFixed(1) + '" height="' + h.toFixed(1) + '" rx="3" fill="' + (rainy ? '#9dc4d8' : '#cfe0e6') + '" opacity="' + (rainy ? '.85' : '.6') + '"/>';
+      if (current === m[0]) {
+        s += '<rect x="' + (x - 2).toFixed(1) + '" y="' + (base - h - 2).toFixed(1) + '" width="' + (barW() + 4).toFixed(1) + '" height="' + (h + 2).toFixed(1) + '" rx="4" fill="none" stroke="#1f6f6b" stroke-width="2"/>';
+      }
+    });
+    // 温度折线
+    var pts = MONTHLY.map(function (m, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + YT(m[1]).toFixed(1); }).join(' ');
+    s += '<path d="' + pts + '" fill="none" stroke="#c9a35c" stroke-width="2.4" stroke-linejoin="round"/>';
+    MONTHLY.forEach(function (m, i) {
+      s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + YT(m[1]).toFixed(1) + '" r="3" fill="#fff" stroke="#c9a35c" stroke-width="2"/>';
+      s += '<text x="' + X(i).toFixed(1) + '" y="' + (base + 17) + '" text-anchor="middle" font-size="11" fill="' + (current === m[0] ? '#145254' : '#5c6f6c') + '" font-weight="' + (current === m[0] ? '700' : '400') + '">' + m[0] + '月</text>';
+    });
+    // 雨季标注
+    var x1 = X(RAINY[0] - 1), x2 = X(RAINY[RAINY.length - 1] - 1);
+    s += '<line x1="' + x1.toFixed(1) + '" y1="' + (padT - 6) + '" x2="' + x2.toFixed(1) + '" y2="' + (padT - 6) + '" stroke="#9dc4d8" stroke-width="2"/>'
+       + '<text x="' + ((x1 + x2) / 2).toFixed(1) + '" y="' + (padT - 10) + '" text-anchor="middle" font-size="11" fill="#6d8fa3">雨季 5–10 月</text>';
+    s += '<text x="' + padL + '" y="' + (H - 6) + '" font-size="11" fill="#9aa8a5">降水(柱,mm)· 平均最高气温(金线,℃)</text>';
+
+    host.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="景洪逐月降水量与平均最高气温图">' + s + '</svg>';
+  }
+
+  /* ---------- 动线切换 ---------- */
+  var tabs = document.querySelectorAll('.plan-tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('on'); });
+      tab.classList.add('on');
+      document.querySelectorAll('.plan-body').forEach(function (b) {
+        b.classList.toggle('on', b.id === 'plan' + tab.dataset.plan);
+      });
+    });
+  });
+
+  /* ---------- 时间轴(默认全部展开,点击可收起) ---------- */
+  document.querySelectorAll('.timeline .tl-item').forEach(function (item) {
+    item.classList.add('open');
+    item.addEventListener('click', function () { item.classList.toggle('open'); });
+  });
+
+  /* ---------- 费用估算器 ---------- */
+  var people = 2, season = 1, hotel = 0;
+  var AIR   = [920, 2080, 3200];      // 往返机票(淡季/旱季/旺季)
+  var ROOM  = [200, 700];             // 每晚房价(经济/舒适)
+  var TICKETS = 380, LOCAL = 400, FOOD = 500;
+  function calc() {
+    var rooms = Math.ceil(people / 2);
+    var air = AIR[season] * people;
+    var stay = ROOM[hotel] * 4 * rooms;
+    var tk = TICKETS * people;
+    var lc = LOCAL * people;
+    var fd = FOOD * people;
+    var total = air + stay + tk + lc + fd;
+    setText('airCost', String(air));
+    setText('hotelCost', String(stay));
+    setText('ticketCost', String(tk));
+    setText('localCost', String(lc));
+    setText('foodCost', String(fd));
+    setText('totalCost', String(Math.round(total)));
+    setText('totalNote', people + ' 人 · 5 天 4 晚 · 人均 ' + Math.round(total / people) + ' 元');
+  }
+  $('peoplePlus').addEventListener('click', function () {
+    if (people < 8) { people++; $('peopleVal').textContent = people; calc(); }
+  });
+  $('peopleMinus').addEventListener('click', function () {
+    if (people > 1) { people--; $('peopleVal').textContent = people; calc(); }
+  });
+  document.querySelectorAll('#seasonSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#seasonSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); season = +b.dataset.s; calc();
+    });
+  });
+  document.querySelectorAll('#hotelSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#hotelSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); hotel = +b.dataset.h; calc();
+    });
+  });
+
+  /* ---------- 行前清单 ---------- */
+  var KEY = 'xsbn.checklist';
+  var itemsList = [];
+  document.querySelectorAll('#checklist .check-item').forEach(function (el) {
+    itemsList.push(el);
+    el.addEventListener('click', function () {
+      el.classList.toggle('done');
+      try {
+        localStorage.setItem(KEY, itemsList.map(function (x) { return x.classList.contains('done') ? 1 : 0; }).join(''));
+      } catch (e) {}
+      updateProgress();
+    });
+  });
+  function loadChecks() {
+    try {
+      var v = localStorage.getItem(KEY);
+      if (!v) return;
+      for (var i = 0; i < itemsList.length; i++) if (v[i] === '1') itemsList[i].classList.add('done');
+    } catch (e) {}
+  }
+  function updateProgress() {
+    var n = 0;
+    itemsList.forEach(function (el) { if (el.classList.contains('done')) n++; });
+    var fill = $('progressFill');
+    if (fill) fill.style.width = (n / itemsList.length * 100) + '%';
+    setText('progressText', n + ' / ' + itemsList.length);
+  }
+
+  /* ---------- 底部导航高亮 ---------- */
+  var navLinks = document.querySelectorAll('#quicknav a');
+  var navSections = [];
+  navLinks.forEach(function (a) {
+    var sec = document.getElementById(a.getAttribute('href').slice(1));
+    if (sec) navSections.push({ sec: sec, a: a });
+  });
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY + window.innerHeight * 0.35;
+    var act = null;
+    navSections.forEach(function (s) { if (s.sec.offsetTop <= y) act = s; });
+    navLinks.forEach(function (a) { a.classList.remove('act'); });
+    if (act) act.a.classList.add('act');
+  }, { passive: true });
+
+  /* ---------- 启动 ---------- */
+  buildMonths();
+  renderMonthChart();
+  paintMonth();
+  calc();
+  loadChecks();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
