@@ -1,6 +1,8 @@
+import { readdirSync } from 'node:fs'
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import AstroPureIntegration from 'astro-pure'
+import sitemap from '@astrojs/sitemap'
 import mermaid from 'astro-mermaid'
+import AstroPureIntegration from 'astro-pure'
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
@@ -21,6 +23,14 @@ import {
   transformerRemoveNotationEscape
 } from './src/plugins/shiki-official/transformers.ts'
 import config from './src/site.config.ts'
+
+// Public HTML pages are copied directly, so register them explicitly with sitemap.
+const tripPages = readdirSync(new URL('./public/trips/', import.meta.url), {
+  recursive: true,
+  encoding: 'utf8'
+})
+  .filter((path) => path === 'index.html' || path.endsWith('/index.html'))
+  .map((path) => `https://tsonglew.github.io/trips/${path.slice(0, -'index.html'.length)}`)
 
 // https://astro.build/config
 export default defineConfig({
@@ -128,8 +138,8 @@ export default defineConfig({
 
   // [Integrations]
   integrations: [
-    // astro-pure will automatically add sitemap, mdx & unocss
-    // sitemap(),
+    // Configure sitemap here; astro-pure adds mdx & unocss.
+    sitemap({ customPages: tripPages }),
     // mdx(),
     AstroPureIntegration(config),
     // Client-side mermaid rendering for diagram code blocks

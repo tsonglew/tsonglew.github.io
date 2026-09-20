@@ -1,12 +1,12 @@
 ---
 import { Font } from 'astro:assets'
-
-import type { SiteMeta } from 'astro-pure/types'
 import config from 'virtual:config'
+
+import type { SiteMeta } from '../types/site-meta'
 
 type Props = SiteMeta
 
-const { articleDate, description, ogImage, title } = Astro.props
+const { articleDate, articleModifiedDate, description, ogImage, title } = Astro.props
 
 const siteTitle = `${title} ${config.titleDelimiter} ${config.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
@@ -14,7 +14,10 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
 ---
 
 <meta charset='utf-8' />
-<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover' name='viewport' />
+<meta
+  content='width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover'
+  name='viewport'
+/>
 <meta content='IE=edge' http-equiv='X-UA-Compatible' />
 <title>{siteTitle}</title>
 
@@ -61,6 +64,12 @@ const socialImageURL = new URL(ogImage ? ogImage : config.socialCard, Astro.url)
       <meta content={config.author} property='article:author' />
       <meta content={articleDate} property='article:published_time' />
     </>
+  )
+}
+
+{
+  articleDate && articleModifiedDate && (
+    <meta content={articleModifiedDate} property='article:modified_time' />
   )
 }
 

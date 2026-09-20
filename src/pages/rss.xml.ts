@@ -1,3 +1,4 @@
+import { relative, resolve } from 'node:path'
 import type { AstroGlobal, ImageMetadata } from 'astro'
 import { getImage } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
@@ -8,13 +9,13 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
+import config from 'virtual:config'
 
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
-import config from 'virtual:config'
 
 // Get dynamic import of images as a map collection
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/content/blog/**/*.{jpeg,jpg,png,gif,avif,webp}' // add more image formats if needed
+  '/src/**/*.{jpeg,jpg,png,gif,avif,webp,svg}'
 )
 
 const renderContent = async (post: CollectionEntry<'blog'>, site: URL) => {
@@ -26,18 +27,25 @@ const renderContent = async (post: CollectionEntry<'blog'>, site: URL) => {
     return async (tree: Root) => {
       const promises: Promise<void>[] = []
       visit(tree, 'image', (node) => {
-        if (node.url.startsWith('/images')) {
-          node.url = `${site}${node.url.replace('/', '')}`
-        } else {
-          const imagePathPrefix = `/src/content/blog/${post.id}/${node.url.replace('./', '')}`
-          const promise = imagesGlob[imagePathPrefix]?.().then(async (res) => {
-            const imagePath = res?.default
-            if (imagePath) {
-              node.url = `${site}${(await getImage({ src: imagePath })).src.replace('/', '')}`
-            }
-          })
-          if (promise) promises.push(promise)
+        if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(node.url)) {
+          if (node.url.startsWith('//')) node.url = new URL(node.url, site).href
+          return
         }
+        if (node.url.startsWith('/') && !node.url.startsWith('/src/')) {
+          node.url = new URL(node.url, site).href
+          return
+        }
+        if (!post.filePath) throw new Error(`Missing source path for ${post.id}`)
+        const sourcePath = `/${relative(process.cwd(), resolve(post.filePath)).split('\\').join('/')}`
+        const imageUrl = new URL(node.url, new URL(sourcePath, site))
+        const loadImage = imagesGlob[decodeURIComponent(imageUrl.pathname)]
+        if (!loadImage) throw new Error(`Cannot resolve RSS image ${node.url} in ${post.filePath}`)
+        promises.push(
+          loadImage().then(async ({ default: src }) => {
+            const image = await getImage({ src })
+            node.url = new URL(image.src, site).href
+          })
+        )
       })
       await Promise.all(promises)
     }
@@ -71,8 +79,6 @@ const GET = async (context: AstroGlobal) => {
       allPostsByDate.map(async (post) => ({
         pubDate: post.data.publishDate,
         link: `/blog/${post.id}`,
-        customData: `<h:img src="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />
-          <enclosure url="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />`,
         content: await renderContent(post, siteUrl),
         ...post.data
       }))
