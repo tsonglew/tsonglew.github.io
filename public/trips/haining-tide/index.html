@@ -38,6 +38,10 @@
   .sources p { margin:8px 0; }
   footer { padding:24px; text-align:center; background:#e3efec; font-size:13px; }
   @media(max-width:640px) { .hero { padding:24px 22px 36px; } .hero-grid { grid-template-columns:1fr; gap:22px; margin-top:28px; } .facts { grid-template-columns:1fr; gap:12px; } main { padding:0 22px 40px; } .facts span { display:inline-block; min-width:80px; } }
+  .photo-gallery { display:grid; grid-template-columns:1.15fr 1fr; gap:22px; align-items:start; }
+  .photo-gallery .trip-figure { margin:0 0 22px; }
+  .real-photo figcaption strong { color:var(--teal); }
+  @media(max-width:640px) { .photo-gallery { grid-template-columns:1fr; gap:0; } }
   .trip-figure { margin:24px 0; }
   .trip-figure img { display:block; width:100%; height:auto; border-radius:8px; }
   .trip-figure figcaption { margin-top:8px; color:var(--muted); font-size:12px; line-height:1.7; }
@@ -103,7 +107,7 @@
     <div><span>行程状态</span><strong>日期已定 · 自驾一日游</strong></div>
   </div>
   <nav class="jump-links" aria-label="行程目录">
-    <a href="#schedule">全天安排</a><a href="#parking">自驾停车</a><a href="#tickets">通行证与门票</a><a href="#food">吃饭与加游</a><a href="#weather">天气与备用方案</a><a href="#budget">费用计算</a><a href="#checklist">行前清单</a>
+    <a href="#photos">实景照片</a><a href="#schedule">全天安排</a><a href="#parking">自驾停车</a><a href="#tickets">通行证与门票</a><a href="#food">吃饭与加游</a><a href="#weather">天气与备用方案</a><a href="#budget">费用计算</a><a href="#checklist">行前清单</a>
   </nav>
   <section id="overview">
     <h2>这次就定中秋当天</h2>
@@ -118,6 +122,11 @@
       <div class="mini-card"><span>观潮时刻</span><strong>官方预报待核对</strong><p>查询“同一条钱塘江”最新潮汛，选“盐官”与“9 月 25 日日潮”，不要套用其他观潮点时刻。</p></div>
     </div>
     <p class="muted">以下钟点是行程安排，不是到潮预报。停车、接驳、检票合计预留 60–90 分钟；如果最新官方到潮时刻要求更早入园，就整体提前出发。</p>
+  </section>
+  <section id="photos">
+    <h2>先看看盐官 · 实景照片</h2>
+    <p class="muted">三张摄影作品分别展示钱塘潮、古城水巷与占鳌塔。拍摄日期见图注；历史照片不代表 2026 年中秋的潮势、天气或开放情况。点击照片可看大图。</p>
+    <div class="photo-gallery"><div><figure class="trip-figure real-photo"><a href="images/tide-photo.webp" target="_blank" rel="noopener" aria-label="打开盐官钱塘潮大图"><img src="images/tide-photo.webp" alt="2017 年盐官实拍：阴天下的钱塘江潮线，江面上方有一架直升机" width="1280" height="949" loading="lazy" decoding="async"></a><figcaption><strong>盐官钱塘潮</strong> · 2017-10-05 实拍<br>摄影 Pchxiao · <a href="https://commons.wikimedia.org/wiki/File:Tidal_Bore_Qiantang_River.png" target="_blank" rel="noopener">Wikimedia Commons 原图</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0</a>。本页版本仅缩放并转为 WebP，沿用同一许可。</figcaption></figure><figure class="trip-figure real-photo"><a href="images/dongxing-bridge-photo.webp" target="_blank" rel="noopener" aria-label="打开古城东兴桥大图"><img src="images/dongxing-bridge-photo.webp" alt="2025 年盐官东兴桥实拍：石拱桥横跨水巷，两侧是古镇建筑与树木" width="1280" height="854" loading="lazy" decoding="async"></a><figcaption><strong>古城东兴桥</strong> · 2025-03-01 实拍<br>摄影 Siyuwj · <a href="https://commons.wikimedia.org/wiki/File:%E7%9B%90%E5%AE%98%E4%B8%9C%E5%85%B4%E6%A1%A5,_2025-03-01.jpg" target="_blank" rel="noopener">Wikimedia Commons 原图</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0</a>。本页版本仅缩放并转为 WebP，沿用同一许可。</figcaption></figure></div><div><figure class="trip-figure real-photo"><a href="images/zhanao-pagoda-photo.webp" target="_blank" rel="noopener" aria-label="打开占鳌塔大图"><img src="images/zhanao-pagoda-photo.webp" alt="2025 年盐官占鳌塔实拍：蓝天下的多层古塔与写有盐官的白墙" width="1280" height="1917" loading="lazy" decoding="async"></a><figcaption><strong>占鳌塔</strong> · 2025-03-01 实拍<br>摄影 Siyuwj · <a href="https://commons.wikimedia.org/wiki/File:%E7%9B%90%E5%AE%98%E5%8D%A0%E9%B3%8C%E5%A1%94,_2025-03-01_01.jpg" target="_blank" rel="noopener">Wikimedia Commons 原图</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0</a>。本页版本仅缩放并转为 WebP，沿用同一许可。</figcaption></figure></div></div>
   </section>
   <section id="schedule">
     <h2>全天时间轴</h2>
