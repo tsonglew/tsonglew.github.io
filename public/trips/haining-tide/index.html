@@ -38,6 +38,18 @@
   .sources p { margin:8px 0; }
   footer { padding:24px; text-align:center; background:#e3efec; font-size:13px; }
   @media(max-width:640px) { .hero { padding:24px 22px 36px; } .hero-grid { grid-template-columns:1fr; gap:22px; margin-top:28px; } .facts { grid-template-columns:1fr; gap:12px; } main { padding:0 22px 40px; } .facts span { display:inline-block; min-width:80px; } }
+  .trip-figure { margin:24px 0; }
+  .trip-figure img { display:block; width:100%; height:auto; border-radius:8px; }
+  .trip-figure figcaption { margin-top:8px; color:var(--muted); font-size:12px; line-height:1.7; }
+  .transfer-graphic { margin:24px 0; padding:24px; background:#e3efec; border:1px solid #b8cec4; border-radius:8px; }
+  .transfer-steps { display:flex; align-items:center; gap:12px; }
+  .transfer-stop { flex:1; text-align:center; padding:18px 8px; background:#faf8f2; border-radius:6px; }
+  .transfer-stop b,.transfer-stop small { display:block; }
+  .transfer-stop small { margin-top:5px; color:var(--muted); }
+  .transfer-symbol { display:block; color:var(--teal); font-family:Georgia,serif; font-size:30px; }
+  .transfer-arrow { color:var(--teal); font-size:24px; }
+  .transfer-graphic figcaption { margin-top:14px; color:var(--muted); font-size:12px; }
+  @media(max-width:640px) { .transfer-steps { flex-direction:column; } .transfer-stop { width:100%; } .transfer-arrow { transform:rotate(90deg); line-height:1; } }
   html { scroll-behavior:smooth; scroll-padding-top:20px; }
   .muted { color:var(--muted); font-size:14px; }
   .jump-links { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
@@ -95,6 +107,10 @@
   </nav>
   <section id="overview">
     <h2>这次就定中秋当天</h2>
+    <figure class="trip-figure">
+      <img src="images/qiantang-tide.webp" alt="钱塘江一线潮的手绘意象，游客在护栏内远望横贯江面的白色潮线" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>一线潮 · AI 生成的观潮意象插画，非现场照片；建筑、潮势与视角不作为实景参考。</figcaption>
+    </figure>
     <div class="note"><p><strong>2026 年 9 月 25 日 · 周五 · 农历八月十五。</strong>目的地定为盐官观潮胜地公园，主看一线潮。自驾当天往返，下午加游可按体力删减。</p></div>
     <div class="overview-grid">
       <div class="mini-card"><span>建议出发</span><strong>06:45–07:00</strong><p>沿用其他旅途的杭州滨江起点；车程和出发时刻需按具体地址、实时导航调整。</p></div>
@@ -127,6 +143,16 @@
   </section>
   <section id="parking">
     <h2>自驾停车 · 先存好这两个点</h2>
+    <figure class="transfer-graphic" aria-label="停车接驳流程">
+      <div class="transfer-steps">
+        <div class="transfer-stop"><span class="transfer-symbol" aria-hidden="true">P</span><b>1 号 / 2 号停车场</b><small>停好车 · 拍下车位</small></div>
+        <span class="transfer-arrow" aria-hidden="true">→</span>
+        <div class="transfer-stop"><span class="transfer-symbol" aria-hidden="true">⇄</span><b>免费短程接驳</b><small>确认去向与返程站</small></div>
+        <span class="transfer-arrow" aria-hidden="true">→</span>
+        <div class="transfer-stop"><span class="transfer-symbol" aria-hidden="true">≈</span><b>观潮区域</b><small>步行检票 · 按票入园</small></div>
+      </div>
+      <figcaption>出行流程示意，非道路地图。停车场、接驳站及入园口以官方导航和现场指引为准。</figcaption>
+    </figure>
     <div class="note"><p><strong>首选盐官景区 1 号停车场，备选 2 号停车场。</strong>2026 年观潮季发布会推荐这两处停车场，均有免费短程接驳车前往核心观潮区域。停车位尚未预订，实际开放与分流以当天指引为准。</p></div>
     <ol>
       <li><div><h3>首选 · 盐官景区 1 号停车场</h3><p>出发前在“海宁公安”官方平台打开停车场导航，选择 1 号停车场作为驾车终点。停车后拍下楼层、分区和车位号，到现场接驳点乘车前往核心观潮区，再按所购门票前往对应入口。</p></div></li>
@@ -151,6 +177,10 @@
   </section>
   <section id="food">
     <h2>午餐去哪吃 · 两家先收藏</h2>
+    <figure class="trip-figure">
+      <img src="images/yanguan-lunch.webp" alt="盐官家常菜手绘插画：陶缸炖肉、清汤鱼圆、青菜与米饭" width="1400" height="933" loading="lazy" decoding="async">
+      <figcaption>缸肉、鱼圆与家常菜 · AI 生成的菜品意象，非推荐餐厅实拍；份量、摆盘与供应以店家实际为准。</figcaption>
+    </figure>
     <div class="note"><p><strong>先看潮，再吃饭：小胖土菜馆优先，吃得晚就选正宗桐乡煲。</strong>前一天打电话确认中秋营业、最后接单时间及是否需预约。两家尚未订位；下列人均与营业时间来自平台，节日当天以店家确认为准。</p></div>
     <div class="overview-grid two">
       <div class="mini-card">
