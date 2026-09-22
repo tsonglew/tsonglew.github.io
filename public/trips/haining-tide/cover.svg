@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600">
+  <rect width="960" height="600" fill="#143f42"/>
+  <circle cx="728" cy="158" r="70" fill="#d9bb79"/>
+  <path d="M0 350 Q240 300 480 348 T960 335 V600 H0Z" fill="#24676a"/>
+  <path d="M0 416 Q200 340 440 411 T960 386" fill="none" stroke="#f3eddb" stroke-width="24"/>
+  <path d="M0 450 Q200 374 440 445 T960 420" fill="none" stroke="#9cbfba" stroke-width="5"/>
+  <path d="M0 520 Q240 465 480 520 T960 498" fill="none" stroke="#438487" stroke-width="3"/>
+  <text x="64" y="184" fill="#f3eddb" font-family="serif" font-size="66" letter-spacing="12">中秋 · 听潮</text>
+  <text x="68" y="244" fill="#d9bb79" font-family="sans-serif" font-size="22" letter-spacing="7">海宁盐官 / 2026.09.25</text>
+</svg>
