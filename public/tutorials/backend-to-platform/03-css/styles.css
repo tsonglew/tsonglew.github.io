@@ -1,0 +1,526 @@
+/* 1. 先让盒子的宽度容易计算。 */
+:root {
+  color-scheme: light;
+  --paper: #f7f5ee;
+  --card: #fffef9;
+  --ink: #242e27;
+  --muted: #626b61;
+  --green: #244c3a;
+  --line: #d9ddcf;
+  --soft-green: #e8ecdf;
+  --serif: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "STSong", serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: 1.5rem;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: var(--green);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid #a1451c;
+  outline-offset: 4px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.35;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  padding: 0.5rem 1rem;
+  color: var(--card);
+  background: var(--green);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* 2. 全页共享一条左右边界。 */
+.site-header,
+.page-intro,
+.app-layout,
+.site-footer {
+  width: min(72rem, calc(100% - 4rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  color: var(--paper);
+  background: var(--green);
+  border-radius: 2px;
+  font-size: 1.5rem;
+}
+
+.brand-en {
+  margin-left: 0.65rem;
+  font-family: Georgia, serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+}
+
+.header-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+}
+
+.header-nav a {
+  padding-block: 0.5rem;
+  color: var(--muted);
+}
+
+.page-intro {
+  padding-block: 4rem 3rem;
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--muted);
+  font-family: Georgia, serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+}
+
+.page-intro h1 {
+  margin-bottom: 0.9rem;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.page-intro > p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* 3. Grid 负责侧栏和资料区的两列布局。 */
+.app-layout {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.sidebar,
+.library,
+.resource-content {
+  min-width: 0;
+}
+
+.sidebar {
+  padding-top: 0.4rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 1.25rem;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+}
+
+.sidebar-links,
+.resource-list,
+.tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-links {
+  border-top: 1px solid var(--line);
+}
+
+.sidebar-links li {
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.2rem;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.sidebar-links a:hover {
+  background: var(--soft-green);
+}
+
+.sidebar-links span {
+  font-family: Georgia, serif;
+  font-size: 0.75rem;
+}
+
+.reading-counts {
+  margin-block: 1.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.reading-counts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.25rem;
+}
+
+.reading-counts dd {
+  margin: 0;
+  font-family: Georgia, serif;
+}
+
+.sidebar-note {
+  margin-top: 2.5rem;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+
+.library-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.library-heading .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.library-heading h2 {
+  margin-bottom: 0;
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.total-count {
+  margin-bottom: 0.15rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.search-form {
+  margin-block: 1.5rem 1.75rem;
+}
+
+.search-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+input,
+button {
+  border: 1px solid var(--green);
+  border-radius: 3px;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.7rem 0.85rem;
+  color: var(--ink);
+  background: var(--card);
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+button {
+  padding: 0.7rem 1.1rem;
+  color: var(--card);
+  background: var(--green);
+  cursor: pointer;
+}
+
+button:hover {
+  background: #183726;
+}
+
+.form-help {
+  margin-block: 0.6rem 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/* 4. 卡片保持正常文档流，局部排列再使用 Flex。 */
+.resource-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.resource-card {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--card);
+}
+
+.resource-index {
+  flex-shrink: 0;
+  padding-top: 0.05rem;
+  color: var(--muted);
+  font-family: Georgia, serif;
+  font-size: 0.75rem;
+}
+
+.resource-content {
+  flex: 1;
+}
+
+.resource-source {
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+  font-family: Georgia, serif;
+  font-size: 0.75rem;
+}
+
+.resource-card h3 {
+  margin-bottom: 0.6rem;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.resource-card h3 a {
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--line);
+}
+
+.resource-card h3 a:hover {
+  color: var(--green);
+  text-decoration-color: var(--green);
+}
+
+.resource-description {
+  margin-bottom: 1.15rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.resource-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tags li {
+  padding: 0.1rem 0.55rem;
+  color: var(--green);
+  background: var(--soft-green);
+  border-radius: 2px;
+  font-size: 0.7rem;
+}
+
+.status {
+  font-size: 0.75rem;
+}
+
+.status::before {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.status-unread {
+  color: #735920;
+}
+
+.status-reading {
+  color: var(--green);
+}
+
+.status-archived {
+  color: var(--muted);
+}
+
+.data-note {
+  margin-top: 1.75rem;
+  padding: 1rem 0 0 1rem;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.data-note h3 {
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+  font-size: 0.85rem;
+}
+
+.data-note p {
+  margin-bottom: 0;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 4rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* 5. 空间放不下两列时，改变布局关系。 */
+@media (max-width: 48rem) {
+  .site-header,
+  .page-intro,
+  .app-layout,
+  .site-footer {
+    width: calc(100% - 2rem);
+  }
+
+  .app-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .site-header {
+    padding-block: 1rem;
+  }
+
+  .page-intro {
+    padding-block: 2.5rem 2rem;
+  }
+
+  .sidebar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sidebar-links li {
+    border-bottom: 0;
+  }
+
+  .reading-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .reading-counts > div {
+    gap: 0.5rem;
+  }
+
+  .sidebar-note {
+    margin-block: 1rem 0;
+  }
+
+  .resource-card {
+    gap: 0.8rem;
+    padding: 1.1rem;
+  }
+
+  .site-footer {
+    margin-top: 2.5rem;
+  }
+}

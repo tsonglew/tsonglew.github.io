@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="从语义化 HTML 到响应式 CSS，打开慢读示例，动手完成后端转全平台开发课的第一组练习。">
+    <title>慢读实验室 · 从接口到界面</title>
+    <link rel="stylesheet" href="./03-css/styles.css">
+    <style>
+      .hub-main {
+        width: min(72rem, calc(100% - 4rem));
+        margin-inline: auto;
+      }
+      .hub-intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 15rem;
+        gap: 3rem;
+        align-items: end;
+        padding-block: 4.5rem 3.5rem;
+      }
+      .hub-intro h1 {
+        margin-bottom: 1.25rem;
+        font-family: var(--serif);
+        font-size: clamp(2.75rem, 7vw, 5rem);
+        font-weight: 500;
+        letter-spacing: -0.06em;
+      }
+      .hub-intro h1 span { color: var(--green); }
+      .hub-description {
+        max-width: 35rem;
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+      .lab-note {
+        padding: 1.25rem 0 1.25rem 1.25rem;
+        border-left: 1px solid var(--green);
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .lab-note strong {
+        display: block;
+        margin-bottom: 0.75rem;
+        color: var(--green);
+        font-family: Georgia, var(--serif);
+        font-size: 2rem;
+        font-weight: 400;
+      }
+      .lab-note p { margin-bottom: 0; }
+      .hub-section-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--ink);
+      }
+      .hub-section-heading h2 {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: 1.6rem;
+      }
+      .hub-section-heading p { margin: 0; color: var(--muted); font-size: 0.75rem; }
+      .exercise {
+        display: grid;
+        grid-template-columns: 3rem minmax(0, 1fr) auto;
+        gap: 1.5rem;
+        align-items: center;
+        padding-block: 2rem;
+        border-bottom: 1px solid var(--line);
+      }
+      .exercise-number { color: var(--green); font-family: Georgia, serif; font-size: 2rem; }
+      .exercise h3 { margin-bottom: 0.5rem; font-family: var(--serif); font-size: 1.4rem; }
+      .exercise p { max-width: 39rem; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.875rem; }
+      .exercise .lesson-link { font-size: 0.75rem; }
+      .open-example {
+        display: inline-block;
+        padding: 0.7rem 1rem;
+        border: 1px solid var(--green);
+        border-radius: 2px;
+        background: var(--card);
+        font-size: 0.8rem;
+        text-decoration: none;
+      }
+      .open-example:hover { color: var(--card); background: var(--green); }
+      .download-bar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem 2rem;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: var(--soft-green);
+      }
+      .download-bar h2 { margin-bottom: 0.35rem; font-size: 1rem; }
+      .download-bar p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+      .download-links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; font-size: 0.8rem; }
+      .scope-note { margin-block: 1.25rem 0; color: var(--muted); font-size: 0.8rem; }
+      @media (max-width: 48rem) {
+        .hub-main { width: calc(100% - 2rem); }
+        .hub-intro { grid-template-columns: 1fr; gap: 2rem; padding-block: 2.75rem; }
+        .lab-note { padding-block: 0; }
+        .lab-note strong { font-size: 1.5rem; }
+        .exercise { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; }
+        .exercise > .open-example { grid-column: 2; justify-self: start; margin-top: 0.5rem; }
+        .exercise-number { font-size: 1.5rem; align-self: start; }
+        .download-bar { padding: 1.25rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#examples">跳到示例列表</a>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="慢读示例目录">
+        <span class="brand-mark" aria-hidden="true">阅</span>
+        <span>慢读 <span class="brand-en" lang="en">THE WEB LAB</span></span>
+      </a>
+      <nav class="header-nav" aria-label="教程导航">
+        <a href="https://tsonglew.github.io/blog/backend-to-platform">课程总目录</a>
+        <a href="./README.md">本地运行说明</a>
+      </nav>
+    </header>
+
+    <main class="hub-main">
+      <div class="hub-intro">
+        <div>
+          <p class="eyebrow" lang="en">BACKEND TO PLATFORM · CHAPTERS 01—03</p>
+          <h1>从接口，<br><span>到界面。</span></h1>
+          <p class="hub-description">用一个小小的个人资料库，迈出前端开发的第一步。同样三条资料，先写出清楚的页面结构，再让它适应不同大小的屏幕。</p>
+        </div>
+        <aside class="lab-note" aria-label="示例说明">
+          <strong>3 条资料 / 2 个版本</strong>
+          <p>HTML · CSS · 固定数据<br>无框架，无安装依赖。<br>打开浏览器就能开始。</p>
+        </aside>
+      </div>
+
+      <section id="examples" aria-labelledby="examples-heading">
+        <div class="hub-section-heading">
+          <h2 id="examples-heading">从这里动手</h2>
+          <p>先看结构，再看布局</p>
+        </div>
+        <article class="exercise">
+          <span class="exercise-number" aria-hidden="true">02</span>
+          <div>
+            <h3>只有 HTML，页面也能工作</h3>
+            <p>观察标题、列表、链接和原生表单。按 Tab 在页面中移动，提交一个关键词，看看地址栏发生了什么变化。</p>
+            <a class="lesson-link" href="https://tsonglew.github.io/blog/backend-to-platform-02-html">阅读第 2 课 · 从 JSON 到页面</a>
+          </div>
+          <a class="open-example" href="./02-html/index.html">打开 HTML 版 <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="exercise">
+          <span class="exercise-number" aria-hidden="true">03</span>
+          <div>
+            <h3>加一张样式表，安排好阅读空间</h3>
+            <p>HTML 内容保持一致，用盒模型、Grid 和 Flex 排好位置。缩小浏览器，观察双列布局如何变成单列。</p>
+            <a class="lesson-link" href="https://tsonglew.github.io/blog/backend-to-platform-03-css">阅读第 3 课 · 把页面排好</a>
+          </div>
+          <a class="open-example" href="./03-css/index.html">打开 CSS 版 <span aria-hidden="true">↗</span></a>
+        </article>
+      </section>
+
+      <section class="download-bar" aria-labelledby="download-heading">
+        <div>
+          <h2 id="download-heading">把代码带回自己的编辑器</h2>
+          <p>下载后解压，按 README 启动本地服务，边改边看。</p>
+        </div>
+        <div class="download-links">
+          <a href="./resources.json">查看 JSON 数据</a>
+          <a href="https://tsonglew.github.io/tutorials/backend-to-platform/source.zip" download="backend-to-platform.zip">下载完整示例 .zip <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+      <p class="scope-note">本组示例使用手工写入 HTML 的固定资料。搜索表单只演示 GET 提交，尚未实现资料筛选；页面也不会自动加载 JSON。</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>慢读 · 后端程序员的全平台开发课</p>
+      <a href="https://tsonglew.github.io/blog/backend-to-platform-01-browser">从第 1 课开始阅读</a>
+    </footer>
+  </body>
+</html>

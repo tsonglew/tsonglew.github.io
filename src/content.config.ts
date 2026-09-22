@@ -36,6 +36,9 @@ const blog = defineCollection({
       tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
       language: z.string().optional(),
       draft: z.boolean().default(false),
+      // Course order is independent of the blog's publication date.
+      series: z.string().min(1).optional(),
+      seriesOrder: z.number().int().nonnegative().optional(),
       // Special fields
       comment: z.boolean().default(true)
     })

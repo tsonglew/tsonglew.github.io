@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="后端转全平台开发教程的慢读示例，使用三条固定资料练习 HTML 语义和 CSS 布局。">
+    <title>慢读 · 个人资料库</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#library">跳到资料列表</a>
+
+    <header class="site-header">
+      <a class="brand" href="#library" aria-label="慢读，前往资料列表">
+        <span class="brand-mark" aria-hidden="true">阅</span>
+        <span>慢读 <span class="brand-en" lang="en">READ LATER</span></span>
+      </a>
+      <nav class="header-nav" aria-label="教程导航">
+        <a href="../index.html">示例目录</a>
+        <a href="https://tsonglew.github.io/blog/backend-to-platform">返回课程</a>
+      </nav>
+    </header>
+
+    <div class="page-intro">
+      <p class="eyebrow" lang="en">A SMALL LIBRARY, A LITTLE EVERY DAY</p>
+      <h1>好内容，留一点时间读。</h1>
+      <p>把值得回看的资料收在一起，从下一篇开始。</p>
+    </div>
+
+    <main class="app-layout">
+      <aside class="sidebar" aria-labelledby="sidebar-heading">
+        <p class="eyebrow" lang="en">YOUR COLLECTION</p>
+        <h2 id="sidebar-heading">阅读清单</h2>
+        <nav aria-label="页面导航">
+          <ul class="sidebar-links">
+            <li><a href="#library">资料列表 <span>03</span></a></li>
+            <li><a href="#search-practice">搜索练习</a></li>
+            <li><a href="#data-notes">数据说明</a></li>
+          </ul>
+        </nav>
+        <dl class="reading-counts">
+          <div><dt>未读</dt><dd>1</dd></div>
+          <div><dt>阅读中</dt><dd>1</dd></div>
+          <div><dt>已归档</dt><dd>1</dd></div>
+        </dl>
+        <p class="sidebar-note">不急着读完。<br>每次读懂一点就好。</p>
+      </aside>
+
+      <section id="library" class="library" aria-labelledby="library-heading">
+        <div class="library-heading">
+          <div>
+            <p class="eyebrow" lang="en">THE READING SHELF</p>
+            <h2 id="library-heading">我的资料</h2>
+          </div>
+          <p class="total-count">共 3 条</p>
+        </div>
+
+        <form id="search-practice" class="search-form" action="./index.html" method="get">
+          <label for="q">搜索资料</label>
+          <div class="search-row">
+            <input id="q" name="q" type="search" placeholder="试着输入 HTML" required aria-describedby="search-help">
+            <button type="submit">提交关键词</button>
+          </div>
+          <p id="search-help" class="form-help">这是原生表单练习。提交只会把关键词写入 URL，暂时不会筛选下方资料。</p>
+        </form>
+
+        <ul class="resource-list">
+          <li id="mdn-web" class="resource-card">
+            <span class="resource-index" aria-hidden="true">01</span>
+            <div class="resource-content">
+              <p class="resource-source">developer.mozilla.org</p>
+              <h3><a href="https://developer.mozilla.org/zh-CN/docs/Learn_web_development">MDN Web 入门</a></h3>
+              <p class="resource-description">从浏览器、HTML 和 CSS 开始，建立 Web 开发的基础知识。</p>
+              <div class="resource-meta">
+                <ul class="tags" aria-label="标签"><li>HTML</li></ul>
+                <span class="status status-unread">未读</span>
+              </div>
+            </div>
+          </li>
+          <li id="thinking-react" class="resource-card">
+            <span class="resource-index" aria-hidden="true">02</span>
+            <div class="resource-content">
+              <p class="resource-source">react.dev</p>
+              <h3><a href="https://react.dev/learn/thinking-in-react">用 React 思考</a></h3>
+              <p class="resource-description">从一张界面草图出发，学习拆分组件并找出页面真正需要的状态。</p>
+              <div class="resource-meta">
+                <ul class="tags" aria-label="标签"><li>React</li></ul>
+                <span class="status status-reading">阅读中</span>
+              </div>
+            </div>
+          </li>
+          <li id="typescript" class="resource-card">
+            <span class="resource-index" aria-hidden="true">03</span>
+            <div class="resource-content">
+              <p class="resource-source">www.typescriptlang.org</p>
+              <h3><a href="https://www.typescriptlang.org/docs/handbook/intro.html">TypeScript 手册</a></h3>
+              <p class="resource-description">理解类型如何描述 JavaScript 数据，以及类型检查能帮助我们发现哪些问题。</p>
+              <div class="resource-meta">
+                <ul class="tags" aria-label="标签"><li>TypeScript</li></ul>
+                <span class="status status-archived">已归档</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <section id="data-notes" class="data-note" aria-labelledby="data-heading">
+          <h3 id="data-heading">关于这份练习数据</h3>
+          <p>三条资料手工写在 HTML 中，对应同一份 <a href="../resources.json">resources.json</a>。页面不会请求或自动读取 JSON；搜索、收藏和状态修改会在后续课程中实现。</p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>慢读 · 后端程序员的全平台开发课</p>
+      <a href="https://tsonglew.github.io/blog/backend-to-platform">阅读课程总目录</a>
+    </footer>
+  </body>
+</html>

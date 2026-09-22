@@ -59,6 +59,24 @@ if (!images[imagePath])
         <p class='text-muted-foreground'>这里记录技术学习、架构设计与量化研究的笔记与思考。</p>
         <Button title='More about me' class='w-fit self-end' href='/about' variant='ahead' />
       </Section>
+      <Section title='教程'>
+        <a
+          href='/blog/backend-to-platform'
+          class='text-lg font-medium underline-offset-4 hover:underline'
+        >
+          后端程序员的全平台开发课
+        </a>
+        <p class='text-muted-foreground'>
+          从 API 到用户界面，跟着一个个人资料库项目学前端，再逐步走向桌面和移动端。
+        </p>
+        <p class='text-sm text-muted-foreground'>浏览器 · HTML · CSS · 配套示例</p>
+        <Button
+          title='从课程导读开始'
+          class='w-fit self-end'
+          href='/blog/backend-to-platform'
+          variant='ahead'
+        />
+      </Section>
       {
         allPostsByDate.length > 0 && (
           <Section title='Posts'>

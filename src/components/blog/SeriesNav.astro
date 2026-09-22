@@ -1,0 +1,181 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  post: CollectionEntry<'blog'>
+  posts: CollectionEntry<'blog'>[]
+  position?: 'top' | 'bottom'
+}
+
+const { post, posts, position = 'top' } = Astro.props
+const chapters = post.data.series
+  ? posts
+      .filter(
+        (entry) =>
+          entry.data.series === post.data.series &&
+          !entry.data.draft &&
+          entry.data.seriesOrder !== undefined
+      )
+      .sort((a, b) => a.data.seriesOrder! - b.data.seriesOrder!)
+  : []
+const overview = chapters.find((entry) => entry.data.seriesOrder === 0)
+const currentIndex = chapters.findIndex((entry) => entry.id === post.id)
+const previous = currentIndex > 0 ? chapters[currentIndex - 1] : undefined
+const next = currentIndex >= 0 ? chapters[currentIndex + 1] : undefined
+const lessonCount = chapters.filter((entry) => entry.data.seriesOrder !== 0).length
+const href = (entry: CollectionEntry<'blog'>) => `/blog/${entry.id}`
+---
+
+{
+  chapters.length > 0 && currentIndex >= 0 && (
+    <nav
+      class:list={['series-nav not-prose', { 'series-bottom': position === 'bottom' }]}
+      aria-label={position === 'top' ? '教程章节' : '课程翻页'}
+    >
+      {position === 'top' ? (
+        <>
+          <div class='series-heading'>
+            {overview && (
+              <a class='series-title' href={href(overview)}>
+                {overview.data.title}
+              </a>
+            )}
+            <span class='series-progress'>
+              {post.data.seriesOrder === 0 ? '课程导读' : `第 ${post.data.seriesOrder} 课`}
+              {' · '}已更新 {lessonCount} 课
+            </span>
+          </div>
+          <details>
+            <summary>查看已更新章节</summary>
+            <ol>
+              {chapters.map((entry) => (
+                <li>
+                  <a href={href(entry)} aria-current={entry.id === post.id ? 'page' : undefined}>
+                    <span class='chapter-number'>
+                      {entry.data.seriesOrder === 0
+                        ? '导读'
+                        : String(entry.data.seriesOrder).padStart(2, '0')}
+                    </span>
+                    <span>{entry.data.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        </>
+      ) : (
+        <div class='series-pagination'>
+          {previous ? (
+            <a href={href(previous)} rel='prev'>
+              <span class='page-direction'>
+                {previous.data.seriesOrder === 0 ? '回到导读' : '上一课'}
+              </span>
+              <span>{previous.data.title}</span>
+            </a>
+          ) : (
+            <span class='series-progress'>从浏览器开始，逐步完成一个产品。</span>
+          )}
+          {next ? (
+            <a href={href(next)} rel='next'>
+              <span class='page-direction'>下一课</span>
+              <span>{next.data.title}</span>
+            </a>
+          ) : (
+            <div>
+              <span class='page-direction'>已读到当前最新章节</span>
+              {overview && <a href={href(overview)}>回到总目录，查看后续安排</a>}
+            </div>
+          )}
+        </div>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .series-nav {
+    margin-block: 0 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid hsl(var(--border));
+    border-inline-start: 3px solid hsl(var(--primary));
+    border-radius: 0.5rem;
+    color: hsl(var(--foreground));
+    font-size: 0.9rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+  .series-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem 1rem;
+  }
+  .series-title {
+    font-weight: 600;
+  }
+  .series-progress,
+  .page-direction,
+  .chapter-number {
+    color: hsl(var(--muted-foreground));
+  }
+  summary {
+    width: fit-content;
+    margin-top: 0.7rem;
+    cursor: pointer;
+  }
+  ol {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+  }
+  li + li {
+    margin-top: 0.4rem;
+  }
+  li a {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.3rem 0;
+  }
+  .chapter-number {
+    flex: 0 0 2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  a[aria-current='page'] {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  a:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+  .series-bottom {
+    margin-block: 0 1.5rem;
+  }
+  .series-pagination {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .page-direction {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 40rem) {
+    .series-pagination {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+    .series-nav {
+      padding: 0.85rem 1rem;
+    }
+  }
+</style>

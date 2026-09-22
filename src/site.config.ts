@@ -49,6 +49,7 @@ export const theme: ThemeUserConfig = {
   header: {
     menu: [
       { title: 'Blog', link: '/blog' },
+      { title: '教程', link: '/blog/backend-to-platform' },
       { title: 'Trips', link: '/trips/' },
       { title: 'Projects', link: '/projects' },
       { title: 'Links', link: '/links' },

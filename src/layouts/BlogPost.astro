@@ -10,6 +10,7 @@ import config from 'virtual:config'
 import { MediumZoom } from 'astro-pure/advanced'
 import { ArticleBottom, Copyright, Hero, TOC } from 'astro-pure/components/pages'
 import PageLayout from '@/layouts/ContentLayout.astro'
+import SeriesNav from '@/components/blog/SeriesNav.astro'
 import { Comment, PageInfo } from '@/components/waline'
 
 interface Props {
@@ -59,13 +60,15 @@ const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--un-tex
     </Fragment>
   </Hero>
 
+  <SeriesNav post={Astro.props.post} {posts} />
   <slot />
 
   <Fragment slot='bottom'>
+    <SeriesNav post={Astro.props.post} {posts} position='bottom' />
     {/* Copyright */}
     <Copyright {data} />
     {/* Article recommend */}
-    <ArticleBottom collections={posts} {id} class='mt-3 sm:mt-6' />
+    {!data.series && <ArticleBottom collections={posts} {id} class='mt-3 sm:mt-6' />}
     {/* Comment */ !isDraft && enableComment && <Comment class='mt-3 sm:mt-6' />}
   </Fragment>
 

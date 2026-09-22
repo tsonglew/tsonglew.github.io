@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "mdn-web",
+      "title": "MDN Web 入门",
+      "url": "https://developer.mozilla.org/zh-CN/docs/Learn_web_development",
+      "description": "从浏览器、HTML 和 CSS 开始，建立 Web 开发的基础知识。",
+      "tags": ["HTML"],
+      "status": "unread"
+    },
+    {
+      "id": "thinking-react",
+      "title": "用 React 思考",
+      "url": "https://react.dev/learn/thinking-in-react",
+      "description": "从一张界面草图出发，学习拆分组件并找出页面真正需要的状态。",
+      "tags": ["React"],
+      "status": "reading"
+    },
+    {
+      "id": "typescript",
+      "title": "TypeScript 手册",
+      "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+      "description": "理解类型如何描述 JavaScript 数据，以及类型检查能帮助我们发现哪些问题。",
+      "tags": ["TypeScript"],
+      "status": "archived"
+    }
+  ],
+  "total": 3
+}
