@@ -10,6 +10,7 @@ FILES = (
     "README.md",
     "index.html",
     "prompts.md",
+    "workbook.md",
     "resources.json",
     "lab/index.html",
     "lab/lab.js",

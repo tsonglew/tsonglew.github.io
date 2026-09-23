@@ -1,15 +1,17 @@
 ---
-title: '后端转全平台 01｜把需求写成 AI 能交付的前端任务'
+title: '后端转全平台 03｜把需求写成 AI 能交付的前端任务'
 description: '用慢读资料库练习 AI 辅助前端开发。把业务需求、设计约束、异常状态和验收证据写进 prompt，再根据真实页面与复现步骤推动修改。'
 publishDate: 2026-09-23
 tags: [后端转全平台, 前端, 教程, AI 编程]
 series: backend-to-platform
-seriesOrder: 1
+seriesOrder: 3
 ---
 
 让 AI 生成一屏收藏列表，几句话就能开始。难的是随后判断这屏东西能不能交付。标题变长有没有被截掉，加载失败能否重试，手机上能不能找到搜索框，程序说「已完成」时究竟运行了哪些检查。
 
 这节课要交付一份可执行的前端任务说明，以及一次有证据的验收记录。你需要会读接口数据，能在本地启动项目，并有一个可以读取和修改代码的 AI 编程工具。HTML 与 CSS 的具体写法可以让工具实现，业务规则、约束和验收结论需要有人负责。
+
+带上[第一课的工程地图](/blog/backend-to-platform-project)与[第二课的视觉约束](/blog/backend-to-platform-interface)。这次委托把它们变成可运行的交互原型，沿用同一份[交付工作簿](/tutorials/backend-to-platform/workbook.md)记录修改范围和验收结果。
 
 先打开[慢读界面基线](/tutorials/backend-to-platform/03-css/index.html)，看一眼[三条示例数据](/tutorials/backend-to-platform/resources.json)。[下载包](/tutorials/backend-to-platform/source.zip)里保留了这些材料，[提示词模板](/tutorials/backend-to-platform/prompts.md)可另存到自己的项目。基线页面目前只有静态内容和原生表单，尚未实现动态搜索、登录和持久保存。本课会指导你委托 AI 生成自己的练习版本，不能把基线当作已经完成这些功能的应用。
 
@@ -105,6 +107,9 @@ python3 -m http.server 8080 --bind 127.0.0.1
 
 先读材料
 读取 README.md、resources.json、03-css/index.html 和 03-css/styles.css。
+读取 workbook.md 中前两课填写的工程事实、视觉约束与未确认项。
+如果已经完成第二课，读取 ui-review/index.html、ui-review/styles.css 和工作簿记录的截图。
+界面副本放在其他位置时，先按工作簿中的真实路径查找；未做界面练习则注明，沿用静态基线。
 resources.json 是唯一的示例数据来源，保留其中三条记录的标题、链接和状态。
 静态基线用于对照视觉与内容，它目前没有动态搜索。
 文件不存在时报告具体路径；不要把缺失的文件或接口描述成已经读过。
@@ -114,6 +119,7 @@ resources.json 是唯一的示例数据来源，保留其中三条记录的标�
 使用浏览器原生 HTML、CSS 和 JavaScript，不为这一页引入框架和远程依赖。
 用当前目录的本地 HTTP 服务运行，页面地址为 /prototype/index.html。
 不要覆盖 02-html 和 03-css 基线，也不要更改其他目录。
+将已确认的视觉规则应用到 prototype，不覆盖 ui-review 中的对照产物。
 
 数据与行为
 通过相对路径读取 ../resources.json，检查 items 是数组且必需字段有效。
@@ -199,5 +205,7 @@ AI 可以执行这些检查，也可以协助你审查自己的代码。你需�
 ## 本课要留下的东西
 
 保存你的最终任务 prompt、可以运行的原型，以及一份简短的验收记录。记录里至少有一个异常状态和一次窄屏检查，未完成的检查写明原因。
+
+把原型地址、数据来源、完整 prompt 和检查记录填入工作簿的第三课。下一课根据这份原型讨论正式应用的架构，尚未存在的 API 继续标成待确认。
 
 最后更改一个原先没覆盖的条件。可以把资料标题加长，也可以返回不合法的 `tags`。让 AI 解释页面实际发生了什么，要求它补一个针对该问题的修复和验证。你能根据材料判断这次修改是否成立，就已经完成了本课最有价值的练习。

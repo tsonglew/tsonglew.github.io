@@ -1,15 +1,17 @@
 ---
-title: '后端转全平台 03｜AI 写的页面出错了，怎样定位和验收'
+title: '后端转全平台 05｜AI 写的页面出错了，怎样定位和验收'
 description: '用慢读的请求竞态实验学习证据驱动的前端诊断。定位网络、数据、状态与样式问题，处理鉴权和重复提交，再用可复制提示词与验收矩阵约束 AI 修复。'
 publishDate: 2026-09-23
 tags: [后端转全平台, 前端, AI辅助开发]
 series: backend-to-platform
-seriesOrder: 3
+seriesOrder: 5
 ---
 
 当前关键词已经变成 React，结果却显示 HTML。把页面交给 AI，补一句“搜索有问题，修一下”，它可能改请求，也可能改筛选条件。改动能跑起来，我们还得知道它修复了哪一个原因。
 
 这一讲用慢读的[故障实验页](/tutorials/backend-to-platform/lab/index.html)制造一个可重复的问题，再练习怎样把证据交给 AI。开始前只需要浏览器开发者工具，代码语法讲到能判断修复是否有效为止。请求和浏览器行为已按 Chrome、MDN 与 React 官方文档核对。
+
+带着第一课的事件路径和第四课的状态归属来排查。先在实验室建立复现记录，再检查第三课原型中的加载、空结果与错误恢复。当前原型采用本地筛选，除非你增加异步搜索，不应声称它已经出现了实验室的请求竞态。
 
 [静态 HTML](/tutorials/backend-to-platform/02-html/index.html)和[静态 CSS 页面](/tutorials/backend-to-platform/03-css/index.html)继续作为语义、布局验收基线。实验源码包含在[下载包](/tutorials/backend-to-platform/source.zip)里，本文的诊断模板也整理在[提示词文件](/tutorials/backend-to-platform/prompts.md)中。
 
@@ -162,3 +164,5 @@ CORS 错误则要核对请求的来源、预检结果、服务端允许的来源
 | 重复提交           | 双击、同一操作重试                     | UI 反馈明确，服务器无重复副作用        | 接收藏 API 后补测 |
 
 桌面设备模式能快速检查窄屏，最后仍要用真实手机看字体、触控和软键盘。把矩阵中的每项标为通过、失败或未执行，附上必要证据。下一次让 AI 改界面时，直接把这份记录交给它，要求重跑受影响的场景。
+
+将故障模式与修复模式的日志分别填入[工作簿的第五课](/tutorials/backend-to-platform/workbook.md)，并记录一个你在自己原型中实际检查的场景。功能结果稳定后，下一课再比较同一操作的性能。
