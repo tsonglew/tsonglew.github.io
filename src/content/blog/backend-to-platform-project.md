@@ -66,7 +66,7 @@ python3 -m http.server 8080 --bind 127.0.0.1
 打开 `lab/index.html`，找到 `id="run-race"` 的按钮，再到 `lab/lab.js` 搜索 `run-race`。不用从文件第一行逐句解释，先沿着这次操作读。
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"primaryColor":"#e7eee9","primaryTextColor":"#19352a","primaryBorderColor":"#6d8879","lineColor":"#7a9186","fontFamily":"Arial, sans-serif"}}}%%
+%%{init: {"theme":"base","fontFamily":"Arial","themeVariables":{"primaryColor":"#e7eee9","primaryTextColor":"#19352a","primaryBorderColor":"#6d8879","lineColor":"#7a9186"}}}%%
 flowchart TD
   A[lab/index.html 的按钮] --> B[lab.js 的 click 处理函数]
   B --> C[simulateSearch 与定时器模拟响应]
