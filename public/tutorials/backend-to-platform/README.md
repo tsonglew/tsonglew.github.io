@@ -1,57 +1,84 @@
-# 慢读 · 前三课配套示例
+# 慢读 · AI 辅助前端开发实战工具箱
 
-这是《后端程序员的全平台开发课》的第一组可运行代码。只包含 HTML、CSS 和固定 JSON 数据，不需要安装 npm 依赖。
+用提示词、架构约束和可复现证据，检查 AI 生成的前端是否真的可用。示例使用原生 HTML、CSS、JavaScript，不需要 npm 依赖，也不会调用 AI 服务。
 
 - [阅读课程总目录](https://tsonglew.github.io/blog/backend-to-platform)
-- [第 1 课：API 已经写好了，一个可用的前端还缺什么](https://tsonglew.github.io/blog/backend-to-platform-01-browser)
-- [第 2 课：从 JSON 到页面](https://tsonglew.github.io/blog/backend-to-platform-02-html)
-- [第 3 课：把页面排好](https://tsonglew.github.io/blog/backend-to-platform-03-css)
+- [打开完整提示词](./prompts.md)，包含需求开发、架构 ADR、证据排错和性能优化。
+- [打开实验室](./lab/index.html)，复现搜索竞态，比较同步与分批计算。
 
-## 运行
+## 本地运行
 
-安装 Python 3 后，在解压得到的示例目录中运行。
+安装 Python 3 后，在解压得到的 `backend-to-platform` 目录中运行。
 
 ```sh
 python3 -m http.server 8080 --bind 127.0.0.1
 ```
 
-打开 `http://127.0.0.1:8080/` 查看示例目录，或直接打开下面的地址。
+打开 `http://127.0.0.1:8080/` 查看工具箱。其余入口如下。
 
-- `http://127.0.0.1:8080/02-html/index.html`，只使用 HTML 的页面。
-- `http://127.0.0.1:8080/03-css/index.html`，在同一份 HTML 上加入 CSS 的页面。
-- `http://127.0.0.1:8080/resources.json`，三条固定资料的原始数据。
+- `http://127.0.0.1:8080/lab/index.html`，交互实验。
+- `http://127.0.0.1:8080/prompts.md`，完整提示词。
+- `http://127.0.0.1:8080/02-html/index.html`，语义验收基线。
+- `http://127.0.0.1:8080/03-css/index.html`，响应式验收基线。
+- `http://127.0.0.1:8080/resources.json`，三条固定资料。
 
-终端按 `Ctrl+C` 停止服务器。直接双击 HTML 文件也可以阅读和查看布局，但表单与网络面板练习请使用上面的 HTTP 服务。
+按 `Ctrl+C` 停止服务器。实验室不发网络请求，直接双击 `lab/index.html` 也可离线运行。原生表单与网络面板练习请使用 HTTP 服务。页面链接明确写出 `index.html`，兼容博客开发服务器的路径规则。
 
-## 文件
+## 实验一，搜索请求竞态
 
-```text
-index.html            示例目录
-resources.json        固定数据，items + total
-02-html/index.html    语义化 HTML
-03-css/index.html     同一份 HTML，仅增加样式表链接
-03-css/styles.css     盒模型、布局、响应式与键盘焦点样式
-README.md             运行与练习说明
-```
+1. 选择“故障模式”，点击“一键复现竞态”。
+2. 页面先发 #1 HTML，80 ms 后发 #2 React。用本地 `setTimeout` 模拟响应，计划延迟分别为 900 ms、200 ms，没有真实 API。
+3. 两次响应结束后，观察当前关键词为 React，结果来源却变成 #1 HTML。时间线显示旧响应如何覆盖新结果。
+4. 切换“修复模式”再运行。结果保留 #2 React，时间线显示 #1 被丢弃。
+5. 把复现步骤、预期、实际和完整时间线填进 `prompts.md` 的“03 证据排错 prompt”。
 
-两版 HTML 的差异只有 `<link rel="stylesheet" href="./styles.css">`。你可以在终端检查它。
+修复只在 `requestId === latestRequestId` 时采用结果，不取消旧请求。实际日志时间由 `performance.now()` 测得；计划延迟不保证精确执行。请保持页面在前台，避免同时运行性能实验，以便观察这个隔离场景。
+
+## 实验二，主线程阻塞与分批处理
+
+1. 保持默认“标准 · 800 万项”，点击“运行同步计算”。设备较慢时可先选择“轻量 · 200 万项”。
+2. 点击“运行分批计算”，保持相同计算量。两种模式访问相同整数序列，执行相同校验和函数。
+3. 查看实测总耗时、最长工作片段、运行期心跳和校验和。两种模式都运行后，页面检查校验和是否一致。
+4. 运行期间尝试“点我计数”，观察 80 ms 心跳。同步计算会阻塞主线程；分批每约 8 ms 通过 `setTimeout(resolve, 0)` 让出执行机会。
+5. 用 DevTools Performance 录制定位 `computeRange`，把真实证据填进“04 性能优化 prompt”。
+
+总耗时由 `performance.now()` 实测，包含分批等待，不含运行前留给绘制的等待。最长工作片段是计算代码连续执行的区间，单个片段可能超出目标预算。心跳是定时器回调计数，不是帧率。
+
+分批仍在主线程执行，可能增加总耗时。结果依赖设备、后台负载、浏览器调度和预热情况。这些数字不是 INP，也不能代替真实用户的 Core Web Vitals。改变计算量会清除两种模式的结果，避免拿不同输入直接比较。
+
+## 原有页面作为验收基线
+
+`02-html/index.html` 和 `03-css/index.html` 保持原 URL。两版 HTML 的差异只有 `<link rel="stylesheet" href="./styles.css">`，用于检查 AI 修改后是否丢失语义、阅读顺序与原生行为。
 
 ```sh
 diff -u 02-html/index.html 03-css/index.html
 ```
 
-## 数据和交互范围
+这两个页面没有 JavaScript。三条资料手工写在 HTML 中，对应 `resources.json`，不会自动请求或加载 JSON，也没有登录、添加收藏或修改阅读状态的功能。
 
-三条记录是 `resources.json` 的手工投影，直接写在 HTML 中。页面没有 JavaScript，不会发请求读取 JSON，也没有登录、添加收藏或修改阅读状态的功能。
+原搜索框是 GET 表单，`action="./index.html"` 指向当前目录中的 HTML 文件。提交后 URL 例如 `/03-css/index.html?q=HTML`，静态服务仍返回同一份 HTML，**不会筛选资料**。`required` 在空输入时触发浏览器内置校验。未读、阅读中、已归档对应 JSON 中的 `unread`、`reading`、`archived`。
 
-搜索框是一个真实的原生 GET 表单，`action="./index.html"` 指向当前目录中的 HTML 文件。输入关键词并提交后，浏览器把字段 `q` 加到 URL 上，例如 `/03-css/index.html?q=HTML`，再重新请求页面。静态服务器仍然返回同一份 HTML，所以三条资料都会保留。输入框带有 `required`，留空提交时会触发浏览器内置校验。
+可交给 AI 执行的基线检查如下。
 
-阅读状态用文字显示，分别为未读、阅读中、已归档。JSON 值分别是 `unread`、`reading`、`archived`。
+- 用 `Tab` 访问链接、搜索框和按钮，确认焦点可见、顺序合理。
+- 在 1280、768、390、320 px 检查布局，窄屏单列、页面不横向溢出。
+- 加长标题、增加标签，确认内容可以换行。
+- 禁用 CSS，确认标题、链接、表单和阅读顺序仍然成立。
+- 核对代码与声明的能力，不把占位页面误认为搜索功能已经完成。
 
-## 自己动手验收
+## 文件与复核
 
-1. 打开 `02-html/index.html`，不用鼠标，按 `Tab` 找到资料链接、搜索框和提交按钮。
-2. 在搜索框输入 `HTML` 并提交，观察地址栏中的 `?q=HTML`。确认列表没有筛选，区分表单提交与搜索功能。
-3. 打开 `03-css/index.html`，在浏览器开发者工具中把宽度依次改成 1280、768、390 和 320 像素。桌面是侧栏与资料区两列，窄屏按顺序变为一列，页面不应横向溢出。
-4. 把一条资料标题换成长文本，把标签数量增加到五个，确认卡片可以变高和换行。
-5. 在开发者工具中禁用 `styles.css`，观察内容、链接、表单和阅读顺序仍然存在。
+```text
+index.html            AI 实战工具箱入口
+prompts.md            四套完整提示词
+resources.json        固定数据，items + total
+lab/index.html        竞态与主线程实验界面
+lab/lab.js            实验逻辑与校验和计算
+lab/styles.css        实验室样式
+02-html/index.html    语义验收基线
+03-css/index.html     响应式验收基线
+03-css/styles.css     基线样式及工具箱共享样式
+README.md             运行与验收说明
+```
+
+在博客仓库中执行 `npm run tutorial:package` 重新生成 `source.zip`。脚本固定文件顺序、时间戳和权限，相同源文件会得到相同压缩包。修改应落在源文件中，然后重新打包。

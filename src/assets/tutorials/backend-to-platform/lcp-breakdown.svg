@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="910" viewBox="0 0 800 910" role="img" aria-labelledby="title desc" data-generator="fireworks-tech-graph" data-quality-profile="showcase">
+<title id="title">图片型 LCP 的四段等待</title><desc id="desc">按发生顺序拆解，图中高度不代表实际耗时。</desc>
+<style>text {font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;}</style>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="#2563eb"/></marker></defs>
+<rect width="800" height="910" fill="#ffffff" data-graph-role="background"/>
+
+<text x="48" y="58" font-size="34" fill="#111827" font-weight="600">图片型 LCP 的四段等待</text>
+<text x="48" y="99" font-size="22" fill="#6b7280" font-weight="400">按发生顺序拆解，图中高度不代表实际耗时。</text>
+<rect x="48" y="140" width="704" height="120" rx="8" fill="#eff6ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n0"/>
+<text x="72" y="180" font-size="28" fill="#111827" font-weight="600">01 TTFB</text>
+<text x="72" y="216" font-size="23" fill="#4b5563" font-weight="400">导航开始 至 HTML 首字节</text>
+<text x="72" y="246" font-size="23" fill="#4b5563" font-weight="400">查连接、重定向、缓存与服务端响应。</text>
+<path d="M400 260 V310" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n0" data-target="n1"/>
+<rect x="48" y="310" width="704" height="120" rx="8" fill="#f0fdf4" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n1"/>
+<text x="72" y="350" font-size="28" fill="#111827" font-weight="600">02 资源加载延迟</text>
+<text x="72" y="386" font-size="23" fill="#4b5563" font-weight="400">HTML 首字节 至 LCP 图片开始请求</text>
+<text x="72" y="416" font-size="23" fill="#4b5563" font-weight="400">查图片是否发现得太晚，是否被脚本延后。</text>
+<path d="M400 430 V480" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n1" data-target="n2"/>
+<rect x="48" y="480" width="704" height="120" rx="8" fill="#eff6ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n2"/>
+<text x="72" y="520" font-size="28" fill="#111827" font-weight="600">03 资源加载时长</text>
+<text x="72" y="556" font-size="23" fill="#4b5563" font-weight="400">LCP 图片开始请求 至 图片加载完成</text>
+<text x="72" y="586" font-size="23" fill="#4b5563" font-weight="400">查图片尺寸、编码、缓存和传输。</text>
+<path d="M400 600 V650" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n2" data-target="n3"/>
+<rect x="48" y="650" width="704" height="120" rx="8" fill="#f0fdf4" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n3"/>
+<text x="72" y="690" font-size="28" fill="#111827" font-weight="600">04 元素渲染延迟</text>
+<text x="72" y="726" font-size="23" fill="#4b5563" font-weight="400">图片加载完成 至 LCP 元素显示</text>
+<text x="72" y="756" font-size="23" fill="#4b5563" font-weight="400">查主线程、样式和可见性是否阻挡绘制。</text>
+<text x="48" y="826" font-size="23" fill="#4b5563" font-weight="400">文字型 LCP 可能没有独立的 LCP 资源请求。</text>
+<text x="48" y="864" font-size="23" fill="#4b5563" font-weight="400">优化记录中最长且可改善的一段，再复测整体 LCP。</text>
+</svg>

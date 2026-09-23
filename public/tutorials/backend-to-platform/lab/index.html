@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="用可复现的搜索竞态与主线程计算实验，练习给 AI 提供证据并验收修复。所有实验在浏览器本地运行。"
+    />
+    <title>慢读实验室 · 用证据验收 AI</title>
+    <link rel="stylesheet" href="../03-css/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./lab.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#race">跳到竞态实验</a>
+    <header class="site-header">
+      <a class="brand" href="../index.html"
+        ><span class="brand-mark" aria-hidden="true">阅</span
+        ><span>慢读 <span class="brand-en" lang="en">THE WEB LAB</span></span></a
+      >
+      <nav class="header-nav" aria-label="教程导航">
+        <a href="../index.html">AI 实战工具箱</a>
+        <a href="../prompts.md" download>下载提示词</a>
+        <a href="https://tsonglew.github.io/blog/backend-to-platform">课程总目录</a>
+      </nav>
+    </header>
+
+    <main class="lab-main">
+      <div class="lab-intro">
+        <p class="eyebrow" lang="en">REPRODUCE · OBSERVE · VERIFY</p>
+        <h1>先复现，再让 AI 修。</h1>
+        <p>
+          两个小实验，把“感觉有问题”变成可检查的证据。代码在本地运行，无真实 API、无依赖，也不会调用
+          AI 服务。
+        </p>
+        <nav class="experiment-nav" aria-label="实验导航">
+          <a href="#race">01 搜索请求竞态</a><a href="#performance">02 主线程与让出执行</a>
+        </nav>
+      </div>
+      <noscript
+        ><p class="notice">
+          这两个实验需要 JavaScript。请启用脚本后刷新；原有 HTML 与 CSS 验收基线不需要 JavaScript。
+        </p></noscript
+      >
+
+      <section id="race" class="experiment" aria-labelledby="race-heading">
+        <div class="experiment-heading">
+          <p class="eyebrow" lang="en">EXPERIMENT 01</p>
+          <h2 id="race-heading">输入没错，结果怎么倒退了？</h2>
+        </div>
+        <p>
+          一次点击先搜索 <code>HTML</code>，80 ms 后再搜索 <code>React</code>。前者计划等 900
+          ms，后者计划等 200 ms。这里用
+          <code>setTimeout</code> 模拟响应；日志显示实际经过时间，调度可能延后。
+        </p>
+        <fieldset id="race-modes" class="mode-picker">
+          <legend>结果更新策略</legend>
+          <label
+            ><input type="radio" name="race-mode" value="broken" checked /> 故障模式
+            <span>响应完成就覆盖页面</span></label
+          >
+          <label
+            ><input type="radio" name="race-mode" value="fixed" /> 修复模式
+            <span>只采用最新请求的响应</span></label
+          >
+        </fieldset>
+        <button id="run-race" type="button" disabled>一键复现竞态</button>
+        <p id="race-status" class="experiment-status" role="status">等待脚本初始化。</p>
+
+        <div class="race-evidence">
+          <div class="evidence-panel">
+            <h3>页面实际显示</h3>
+            <dl class="evidence-values">
+              <div>
+                <dt>当前关键词</dt>
+                <dd id="current-query">尚未搜索</dd>
+              </div>
+              <div>
+                <dt>最新请求编号</dt>
+                <dd id="latest-request">—</dd>
+              </div>
+              <div>
+                <dt>结果来源</dt>
+                <dd id="result-source">尚无结果</dd>
+              </div>
+            </dl>
+            <div class="result-preview">
+              <p class="eyebrow">结果标题</p>
+              <p id="result-title">等待实验开始</p>
+            </div>
+          </div>
+          <div class="evidence-panel">
+            <h3>请求时间线</h3>
+            <ol id="race-log" class="event-log" aria-label="请求与响应证据">
+              <li>运行实验后，这里会记录请求编号、关键词和处理决定。</li>
+            </ol>
+          </div>
+        </div>
+        <details class="explanation">
+          <summary>要怎样证明修复有效？</summary>
+          <p>
+            故障模式结束后，当前关键词仍是 React，结果来源却是 #1
+            HTML。切换到修复模式再跑一次，结果应保留 #2 React，日志里能看到 #1
+            被丢弃。修复没有让旧请求消失，只阻止旧响应更新页面。
+          </p>
+          <p>
+            代码中的判断是
+            <code>requestId === latestRequestId</code
+            >。真实项目还需要检查取消请求、卸载、错误和缓存等行为；这个实验只隔离“后发先到”这一条因果链。
+          </p>
+        </details>
+      </section>
+
+      <section id="performance" class="experiment" aria-labelledby="performance-heading">
+        <div class="experiment-heading">
+          <p class="eyebrow" lang="en">EXPERIMENT 02</p>
+          <h2 id="performance-heading">算得一样，页面还能响应吗？</h2>
+        </div>
+        <p>
+          两种模式对同一串连续整数执行相同的 32 位校验和计算。同步模式一次做完；分批模式每计算约 8
+          ms，就通过
+          <code>setTimeout(resolve, 0)</code> 让出主线程，再继续剩余工作。它仍然在主线程运行。
+        </p>
+        <div class="performance-controls">
+          <label for="workload"
+            >计算量<select id="workload">
+              <option value="2000000">轻量 · 200 万项</option>
+              <option value="8000000" selected>标准 · 800 万项</option>
+              <option value="16000000">较大 · 1600 万项</option>
+            </select></label
+          >
+          <div class="run-buttons">
+            <button id="run-sync" type="button" disabled>运行同步计算</button
+            ><button id="run-chunked" type="button" disabled>运行分批计算</button>
+          </div>
+        </div>
+        <div class="responsiveness-probe">
+          <div>
+            <span class="heartbeat-dot" aria-hidden="true"></span><span>80 ms 心跳</span>
+            <strong id="heartbeat-count">0</strong><small>这是定时器回调计数，不是帧率。</small>
+          </div>
+          <div>
+            <button id="interaction-probe" class="secondary-button" type="button" disabled>
+              点我计数
+            </button>
+            <output id="interaction-count" for="interaction-probe" aria-live="polite">0 次</output>
+          </div>
+        </div>
+        <p id="performance-status" class="experiment-status" role="status">等待脚本初始化。</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="计算实测结果，可横向滚动">
+          <table class="measurement-table">
+            <caption>
+              本页实际运行结果，所有时间单位为 ms
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">模式</th>
+                <th scope="col">总耗时</th>
+                <th scope="col">最长工作片段</th>
+                <th scope="col">运行期心跳</th>
+                <th scope="col">校验和</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="sync-result">
+                <th scope="row">同步</th>
+                <td colspan="4">尚未运行</td>
+              </tr>
+              <tr id="chunked-result">
+                <th scope="row">分批</th>
+                <td colspan="4">尚未运行</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="checksum-status" class="checksum-status" role="status">
+          两种模式都运行后，检查校验和是否一致。
+        </p>
+        <p class="measurement-note">
+          总耗时由
+          <code>performance.now()</code>
+          实测，包含分批等待时间，不含启动前留给页面绘制的等待。最长工作片段只测计算函数的执行区间。心跳计数还受浏览器调度影响；请保持标签页在前台，在同一计算量下比较。结果依赖设备、系统负载与预热情况，分批不一定更快。这些值不是
+          INP，也不是 Core Web Vitals。
+        </p>
+        <details class="explanation">
+          <summary>怎样收集能交给 AI 的性能证据？</summary>
+          <p>
+            固定计算量，分别运行两种模式，记录设备、浏览器、是否启用 CPU 限速和两次实测结果。打开
+            DevTools 的 Performance
+            面板录制，再用调用栈定位计算函数。把现象、录制证据和预期写进提示词，要求 AI
+            先解释瓶颈，再做最小改动。
+          </p>
+          <p>
+            心跳在同步计算期间无法执行。分批处理给定时器和用户输入提供了执行机会，但单个片段仍可能超过目标预算，尤其在慢设备上。比较总耗时、响应性和校验和，不能只挑一个看起来更漂亮的数字。
+          </p>
+        </details>
+      </section>
+      <p class="lab-closing">
+        把证据带回代码审查。<a href="../prompts.md">打开完整提示词模板</a>，或查看
+        <a href="./lab.js">实验脚本</a>。
+      </p>
+    </main>
+    <footer class="site-footer">
+      <p>慢读 · AI 辅助前端开发实战</p>
+      <a href="../index.html">返回工具箱</a>
+    </footer>
+  </body>
+</html>

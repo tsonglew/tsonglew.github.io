@@ -9,7 +9,11 @@ EXAMPLES = ROOT / "public" / "tutorials" / "backend-to-platform"
 FILES = (
     "README.md",
     "index.html",
+    "prompts.md",
     "resources.json",
+    "lab/index.html",
+    "lab/lab.js",
+    "lab/styles.css",
     "02-html/index.html",
     "03-css/index.html",
     "03-css/styles.css",

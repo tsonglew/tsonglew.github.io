@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="880" viewBox="0 0 800 880" role="img" aria-labelledby="title desc" data-generator="fireworks-tech-graph" data-quality-profile="showcase">
+<title id="title">把 AI 编程变成可检查的交付</title><desc id="desc">实现可以委托，目标、边界与证据要明确。</desc>
+<style>text {font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;}</style>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="#2563eb"/></marker></defs>
+<rect width="800" height="880" fill="#ffffff" data-graph-role="background"/>
+
+<text x="48" y="58" font-size="34" fill="#111827" font-weight="600">把 AI 编程变成可检查的交付</text>
+<text x="48" y="99" font-size="22" fill="#6b7280" font-weight="400">实现可以委托，目标、边界与证据要明确。</text>
+<rect x="48" y="140" width="704" height="120" rx="8" fill="#eff6ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n0"/>
+<text x="72" y="180" font-size="28" fill="#111827" font-weight="600">01  约定任务</text>
+<text x="72" y="216" font-size="23" fill="#4b5563" font-weight="400">你提供用户目标、数据样例、约束与验收动作。</text>
+<text x="72" y="246" font-size="23" fill="#4b5563" font-weight="400">产物  ·  一份有边界的任务说明</text>
+<path d="M400 260 V310" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n0" data-target="n1"/>
+<rect x="48" y="310" width="704" height="120" rx="8" fill="#f0fdf4" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n1"/>
+<text x="72" y="350" font-size="28" fill="#111827" font-weight="600">02  生成与实现</text>
+<text x="72" y="386" font-size="23" fill="#4b5563" font-weight="400">AI 读取项目、提出方案、修改代码并运行检查。</text>
+<text x="72" y="416" font-size="23" fill="#4b5563" font-weight="400">产物  ·  改动和实际执行记录</text>
+<path d="M400 430 V480" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n1" data-target="n2"/>
+<rect x="48" y="480" width="704" height="120" rx="8" fill="#eff6ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n2"/>
+<text x="72" y="520" font-size="28" fill="#111827" font-weight="600">03  检查证据</text>
+<text x="72" y="556" font-size="23" fill="#4b5563" font-weight="400">一起重放窄屏、键盘、失败、乱序和性能场景。</text>
+<text x="72" y="586" font-size="23" fill="#4b5563" font-weight="400">产物  ·  可复现的偏差与前后对比</text>
+<path d="M400 600 V650" stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#arrow)" data-graph-role="edge" data-source="n2" data-target="n3"/>
+<rect x="48" y="650" width="704" height="120" rx="8" fill="#f0fdf4" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n3"/>
+<text x="72" y="690" font-size="28" fill="#111827" font-weight="600">04  决定交付</text>
+<text x="72" y="726" font-size="23" fill="#4b5563" font-weight="400">你评估结果与取舍，保留回退方法后发布。</text>
+<text x="72" y="756" font-size="23" fill="#4b5563" font-weight="400">产物  ·  交付判断与仍待验证的事项</text>
+<text x="48" y="827" font-size="23" fill="#4b5563" font-weight="400">发现偏差后，把复现步骤和证据带入下一轮任务。</text>
+</svg>

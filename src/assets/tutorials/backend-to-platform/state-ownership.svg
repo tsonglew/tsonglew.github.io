@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="870" viewBox="0 0 800 870" role="img" aria-labelledby="title desc" data-generator="fireworks-tech-graph" data-quality-profile="showcase">
+<title id="title">慢读的状态由谁拥有</title><desc id="desc">先确定权威来源，再让 AI 选择实现工具。</desc>
+<style>text {font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;}</style>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="#2563eb"/></marker></defs>
+<rect width="800" height="870" fill="#ffffff" data-graph-role="background"/>
+
+<text x="48" y="58" font-size="34" fill="#111827" font-weight="600">慢读的状态由谁拥有</text>
+<text x="48" y="99" font-size="22" fill="#6b7280" font-weight="400">先确定权威来源，再让 AI 选择实现工具。</text>
+<rect x="48" y="140" width="704" height="120" rx="8" fill="#eff6ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n0"/>
+<text x="72" y="180" font-size="28" fill="#111827" font-weight="600">URL  ·  可分享的浏览条件</text>
+<text x="72" y="216" font-size="23" fill="#4b5563" font-weight="400">关键词、标签、页码进入 URL。</text>
+<text x="72" y="246" font-size="23" fill="#4b5563" font-weight="400">刷新和返回时，应能恢复同一组筛选。</text>
+<rect x="48" y="310" width="704" height="120" rx="8" fill="#f0fdf4" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n1"/>
+<text x="72" y="350" font-size="28" fill="#111827" font-weight="600">服务端数据  ·  远端事实的本地副本</text>
+<text x="72" y="386" font-size="23" fill="#4b5563" font-weight="400">资料列表、保存结果、权限由服务端确认。</text>
+<text x="72" y="416" font-size="23" fill="#4b5563" font-weight="400">客户端缓存需要定义何时过期、何时更新。</text>
+<rect x="48" y="480" width="704" height="120" rx="8" fill="#faf5ff" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n2"/>
+<text x="72" y="520" font-size="28" fill="#111827" font-weight="600">本地草稿  ·  尚未提交的编辑</text>
+<text x="72" y="556" font-size="23" fill="#4b5563" font-weight="400">输入中的标题、正文、校验提示由编辑区持有。</text>
+<text x="72" y="586" font-size="23" fill="#4b5563" font-weight="400">保存失败保留草稿，避免被远端刷新覆盖。</text>
+<rect x="48" y="650" width="704" height="120" rx="8" fill="#fff7ed" stroke="#d1d5db" stroke-width="1.5" data-graph-role="node" data-node-id="n3"/>
+<text x="72" y="690" font-size="28" fill="#111827" font-weight="600">临时交互  ·  当前界面的行为</text>
+<text x="72" y="726" font-size="23" fill="#4b5563" font-weight="400">弹窗是否打开、当前焦点、展开项留在界面。</text>
+<text x="72" y="756" font-size="23" fill="#4b5563" font-weight="400">能从已有数据算出的值，通常直接派生。</text>
+<text x="48" y="827" font-size="23" fill="#4b5563" font-weight="400">每份状态保留清晰来源，避免多个副本彼此同步。</text>
+</svg>
