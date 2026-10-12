@@ -225,6 +225,54 @@
     filterResources()
   }))
   resourceInput?.addEventListener('input', filterResources)
+  const videoFilters = document.querySelector('#video-filters')
+  if (videoFilters) {
+    const chapter = document.querySelector('#video-chapter')
+    const platform = document.querySelector('#video-platform')
+    const relation = document.querySelector('#video-relation')
+    const query = document.querySelector('#video-search')
+    const initialChapter = new URLSearchParams(location.search).get('chapter')
+    if (initialChapter && [...chapter.options].some((option) => option.value === initialChapter)) chapter.value = initialChapter
+    function filterVideos() {
+      const words = query.value.trim().toLowerCase().split(/\s+/).filter(Boolean)
+      let count = 0
+      document.querySelectorAll('.video-card').forEach((card) => {
+        card.hidden = !(chapter.value === 'all' || card.dataset.chapters.split(' ').includes(chapter.value))
+          || !(platform.value === 'all' || card.dataset.platform === platform.value)
+          || !(relation.value === 'all' || card.dataset.relation === relation.value)
+          || !words.every((word) => card.dataset.filterText.toLowerCase().includes(word))
+        if (!card.hidden) count++
+      })
+      document.querySelector('#video-count').textContent = `${count} 份视频`
+      document.querySelector('#video-empty').hidden = count !== 0
+    }
+    videoFilters.addEventListener('submit', (event) => event.preventDefault())
+    videoFilters.addEventListener('input', filterVideos)
+    videoFilters.addEventListener('change', filterVideos)
+    function resetVideoFilters() {
+      chapter.value = platform.value = relation.value = 'all'
+      query.value = ''
+      filterVideos()
+    }
+    function revealVideoTarget(hash = location.hash) {
+      let id
+      try { id = decodeURIComponent(hash.slice(1)) } catch { return }
+      const target = document.getElementById(id)
+      if (!target?.classList.contains('video-card')) return
+      if (target.hidden) resetVideoFilters()
+      target.scrollIntoView({ block: 'start' })
+    }
+    videoFilters.addEventListener('reset', resetVideoFilters)
+    window.addEventListener('hashchange', () => revealVideoTarget())
+    results.addEventListener('click', (event) => {
+      const anchor = event.target.closest('a')
+      if (!anchor) return
+      const target = new URL(anchor.href, location.href)
+      if (target.origin === location.origin && target.pathname === location.pathname) revealVideoTarget(target.hash)
+    })
+    filterVideos()
+    revealVideoTarget()
+  }
   document.querySelector('#glossary-search')?.addEventListener('input', (event) => {
     const query = event.target.value.trim().toLowerCase()
     let count = 0

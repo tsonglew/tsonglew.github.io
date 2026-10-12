@@ -1,0 +1,393 @@
+{
+  "checkedAt": "2026-10-12",
+  "originalCourseStatus": {
+    "status": "官方 FAQ 明确说明本课程不录制课堂视频",
+    "scope": [
+      "查询 site:bilibili.com/video \"CS2680\"",
+      "查询 site:bilibili.com/video \"Modern AI Systems\"",
+      "查询 site:bilibili.com/video \"Juncheng Yang\"",
+      "查询 site:bilibili.com/video \"哈佛\" \"CS2680\"",
+      "核对 https://cs2680.com/ 官方课程表"
+    ],
+    "finding": "CS2680 官方 Policy & FAQ 的 Will lectures be recorded? 回答为 No, the lectures will not be recorded. 公开检索亦未发现可核验的原课录播入口。",
+    "whyNoOriginalVideo": "官方 FAQ 明确说明不录制课堂视频，因此选用官网推荐的外部视频，以及主题对应的其他高校公开课和作者原创讲解，逐项标明非 CS2680 原课。",
+    "limitation": "Bilibili search/type 公共搜索 API 返回 HTTP 412；原课发现情况依据公开网页索引与官网核对，不代表完整遍历 Bilibili 站内结果。推荐视频的 view API 均正常返回 code=0，并已逐项核对标题、作者、时长、简介与原创标记。未播放完整视频。",
+    "sourceUrl": "https://cs2680.com/policy",
+    "officialQuestion": "Will lectures be recorded?",
+    "officialAnswer": "No, the lectures will not be recorded."
+  },
+  "evidence": [
+    {
+      "title": "CS2680 官方课表与推荐阅读",
+      "url": "https://cs2680.com/"
+    },
+    {
+      "title": "CS2680 官方录制 FAQ 与嘉宾讲座政策",
+      "url": "https://cs2680.com/policy"
+    },
+    {
+      "title": "教师主页",
+      "url": "https://juncheng.seas.harvard.edu/"
+    }
+  ],
+  "chapterNotes": {
+    "07-cost-routing": "本次尚未找到适合作为本章主课的公开路由策略视频。下面这讲只补充推理服务侧的成本与性能取舍；任务路由、失败回退和成功任务成本仍请结合本章教程与原始资料学习。",
+    "12-full-stack": "下面的视频帮助你测量 GPU 与 kernel 性能。完成本站全栈项目时，还要把模型、工具、网络和排队耗时放在一起分析，并保持任务质量的验收标准。"
+  },
+  "items": [
+    {
+      "id": "official-how-i-use-llms",
+      "title": "How I use LLMs",
+      "url": "https://www.youtube.com/watch?v=EWvNQjAaOHw",
+      "sourceUrl": "https://cs2680.com/",
+      "author": "Andrej Karpathy（主讲及发布）",
+      "platform": "YouTube",
+      "language": "英语",
+      "relation": "recommended",
+      "chapters": [
+        "01-agent-loop",
+        "03-context"
+      ],
+      "why": "CS2680 官网 9 月 9 日课表直接推荐。用模型交互的实际示范建立使用直觉，适合入门或进入上下文管理前观看；它不是 Agent 循环的逐行实现教程。",
+      "watchFocus": "观察怎样向模型提供任务背景、资料与约束，再把一次对话和本站的多步工具循环作比较。",
+      "access": "官网推荐阅读中的外部视频。英语，中文字幕未核验。",
+      "verification": "2026-10-12：从 CS2680 官网 Readings 链接打开；YouTube oEmbed 确认标题及 Andrej Karpathy 发布者。"
+    },
+    {
+      "id": "official-software-changing",
+      "title": "Software Is Changing (Again)",
+      "url": "https://www.youtube.com/watch?v=LCEmiRjPEtQ",
+      "sourceUrl": "https://cs2680.com/",
+      "author": "Andrej Karpathy（主讲）· Y Combinator（发布）",
+      "platform": "YouTube",
+      "language": "英语",
+      "relation": "recommended",
+      "chapters": [
+        "01-agent-loop",
+        "05-multi-agent"
+      ],
+      "why": "CS2680 官网 9 月 14 日课表直接推荐。提供理解 AI 软件和自主性取舍的背景，适合在讨论分工与人工介入前观看；并非多 Agent 框架实操课。",
+      "watchFocus": "区分确定性软件与模型输出的工作方式；思考哪些步骤应自动执行、哪些应保留人工检查，再回到本章设计协作边界。",
+      "access": "官网推荐阅读中的外部演讲。英语，中文字幕未核验。",
+      "verification": "2026-10-12：从 CS2680 官网 Readings 链接打开；YouTube oEmbed 确认标题和 Y Combinator 发布频道。"
+    },
+    {
+      "id": "cmu-tool-use",
+      "url": "https://www.youtube.com/watch?v=jXChFB4JSyw",
+      "sourceUrl": "https://www.cmu-agents.com/",
+      "slidesUrl": "https://www.cmu-agents.com/slides/lecture-02-tool-use.pdf",
+      "title": "CMU AI Agents 2026: 2. Tool Use for Language Model Agents",
+      "author": "Graham Neubig（主讲及发布）；CMU 11-768",
+      "publisher": "Graham Neubig / @neubig",
+      "language": "英语",
+      "chapters": [
+        "02-tools",
+        "06-evaluation"
+      ],
+      "why": "把模型产生调用、运行时验证并执行工具的分工讲清楚，可直接对照本站的工具接口与失败分类。最后还讨论从工具选择到整项任务的评测。",
+      "watchFocus": "工具 schema 与 call ID；格式正确和任务正确的区别；有依赖的调用不能并行；选择、参数、轨迹、任务四层评测。可配合讲义第 20–28、47–55 页。",
+      "limitation": "这是 CMU 另一门课的录播。它补足工具机制，不覆盖 CS2680 的 Mads 作业、评分要求和后半程服务系统。",
+      "verification": "2026-10-12：CMU 官方网站公开 bundle 的 Lecture 2 recording 指向此 ID；YouTube oEmbed 返回同名标题与 Graham Neubig 频道；官方 60 页讲义标题页确认 Graham Neubig，后段含 Evaluating tool use。",
+      "evidenceUrls": [
+        "https://www.cmu-agents.com/",
+        "https://www.cmu-agents.com/slides/lecture-02-tool-use.pdf",
+        "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjXChFB4JSyw&format=json"
+      ],
+      "platform": "YouTube",
+      "relation": "reference",
+      "access": "这是 CMU 另一门课的录播。它补足工具机制，不覆盖 CS2680 的 Mads 作业、评分要求和后半程服务系统。"
+    },
+    {
+      "id": "langchain-context",
+      "url": "https://www.youtube.com/watch?v=4GiqzUHD5AA",
+      "sourceUrl": "https://www.langchain.com/blog/context-engineering-for-agents",
+      "title": "Context Engineering for Agents",
+      "author": "Lance Martin；LangChain",
+      "publisher": "LangChain / @LangChain",
+      "language": "英语",
+      "chapters": [
+        "03-context"
+      ],
+      "why": "用写入、选择、压缩、隔离四种操作组织上下文策略，能把本站的预算、持久记忆和子 Agent 上下文隔离串起来。",
+      "watchFocus": "每一步保留什么信息；何时把信息移到外部；摘要丢失细节的代价；用子 Agent 隔离上下文的收益和额外成本。",
+      "limitation": "这是 LangChain 的工程讲解，后半段包含 LangGraph/LangSmith 产品实现；先提取可迁移的策略，再用本站练习独立验证。",
+      "verification": "2026-10-12：LangChain 2025-07-02 官方博客明确写 see our video 并直接链接此 ID；YouTube 搜索结果及 oEmbed 均确认标题和 LangChain 频道。",
+      "evidenceUrls": [
+        "https://www.langchain.com/blog/context-engineering-for-agents",
+        "https://www.youtube.com/watch?v=4GiqzUHD5AA"
+      ],
+      "platform": "YouTube",
+      "relation": "reference",
+      "access": "这是 LangChain 的工程讲解，后半段包含 LangGraph/LangSmith 产品实现；先提取可迁移的策略，再用本站练习独立验证。"
+    },
+    {
+      "id": "cmu-memory",
+      "url": "https://www.youtube.com/watch?v=6zigF2a-2Pw",
+      "sourceUrl": "https://www.cmu-agents.com/",
+      "slidesUrl": "https://www.cmu-agents.com/slides/lecture-04-memory-and-skills.pdf",
+      "title": "CMU AI Agents 2026: 4. Memory and Skills for Agents",
+      "author": "Daniel Fried（主讲）；Graham Neubig 频道发布",
+      "publisher": "Graham Neubig / @neubig",
+      "language": "英语",
+      "chapters": [
+        "04-memory"
+      ],
+      "why": "区分历史轨迹、事实和可复用技能，讨论记忆的更新、检索和维护，贴合本站避免把错误长期保存的学习目标。",
+      "watchFocus": "记忆与技能的区别；MemGPT 的外部记忆；冲突时新增、更新、删除或不改；技能如何验证、修订和淘汰。",
+      "limitation": "该讲来自 CMU，且包含技能学习研究。它不是 CS2680 记忆课录播，也不意味着所有展示的记忆方法都适合你的任务。",
+      "verification": "2026-10-12：CMU 官方网站 Lecture 4 recording 指向此 ID；oEmbed 确认标题及 Graham Neubig 发布频道；46 页官方讲义首页明确主讲 Daniel Fried，不能把频道名误写为主讲。",
+      "evidenceUrls": [
+        "https://www.cmu-agents.com/",
+        "https://www.cmu-agents.com/slides/lecture-04-memory-and-skills.pdf"
+      ],
+      "platform": "YouTube",
+      "relation": "reference",
+      "access": "该讲来自 CMU，且包含技能学习研究。它不是 CS2680 记忆课录播，也不意味着所有展示的记忆方法都适合你的任务。"
+    },
+    {
+      "id": "cmu-planning",
+      "url": "https://www.youtube.com/watch?v=S8v-dR4s29M",
+      "sourceUrl": "https://www.cmu-agents.com/",
+      "slidesUrl": "https://www.cmu-agents.com/slides/lecture-05-planning.pdf",
+      "title": "CMU AI Agents 2026: 5. Planning, Task Decomposition, and Multi-Agent Coordination",
+      "author": "Daniel Fried（主讲）；Graham Neubig 频道发布",
+      "publisher": "Graham Neubig / @neubig",
+      "language": "英语",
+      "chapters": [
+        "05-multi-agent"
+      ],
+      "why": "从任务依赖、重规划进入多 Agent 协作，可帮助判断何时拆任务、哪些工作可并行，以及计划怎样响应新观察。",
+      "watchFocus": "把任务画成依赖图；如何根据环境反馈重规划；manager 和 worker 的协调；增加并行 worker 之前要满足哪些条件。",
+      "limitation": "这是一讲以规划为主、包含多 Agent 的 CMU 课程，不是完整的多 Agent 框架教程，也不对应 CS2680 某堂课的逐节复刻。",
+      "verification": "2026-10-12：CMU 官方网站 Lecture 5 recording 指向此 ID；YouTube oEmbed 确认视频标题及频道；官方下载讲义首页为 Planning and Task Decomposition / Daniel Fried，末段包含 Multi-agent computer use 与 Worker parallelism。",
+      "evidenceUrls": [
+        "https://www.cmu-agents.com/",
+        "https://www.cmu-agents.com/slides/lecture-05-planning.pdf"
+      ],
+      "platform": "YouTube",
+      "relation": "reference",
+      "access": "这是一讲以规划为主、包含多 Agent 的 CMU 课程，不是完整的多 Agent 框架教程，也不对应 CS2680 某堂课的逐节复刻。"
+    },
+    {
+      "id": "berkeley-agent-eval",
+      "url": "https://www.youtube.com/watch?v=6y2AnWol7oo",
+      "sourceUrl": "https://llmagents-learning.org/f24",
+      "slidesUrl": "https://llmagents-learning.org/slides/antrsp.pdf",
+      "title": "Measuring Agent Capabilities and Anthropic’s RSP",
+      "author": "Ben Mann；Berkeley LLM Agents MOOC 2024",
+      "publisher": "Berkeley RDI / @BerkeleyRDI",
+      "language": "英语",
+      "chapters": [
+        "06-evaluation"
+      ],
+      "why": "从能力测量和安全评估的角度补充评测动机，帮助理解为什么单一排行榜分数不足以代表 Agent 在真实任务中的可靠性。",
+      "watchFocus": "基准随能力增长失效的问题；任务完成及人类时间尺度；computer use 的能力与安全测试。配合讲义 Measuring capabilities 部分。",
+      "limitation": "偏能力和安全测量，不能代替本站关于冻结测试集、重复运行与成本指标的工程练习；讲座中的模型成绩、价格和 RSP 状态属于 2024 年历史材料。",
+      "verification": "2026-10-12：Berkeley 官方课程表 2024-11-25 行列出 Ben Mann、讲座题目、该 YouTube ID 与 slides；YouTube oEmbed 确认发布者 Berkeley RDI；对应官方 PDF 标明 2024.11。",
+      "evidenceUrls": [
+        "https://llmagents-learning.org/f24",
+        "https://llmagents-learning.org/slides/antrsp.pdf"
+      ],
+      "platform": "YouTube",
+      "relation": "reference",
+      "access": "偏能力和安全测量，不能代替本站关于冻结测试集、重复运行与成本指标的工程练习；讲座中的模型成绩、价格和 RSP 状态属于 2024 年历史材料。"
+    },
+    {
+      "id": "bilibili-agent-loop",
+      "title": "Agent 的概念、原理与构建模式 —— 从零打造一个简化版的 Claude Code",
+      "url": "https://www.bilibili.com/video/BV1TSg7zuEqR/",
+      "author": "马克的技术工作坊",
+      "language": "中文",
+      "chapters": [
+        "01-agent-loop"
+      ],
+      "durationSeconds": 1687,
+      "duration": "28:07",
+      "publishedAt": "2025-07-22",
+      "why": "用 ReAct 与 Plan-and-Execute 展示 Agent 的控制流程，适合在实现本章循环之前建立直观认识。它是中文独立教程，不是 CS2680 录播。",
+      "watchFocus": "作者时间轴：03:43 ReAct 运行流程；05:27 实现原理；10:49 动手实现；18:53 运行时序图。观看后对照本章补上终止条件、步数预算与错误处理。",
+      "verification": "2026-10-12 通过 Bilibili x/web-interface/view API 核验 title、owner.name、desc、duration；copyright=1（平台标记原创），简介给出上述时间轴。已核对元数据，未完整观看。",
+      "status": "中文原创参考 · 非 CS2680 原课",
+      "sourceUrl": "https://www.bilibili.com/video/BV1TSg7zuEqR/",
+      "verificationUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1TSg7zuEqR",
+      "platform": "Bilibili",
+      "relation": "reference",
+      "access": "中文原创讲解 · 28:07。平台原创标记及作者信息已核对，画质和字幕以播放页为准。"
+    },
+    {
+      "id": "bilibili-tool-calling",
+      "title": "MCP 与 Function Calling 到底什么关系，以及为什么我认为大部分人的观点都是错误的",
+      "url": "https://www.bilibili.com/video/BV15YJTzkENC/",
+      "author": "马克的技术工作坊",
+      "language": "中文",
+      "chapters": [
+        "02-tools"
+      ],
+      "durationSeconds": 1637,
+      "duration": "27:17",
+      "publishedAt": "2025-05-18",
+      "why": "沿调用链解释模型生成工具参数与应用实际执行工具的分工，帮助理解接口协议；本章的校验、幂等与权限要求仍需结合文字教程完成。",
+      "watchFocus": "作者时间轴：01:34 Function Calling；03:40 调用链；13:13 协议内容；24:55 与 MCP 一起使用。重点追踪参数由谁生成、工具由谁执行、结果如何回传。",
+      "verification": "2026-10-12 通过 Bilibili view API 核验标题、作者、简介、时长；copyright=1。简介附作者代码库 https://github.com/MarkTechStation/VideoCode 。已核对元数据，未完整观看。",
+      "status": "中文原创参考 · 非 CS2680 原课",
+      "sourceUrl": "https://www.bilibili.com/video/BV15YJTzkENC/",
+      "verificationUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV15YJTzkENC",
+      "platform": "Bilibili",
+      "relation": "reference",
+      "access": "中文原创讲解 · 27:17。平台原创标记及作者信息已核对，画质和字幕以播放页为准。"
+    },
+    {
+      "id": "bilibili-context-engineering",
+      "title": "🗃️ 上下文工程：优化 Agent 效能的关键技术 🔑",
+      "url": "https://www.bilibili.com/video/BV1w3GNzeEHb/",
+      "author": "沧海九粟",
+      "language": "中文",
+      "chapters": [
+        "03-context",
+        "04-memory"
+      ],
+      "durationSeconds": 1349,
+      "duration": "22:29",
+      "publishedAt": "2025-07-10",
+      "why": "作者以 LangChain 官方上下文工程文章为资料入口，适合配合本平台的上下文预算与记忆章节学习；其身份是中文讲解，非 LangChain 官方授课或 CS2680 课堂录像。",
+      "watchFocus": "结合作者所引官方文章，比较写入外部状态、按需选择、压缩与隔离四种处理方式；把同一段工具返回分别放入上下文、摘要和外部存储，观察信息损失。",
+      "verification": "2026-10-12 通过 Bilibili view API 核验作者为沧海九粟、title、duration=1349、copyright=1，简介明确链接 LangChain 官方文章。官方文章正文也已打开核验。已核对元数据与参考文章，未完整观看。",
+      "status": "中文原创讲解 · 非 CS2680 原课",
+      "sourceUrl": "https://www.langchain.com/blog/context-engineering-for-agents",
+      "verificationUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1w3GNzeEHb",
+      "platform": "Bilibili",
+      "relation": "reference",
+      "access": "中文原创讲解 · 22:29。平台原创标记及作者信息已核对，画质和字幕以播放页为准。"
+    },
+    {
+      "id": "bilibili-kv-cache",
+      "title": "大模型推理-KV cache高效推理必备技术",
+      "url": "https://www.bilibili.com/video/BV1k2L9zyEt7/",
+      "author": "AI老马啊",
+      "language": "中文",
+      "chapters": [
+        "08-serving",
+        "09-kv-cache"
+      ],
+      "durationSeconds": 887,
+      "duration": "14:47",
+      "publishedAt": "2025-04-26",
+      "why": "简介明确围绕自回归解码冗余、KV cache 显存和计算量展开，与推理服务及 KV cache 章节直接对应。",
+      "watchFocus": "区分 Prefill 与 Decode；理解缓存的是哪些中间结果；用本平台 KV cache 计算器检查序列长度、层数与并发数如何改变显存需求。",
+      "verification": "2026-10-12 Bilibili view API 核验 title、owner.name、desc、duration=887；copyright=1，简介列出计算冗余、显存占用与内存优化三项。已核对元数据，未完整观看。",
+      "status": "中文原创参考 · 非 CS2680 原课",
+      "sourceUrl": "https://www.bilibili.com/video/BV1k2L9zyEt7/",
+      "verificationUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1k2L9zyEt7",
+      "platform": "Bilibili",
+      "relation": "reference",
+      "access": "中文原创讲解 · 14:47。平台原创标记及作者信息已核对，画质和字幕以播放页为准。"
+    },
+    {
+      "id": "bilibili-continuous-batching",
+      "title": "vLLM推理框架｜持续批处理 continuous batch 介绍",
+      "url": "https://www.bilibili.com/video/BV1gEVdzRETm/",
+      "author": "AI老马啊",
+      "language": "中文",
+      "chapters": [
+        "10-batching"
+      ],
+      "durationSeconds": 959,
+      "duration": "15:59",
+      "publishedAt": "2025-05-10",
+      "why": "作者简介直接比较 request-level 与 iteration-level 调度，适合给连续批处理实验提供中文原理说明。",
+      "watchFocus": "观察短请求提前结束后留下的空闲位置，以及新请求何时能加入；再运行本章调度实验，对照吞吐量与请求等待时间的变化。",
+      "verification": "2026-10-12 Bilibili view API 核验标题、作者、简介、duration=959；copyright=1。简介明确讨论 Early-finished、late-joining 与 iteration-level 调度。已核对元数据，未完整观看。",
+      "status": "中文原创参考 · 非 CS2680 原课",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gEVdzRETm/",
+      "verificationUrl": "https://api.bilibili.com/x/web-interface/view?bvid=BV1gEVdzRETm",
+      "platform": "Bilibili",
+      "relation": "reference",
+      "access": "中文原创讲解 · 15:59。平台原创标记及作者信息已核对，画质和字幕以播放页为准。"
+    },
+    {
+      "id": "stanford-cs336-inference-2025",
+      "url": "https://www.youtube.com/watch?v=fcgPYo3OtV0",
+      "sourceUrl": "https://cs336.stanford.edu/spring2025/",
+      "supportingUrl": "https://github.com/stanford-cs336/spring2025-lectures/blob/main/lecture_10.py",
+      "title": "Stanford CS336 · Lecture 10: Inference (Spring 2025)",
+      "author": "Percy Liang · Stanford Online",
+      "platform": "YouTube",
+      "language": "英语",
+      "chapters": [
+        "07-cost-routing",
+        "08-serving",
+        "09-kv-cache",
+        "10-batching"
+      ],
+      "why": "用同一套性能模型串起推理成本、KV cache 与批处理，是系统部分的主参考课。对应第 7 章时只补充服务侧成本取舍，不代替模型路由策略。",
+      "watchFocus": "prefill 与逐 token 解码的计算/内存差异；TTFT、延迟、吞吐之间的取舍；KV cache 大小、continuous batching 与 PagedAttention；量化和 speculative sampling 的不同精度保证。",
+      "verification": "2026-10-12 核验：Stanford 官方课程表标明 Inference (Percy)，官方讲义覆盖所列主题；主代理在浏览器确认 Stanford Online Verified 频道、播放器时长 1:22:51、Introduction to inference 章节及字幕按钮均显示，无不可用提示。oEmbed 401 属于接口抓取限制，不能作为下架证据。未完整观看全片。 浏览器补充核验：Stanford Online 认证频道、标题与播放器正常显示，时长 1:22:51；未完整观看。",
+      "isOriginalCS2680": false,
+      "duration": "1:22:51",
+      "relation": "reference",
+      "access": "英语官方公开课或技术演讲。按所列年份理解案例与版本，中文字幕未核验。"
+    },
+    {
+      "id": "kwon-vllm-serving",
+      "url": "https://www.youtube.com/watch?v=8BaEwoTk8XI",
+      "sourceUrl": "https://github.com/stanford-cs336/spring2025-lectures/blob/main/lecture_10.py",
+      "supportingUrl": "https://vllm.ai/blog/2023-06-20-vllm",
+      "title": "vLLM: Easy, Fast, and Cheap LLM Serving",
+      "author": "Woosuk Kwon（UC Berkeley）· AMD Developer Central",
+      "platform": "YouTube",
+      "language": "英语",
+      "chapters": [
+        "08-serving",
+        "09-kv-cache",
+        "10-batching"
+      ],
+      "why": "由 vLLM 共同作者讲解推理服务；Stanford CS336 官方推理讲义也直接推荐这条演讲。",
+      "watchFocus": "将单模型生成转变为面向多用户的服务；KV cache 的内存浪费与分页管理；从内存管理理解批量吞吐收益。",
+      "verification": "2026-10-12 核验：Stanford 官方 lecture_10.py 直接引用此视频；YouTube 页面返回准确标题，实时 oEmbed 成功并确认发布频道为 AMD Developer Central。已核验公开元数据，未逐段播放。",
+      "isOriginalCS2680": false,
+      "relation": "reference",
+      "access": "英语官方公开课或技术演讲。按所列年份理解案例与版本，中文字幕未核验。"
+    },
+    {
+      "id": "mit-efficientml-deployment-2024",
+      "url": "https://www.youtube.com/watch?v=sTz2tXG1T0c",
+      "sourceUrl": "https://hanlab.mit.edu/courses/2024-fall-65940",
+      "title": "MIT 6.5940 · Lecture 13: LLM Deployment Techniques (Fall 2024)",
+      "author": "Song Han · MIT HAN Lab",
+      "platform": "YouTube",
+      "language": "英语",
+      "chapters": [
+        "08-serving",
+        "09-kv-cache",
+        "10-batching",
+        "11-quantization"
+      ],
+      "why": "用高校公开课补充大模型部署与压缩优化的背景，配合本站量化章节理解资源约束。",
+      "watchFocus": "对比 SmoothQuant、AWQ 等量化方法；区分低比特量化与推测解码的机制；结合官方讲义中的 speculative decoding 和 batching，检查加速的硬件、负载和质量前提。",
+      "verification": "2026-10-12 核验：MIT HAN Lab 官方 2024 课程表第 13 讲的 Video 直接指向此视频；YouTube 实时 oEmbed 成功并确认准确标题及 MIT HAN Lab 频道。未逐段播放。 已下载官方链接 PDF 并提取文本，讲义目录明确列出 SmoothQuant、AWQ、QServe、LLM serving metrics、PagedAttention、FlashAttention、Speculative Decoding、Batching。",
+      "isOriginalCS2680": false,
+      "supportingUrl": "https://www.dropbox.com/scl/fi/aa5ea0hrc68cn3fh18nan/Lec13-LLM-Deployment.pdf?dl=0&rlkey=gzq9yiddx4bnh14bxomtfmcoj",
+      "relation": "reference",
+      "access": "英语官方公开课或技术演讲。按所列年份理解案例与版本，中文字幕未核验。"
+    },
+    {
+      "id": "stanford-cs336-kernels-2025",
+      "url": "https://www.youtube.com/watch?v=E8Mju53VB00",
+      "sourceUrl": "https://cs336.stanford.edu/spring2025/",
+      "supportingUrl": "https://github.com/stanford-cs336/spring2025-lectures/blob/main/lecture_06.py",
+      "title": "Stanford CS336 · Lecture 6: Kernels, Triton (Spring 2025)",
+      "author": "Tatsunori Hashimoto · Stanford Online",
+      "platform": "YouTube",
+      "language": "英语",
+      "chapters": [
+        "12-full-stack"
+      ],
+      "why": "补齐从基准测试到 profiler 定位瓶颈的方法，适合结课实验中解释加速来自哪里。",
+      "watchFocus": "benchmarking 与 profiling 的区别；GPU 计时、预热与同步；PyTorch profiler、Nsight Systems 与 kernel 性能分析；先测量瓶颈，再判断 fusion 或 Triton 优化是否有效。",
+      "verification": "2026-10-12 核验：Stanford 官方课程表第 6 讲为 Kernels, Triton (Tatsu)，官方源码存在；YouTube 搜索索引确认 Stanford Online 官方视频及 2025-05-02 发布记录。直接页面抓取失败、oEmbed 返回 401，未逐段播放，因此不保证当前地区播放器可用。 浏览器补充核验：对应视频标题和播放器正常显示，时长 1:20:22；未完整观看。",
+      "isOriginalCS2680": false,
+      "relation": "reference",
+      "access": "聚焦 GPU 测量与 kernel 优化。全栈项目还需要测量工具、网络、排队和任务质量，不能只报告单个 kernel 的加速比。"
+    }
+  ]
+}
