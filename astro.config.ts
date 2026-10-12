@@ -139,7 +139,7 @@ export default defineConfig({
   // [Integrations]
   integrations: [
     // Configure sitemap here; astro-pure adds mdx & unocss.
-    sitemap({ customPages: tripPages }),
+    sitemap({ customPages: [...tripPages, 'https://tsonglew.github.io/cs2680/'] }),
     // mdx(),
     AstroPureIntegration(config),
     // Client-side mermaid rendering for diagram code blocks
