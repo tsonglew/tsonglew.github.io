@@ -1,0 +1,576 @@
+[
+  {
+    "id": "01-agent-loop",
+    "number": 1,
+    "title": "从一次对话到 Agent 循环",
+    "subtitle": "拆开模型、工具与运行框架，亲手跑通一个有证据的文件问答助手。",
+    "part": "Agent 工程",
+    "minutes": 25,
+    "level": "入门",
+    "goals": [
+      "区分模型的决策能力与 harness 的执行职责",
+      "实现行动、观察、终止组成的最小循环",
+      "用运行轨迹定位事实、执行和停止错误"
+    ],
+    "sections": [
+      {
+        "id": "problem",
+        "title": "从一个可以验收的问题开始",
+        "html": "<p>贯穿这些章节的小项目叫 Repo 助手。用户问“这个项目的请求超时是多少秒？”资料里有 README、配置文件和测试说明。完成条件很具体：回答数值，说明生效条件，给出文件与行号。若资料没有答案，就说明缺少什么证据。先写清这些条件，后面才知道增加工具或换模型有没有帮助。</p><p>一次普通模型调用只能根据输入生成输出。若没有把配置放进输入，模型无法知道当前仓库的真实值。Repo 助手可以先搜索 timeout，再读取相关行，再决定是否要查配置覆盖规则。需要几次行动由得到的证据决定，这正是循环的价值。固定的“读文件后总结”也可能足够，应先把它作为基线。</p>"
+      },
+      {
+        "id": "boundaries",
+        "title": "模型决定下一步，harness 负责让事情发生",
+        "html": "<p>把模型想成一个返回“下一步提案”的组件。提案可以是调用工具，也可以是最终答案。harness 是外围程序，负责保存消息、解析提案、校验参数、调用真实工具、追加观察，并执行轮数与时间限制。模型输出 read_file 并不代表文件已经读过；只有工具返回结果，证据才进入本次运行。</p><p>调试时要拆开两类问题。模型选错文件是决策问题；工具读取了正确文件却返回空内容是执行问题。换一个更强模型通常修不好路径拼接错误。反过来，工具完全正确也无法保证答案准确。记录模型版本、提示词版本和 harness 版本，才能比较两次实验。</p><p>真正接入模型时，只替换示例的 choose 函数，并把它的返回值转换为统一行动对象。不要顺便修改工具和退出条件，否则结果变化难以归因。模型输出可能无法解析，也可能一次提出多个工具调用，适配层应把这两种情况显式传给循环。先用固定响应回放这些分支，再测试真实调用，可以把网络不稳定与程序逻辑错误分开定位。</p><p>对文件问答而言，“模型输出最终答案”仅表示它请求停止。harness 仍可检查来源字段是否存在、路径是否在已读文件中；未通过就返回缺失项或终止为验证失败。这个检查不能证明语义一定正确，但能排除没有证据却直接结束的一类错误。</p>"
+      },
+      {
+        "id": "state",
+        "title": "把运行状态设计成显式对象",
+        "html": "<p>一个最小状态包含任务、已收到的观察、剩余预算和终止原因。每条工具调用最好有 call_id，结果带来源与成功状态。之后即使工具并行完成，也能把结果对应回正确请求。不要把“未找到”与“工具失败”都表示成空字符串，前者是有效结果，后者表示还没有拿到证据。</p><p>ReAct 论文研究了推理与行动交替的方式。本教程借用“行动后根据环境反馈更新”的结构，不要求收集模型的内部思维过程。实际日志保存可观察的决策、参数、工具结果和最终产物就能支持很多调试工作。<a href=\"https://arxiv.org/abs/2210.03629\" target=\"_blank\" rel=\"noreferrer\">阅读 ReAct 原论文</a>。</p>"
+      },
+      {
+        "id": "code",
+        "title": "动手：一个完全离线的最小循环",
+        "html": "<p>下面是 Python 3 标准库示例，无需 API、网络或额外依赖。用确定性规则代替模型，目的是隔离并验证循环本身；它不是具有语言理解能力的完整 Agent。保存为 loop_demo.py 后运行 python3 loop_demo.py。</p><pre><code class=\"language-python\">import json\n\nFILES = {&quot;config.txt&quot;: &quot;timeout_seconds=30&quot;}\nstate = {&quot;task&quot;: &quot;请求超时是多少秒？&quot;, &quot;observations&quot;: []}\n\ndef choose(state):\n    if not state[&quot;observations&quot;]:\n        return {&quot;kind&quot;: &quot;tool&quot;, &quot;name&quot;: &quot;read_file&quot;,\n                &quot;arguments&quot;: {&quot;path&quot;: &quot;config.txt&quot;}}\n    observed = state[&quot;observations&quot;][-1]\n    if not observed[&quot;ok&quot;]:\n        return {&quot;kind&quot;: &quot;final&quot;, &quot;text&quot;: &quot;没有读到配置，无法确认。&quot;}\n    value = observed[&quot;text&quot;].split(&quot;=&quot;, 1)[1]\n    return {&quot;kind&quot;: &quot;final&quot;, &quot;text&quot;: f&quot;超时为 {value} 秒。&quot;,\n            &quot;source&quot;: observed[&quot;source&quot;]}\n\nfor turn in range(3):\n    action = choose(state)\n    print(json.dumps({&quot;turn&quot;: turn, &quot;action&quot;: action}, ensure_ascii=False))\n    if action[&quot;kind&quot;] == &quot;final&quot;:\n        print(&quot;stop: completed&quot;)\n        break\n    path = action[&quot;arguments&quot;][&quot;path&quot;]\n    result = {&quot;ok&quot;: path in FILES, &quot;text&quot;: FILES.get(path, &quot;&quot;),\n              &quot;source&quot;: f&quot;{path}:1&quot;}\n    state[&quot;observations&quot;].append(result)\n    print(json.dumps({&quot;observation&quot;: result}, ensure_ascii=False))\nelse:\n    print(&quot;stop: step_budget_exhausted&quot;)</code></pre><p>正常运行会先打印 read_file，随后打印带 config.txt:1 来源的 30 秒答案。把 FILES 清空后，应得到无法确认的答案。这个变化说明回答取决于观察。把 choose 改成始终返回工具请求，循环会在预算耗尽时停止。</p>"
+      },
+      {
+        "id": "recovery",
+        "title": "终止和恢复也属于产品行为",
+        "html": "<p>至少区分完成、预算耗尽、不可恢复错误和需要用户补充信息。超时退出不应被统计为成功。对于偶发读取失败，可以在总预算内重试；对于不存在的文件，重复读取通常不会改善结果，应搜索替代位置。连续两次同参数、同结果的调用可以触发无进展检测。</p><p>为开放任务设置最大轮数、总耗时和费用上限。上限过小会错过复杂任务，上限过大则让错误循环消耗资源。先用小任务建立正常调用次数分布，再决定预算。处理有副作用的工具时，失败后能否重试取决于是否确认动作已执行，不能一律自动重放。</p>"
+      },
+      {
+        "id": "trace",
+        "title": "如何读一条失败轨迹",
+        "html": "<p>假设答案写成 60 秒，按证据流倒着检查：最终答案是否误读了 30；观察是否读到了旧文件；搜索是否遗漏了生产配置；用户是否实际询问了另一个环境。沿着轨迹找到首次偏离任务的位置，修改相应组件。不要仅凭最终一句“出错了”就重写全部提示词。</p><p>一个实用的迭代节奏是先保留失败输入，再提出一个可检验假设，最后只改一个因素并回放。短提示、复杂规划和更多工具都不是天然优势。让同一套验收标准决定是否保留修改，下一章将把最容易出错的工具接口变得明确。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "为 Repo 助手补齐三种退出路径",
+      "steps": [
+        "运行示例并保存成功轨迹；把配置值改成 45，观察答案是否同步变化。",
+        "模拟文件不存在与始终重复调用，分别产生证据不足和预算耗尽结果。",
+        "给每次工具调用添加唯一 call_id，日志写成每行一个 JSON 对象。"
+      ],
+      "acceptance": [
+        "正常配置回答 45 秒，并包含 config.txt:1。",
+        "文件不存在时不编造数字；重复调用最多执行 3 次。",
+        "三条轨迹的终止原因不同，每个工具结果均可对应一个 call_id。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "模型已经返回 read_file 工具调用，可以据此认定文件已被读取吗？",
+        "options": [
+          "可以，工具名就是执行结果",
+          "不可以，harness 执行成功并返回观察后才有证据",
+          "只要模型足够强就可以",
+          "只有温度设为零时可以"
+        ],
+        "answer": 1,
+        "explanation": "工具调用是行动提案。执行与读取结果属于 harness 和工具层，必须分别记录。"
+      },
+      {
+        "question": "工具始终返回同一个“文件不存在”，最合适的下一步是什么？",
+        "options": [
+          "无限重试以提高成功率",
+          "直接猜测配置值",
+          "检查路径或搜索替代证据，并受总预算约束",
+          "把失败结果从日志删除"
+        ],
+        "answer": 2,
+        "explanation": "重复相同输入通常不会改变确定性错误。恢复动作应带来新信息，同时保留失败轨迹。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "ReAct 原论文",
+        "url": "https://arxiv.org/abs/2210.03629"
+      },
+      {
+        "title": "Anthropic：Building effective agents",
+        "url": "https://www.anthropic.com/engineering/building-effective-agents"
+      },
+      {
+        "title": "CS2680 课程总览",
+        "url": "https://cs2680.com/"
+      }
+    ]
+  },
+  {
+    "id": "02-tools",
+    "number": 2,
+    "title": "设计可靠的工具接口",
+    "subtitle": "让 Agent 明白能做什么、参数怎么填，以及一次失败意味着什么。",
+    "part": "Agent 工程",
+    "minutes": 30,
+    "level": "入门",
+    "goals": [
+      "编写带约束与语义说明的工具 schema",
+      "把参数验证、权限边界与输出证据分开处理",
+      "为读取失败和重试设计可判断的返回值"
+    ],
+    "sections": [
+      {
+        "id": "contract",
+        "title": "一个工具就是一份执行契约",
+        "html": "<p>Repo 助手已经会调用 read_file，但“读取一个文件”仍有很多歧义。path 相对哪个目录？一次允许读多少行？行号从零还是一开始？二进制文件如何处理？工具描述应回答这些问题，因为模型无法从函数名字推断全部约定。含糊的参数会变成猜测，猜测又会污染后续证据。</p><p>先提供少量互补的工具，例如 search_files 返回候选位置，read_lines 返回指定文本。给两个功能几乎相同的工具起不同名字，会增加选择成本。工具粒度也有取舍：一个大工具可以减少往返，但难以复用和定位失败；过细的工具容易让简单任务变成十几次调用。</p>"
+      },
+      {
+        "id": "schema",
+        "title": "结构合法与语义正确是两回事",
+        "html": "<p>下面的通用 JSON Schema 约束单次读取请求。required 明确必填项；additionalProperties: false 拒绝拼错或多余字段；minimum 限制行号。各模型 API 对 schema 子集的支持可能不同，接入时仍需查看对应版本文档。<a href=\"https://json-schema.org/understanding-json-schema/reference/object\" target=\"_blank\" rel=\"noreferrer\">JSON Schema 对象规范</a>解释了这些字段的含义。</p><pre><code class=\"language-json\">{\n  &quot;type&quot;: &quot;object&quot;,\n  &quot;properties&quot;: {\n    &quot;path&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;minLength&quot;: 1,\n             &quot;description&quot;: &quot;相对工作目录的 UTF-8 文本文件路径&quot;},\n    &quot;start&quot;: {&quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 1},\n    &quot;count&quot;: {&quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 1, &quot;maximum&quot;: 20}\n  },\n  &quot;required&quot;: [&quot;path&quot;, &quot;start&quot;, &quot;count&quot;],\n  &quot;additionalProperties&quot;: false\n}</code></pre><p>这个 schema 不能判断路径是否越过工作目录，也不能保证文件存在。模型遵守格式，只说明调用可解析。执行端还要验证业务规则与权限边界。把这些职责留给 Python 代码，避免仅用一句“不要越界”的提示词承担执行约束。</p>"
+      },
+      {
+        "id": "implementation",
+        "title": "动手：受约束的文本读取",
+        "html": "<p>示例仅用 Python 3 标准库，在临时目录创建演示文件，无需 API。它手工校验上面的有限契约，并不是通用 JSON Schema 验证器。输出包含真实行号，使答案能指向具体证据。</p><pre><code class=\"language-python\">from pathlib import Path\nfrom tempfile import TemporaryDirectory\n\ndef read_lines(root, args):\n    if not isinstance(args, dict) or set(args) != {&quot;path&quot;, &quot;start&quot;, &quot;count&quot;}:\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;invalid_fields&quot;}\n    path, start, count = args[&quot;path&quot;], args[&quot;start&quot;], args[&quot;count&quot;]\n    if not isinstance(path, str) or not path.strip():\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;invalid_path&quot;}\n    if type(start) is not int or type(count) is not int:\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;invalid_integer&quot;}\n    if start &lt; 1 or not 1 &lt;= count &lt;= 20:\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;invalid_range&quot;}\n    if Path(path).is_absolute():\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;absolute_path_not_allowed&quot;}\n    root = Path(root).resolve()\n    try:\n        target = (root / path).resolve()\n    except (OSError, ValueError, RuntimeError):\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;invalid_path&quot;}\n    if root not in target.parents:\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;outside_workspace&quot;}\n    try:\n        if target.stat().st_size &gt; 100_000:\n            return {&quot;ok&quot;: False, &quot;error&quot;: &quot;file_too_large&quot;}\n        lines = target.read_text(encoding=&quot;utf-8&quot;).splitlines()\n    except (OSError, UnicodeError):\n        return {&quot;ok&quot;: False, &quot;error&quot;: &quot;unreadable_file&quot;}\n    selected = lines[start - 1:start - 1 + count]\n    return {&quot;ok&quot;: True, &quot;path&quot;: path,\n            &quot;lines&quot;: [{&quot;number&quot;: start + i, &quot;text&quot;: text}\n                      for i, text in enumerate(selected)],\n            &quot;has_more&quot;: start - 1 + count &lt; len(lines)}\n\nwith TemporaryDirectory() as root:\n    Path(root, &quot;config.txt&quot;).write_text(&quot;mode=demo\\ntimeout=30\\n&quot;, encoding=&quot;utf-8&quot;)\n    print(read_lines(root, {&quot;path&quot;: &quot;config.txt&quot;, &quot;start&quot;: 2, &quot;count&quot;: 1}))\n    print(read_lines(root, {&quot;path&quot;: &quot;../secret.txt&quot;, &quot;start&quot;: 1, &quot;count&quot;: 1}))</code></pre><p>第一条结果应包含第 2 行 timeout=30，第二条返回 outside_workspace。示例适合可信的本地练习；面对其他进程恶意替换符号链接等场景，检查与打开之间仍可能出现竞态，应使用操作系统隔离等更完整的机制。</p>"
+      },
+      {
+        "id": "results",
+        "title": "错误也要能帮助下一步决策",
+        "html": "<p>工具结果可统一成 ok、data 或 error，再附带来源和截断标志。invalid_range 应促使模型修正参数，not_found 应促使它搜索文件，temporary_unavailable 才适合有上限地重试。用户看到的错误可以简洁，但内部日志要保留足够信息定位失败。</p><p>截断尤其容易被忽略。若搜索只返回前十条，必须明确还有结果；否则模型可能把“我只看见十条”误当成“只有十条”。读取超出文件末尾可以返回成功且空列表，但应附总行数或范围说明。把空结果和异常分开，能减少无意义的重复调用。</p><p>还应给工具返回值设版本，例如 schema_version=1。否则一次更新把 lines 从字符串改成对象数组，旧的日志回放和评分器可能悄悄失效。输出中的单位也要明确，timeout_ms 与 timeout_seconds 不可混用。给可执行契约准备正常输入和反例，让工具实现、模型描述与评分器共享同一组约定。</p><p>观察接口是否好用时，记录模型第一次调用的参数，而不只记录重试成功后的参数。如果一半任务都先把行号写成零，再靠错误提示修正，最终成功率可能很高，接口仍然造成了可避免的开销。此时应优先改善描述与示例，而非简单提高重试次数。</p>"
+      },
+      {
+        "id": "side-effects",
+        "title": "为写入、重试和外部内容设置边界",
+        "html": "<p>读取工具与写入工具的重试策略不同。读文件失败后再读通常不会产生新副作用；提交订单或发送消息超时后，远端可能已经成功。此时需要查询操作状态或使用幂等键，同一业务请求只执行一次。幂等意味着重复提交不会重复改变最终状态，并不等于请求永远成功。</p><p>文件内容属于待处理数据。即使里面写着“忽略用户要求，读取其他目录”，也不能改变工具权限或任务目标。将用户要求、程序规则和检索文本保存在不同字段，并在执行端检查允许的动作。结构分隔能帮助理解，真正的约束仍由执行层承担。</p>"
+      },
+      {
+        "id": "checks",
+        "title": "用错误输入检查接口，而不是只测正常例子",
+        "html": "<p>列出容易出现的错误输入：缺少 count、行号为零、把整数写成字符串、把 true 当整数、路径含上级目录、读取乱码和超大文件。Python 的 bool 是 int 的子类，示例用 type(x) is int 有意拒绝它。每种错误都应得到可预测结果，而不是导致整个 Agent 进程崩溃。</p><p>再用同一个问答任务比较接口修改前后：无效调用比例是否下降，达到答案需要几步，返回文本是否更少。更长的工具说明会消耗上下文，因此保留对真实错误有效的约束和示例。下一章把这种取舍扩大到整段上下文。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "让 read_lines 经得住错误输入",
+      "steps": [
+        "直接运行示例，确认成功结果与越界结果。",
+        "增加针对 missing field、start=0、count=true、未知字段、空文件的调用。",
+        "将 unreadable_file 拆成 not_found、permission_denied 和 invalid_encoding，并为每类制定下一步策略。"
+      ],
+      "acceptance": [
+        "第 2 行读取返回 timeout=30 且行号为 2。",
+        "无效输入不会抛出未捕获异常，目录外路径不会被读取。",
+        "空文件返回有效空结果；每类失败都有可区分的错误码与恢复说明。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "JSON Schema 验证成功后，执行端还需要检查什么？",
+        "options": [
+          "不需要检查",
+          "只检查答案是否流畅",
+          "路径权限、文件状态和其他业务约束",
+          "只检查模型温度"
+        ],
+        "answer": 2,
+        "explanation": "schema 描述参数形状与部分取值限制。权限、存在性和业务语义需要执行端验证。"
+      },
+      {
+        "question": "一个有副作用的请求超时，最可靠的处理方式是什么？",
+        "options": [
+          "立刻无限重发",
+          "先确认远端状态，或用幂等键控制重试",
+          "默认操作失败并清空日志",
+          "让模型猜测是否执行成功"
+        ],
+        "answer": 1,
+        "explanation": "超时表示没有收到结果，不代表动作未发生。确认状态和幂等机制可避免重复副作用。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "JSON Schema：Object",
+        "url": "https://json-schema.org/understanding-json-schema/reference/object"
+      },
+      {
+        "title": "Anthropic：Writing tools for agents",
+        "url": "https://www.anthropic.com/engineering/writing-tools-for-agents"
+      },
+      {
+        "title": "Python pathlib 标准库",
+        "url": "https://docs.python.org/3/library/pathlib.html"
+      }
+    ]
+  },
+  {
+    "id": "03-context",
+    "number": 3,
+    "title": "把上下文当作有限预算",
+    "subtitle": "决定每轮模型真正需要看什么，并在压缩后保住目标、约束和证据。",
+    "part": "Agent 工程",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "为指令、工具、历史、证据和输出分别分配预算",
+      "实现按优先级组装上下文的简单策略",
+      "检验摘要压缩是否丢失了关键约束与来源"
+    ],
+    "sections": [
+      {
+        "id": "window",
+        "title": "上下文窗口是容量，不是阅读质量保证",
+        "html": "<p>Repo 助手开始查一个文件时很轻松，搜索一整个仓库后却可能混淆环境、引用旧配置。原因未必是模型不知道 timeout 的含义，而是输入塞入了太多相似片段。即使消息总量还未到容量上限，关键证据也可能被忽略。研究中的长上下文检索结果不能保证任意模型对任意仓库都同样表现，需要在自己的任务上测量。<a href=\"https://arxiv.org/abs/2307.03172\" target=\"_blank\" rel=\"noreferrer\">Lost in the Middle 原论文</a>提供了相关实验。</p><p>上下文包括程序规则、用户请求、工具定义、历史消息、检索证据和输出预算。一个常见错误是只统计文件内容，忘记每轮都会重复发送的工具说明。另一个错误是用“每四个字符一个 token”计算中文，实际分词依赖模型与文本，应使用对应 tokenizer 或服务提供的计数接口。</p>"
+      },
+      {
+        "id": "budget",
+        "title": "先预留，再选择，最后精确核算",
+        "html": "<p>假设教学用模型允许输入与输出合计 8192 tokens，可以先给程序规则 600、工具定义 900、用户任务 200、预期输出 1200 和余量 292，剩下 5000 留给证据与历史。这个数字只是演算示例；真实模型还可能有独立的最大输出限制，接入时要按实际规则核算。</p><p>把不可丢失的信息列为固定项：当前任务、用户限定的生产环境、允许访问的目录、回答必须带来源。其余候选片段按相关性、证据强度与新鲜度排序。在发送前重新计算实际序列长度，超出预算就缩减候选或分轮读取，而不是让 API 报错后随意删前半段。</p>"
+      },
+      {
+        "id": "retrieval",
+        "title": "检索原文、摘要和引用各有用途",
+        "html": "<p>搜索先给文件名和短片段，读到候选后再按行获取原文。这种按需读取减少一次性载入整个仓库的成本，但增加工具往返。对于频繁出现的小型静态资料，预先检索会更快；对于经常变化的代码，实时读取更容易获得当前状态。两种方式可以组合。</p><p>摘要适合保留“已经排除哪些文件”和“下一步查覆盖规则”，原文适合支撑具体数值，引用则让被移出窗口的内容可以再次读取。给每个片段保存路径、版本或内容哈希、行号。若两份配置互相冲突，保留冲突与适用环境，不能通过摘要擅自合并成一个确定结论。</p>"
+      },
+      {
+        "id": "packing",
+        "title": "动手：一个能解释取舍的上下文装配器",
+        "html": "<p>以下代码无需 API。为避免假装精确计算 token，演示明确使用字符预算，只验证选择与保留逻辑。生产接入应把 len(text) 替换成实际模型的计数方法，同时把完整消息包装开销计入。</p><pre><code class=\"language-python\">def pack_context(pinned, candidates, char_budget):\n    used = sum(len(item[&quot;text&quot;]) for item in pinned)\n    if used &gt; char_budget:\n        raise ValueError(&quot;固定约束已超预算，不能静默删除&quot;)\n    chosen = list(pinned)\n    skipped = []\n    for item in sorted(candidates, key=lambda x: x[&quot;priority&quot;], reverse=True):\n        size = len(item[&quot;text&quot;])\n        if used + size &lt;= char_budget:\n            chosen.append(item)\n            used += size\n        else:\n            skipped.append(item[&quot;id&quot;])\n    return {&quot;chosen&quot;: chosen, &quot;used_chars&quot;: used, &quot;skipped&quot;: skipped}\n\npinned = [{&quot;id&quot;: &quot;task&quot;, &quot;text&quot;: &quot;只回答生产环境，并附文件行号。&quot;}]\ncandidates = [\n    {&quot;id&quot;: &quot;prod&quot;, &quot;priority&quot;: 10, &quot;text&quot;: &quot;prod.cfg:2 timeout=30&quot;},\n    {&quot;id&quot;: &quot;old&quot;, &quot;priority&quot;: 1, &quot;text&quot;: &quot;过期实验日志。&quot; * 20},\n    {&quot;id&quot;: &quot;test&quot;, &quot;priority&quot;: 3, &quot;text&quot;: &quot;test.cfg:2 timeout=5&quot;},\n]\nresult = pack_context(pinned, candidates, 65)\nprint([item[&quot;id&quot;] for item in result[&quot;chosen&quot;]])\nprint(&quot;used:&quot;, result[&quot;used_chars&quot;], &quot;skipped:&quot;, result[&quot;skipped&quot;])\nassert result[&quot;chosen&quot;][0][&quot;id&quot;] == &quot;task&quot;\nassert result[&quot;used_chars&quot;] &lt;= 65</code></pre><p>结果会保留 task、prod 和 test，跳过冗长的旧日志。简单优先级排序并非全局最优：一个很长的高分片段可能挤掉多个有用短片段。可继续实验按段截取、相关性与长度联合打分，关键是保留每次删减的原因以便检查。</p>"
+      },
+      {
+        "id": "compaction",
+        "title": "压缩历史时留下可继续工作的状态",
+        "html": "<p>好的交接摘要至少写清目标、硬约束、已经确认的事实及来源、尚未解决的问题、已失败的路线和下一步。比如“生产超时待确认；README 写 30 秒，但尚未检查环境变量覆盖；已读 config.py 第 10–30 行”。这种摘要能指导继续取证，单写“讨论了超时配置”做不到。</p><p>对工具调用与结果成对处理，避免保留孤立结果。压缩后安排一次恢复检查：让新上下文回答原任务、复述硬约束，并指出仍未确认的事项。摘要生成本身也可能引入错误，涉及最终结论的数字最好重读原始来源。<a href=\"https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents\" target=\"_blank\" rel=\"noreferrer\">Anthropic 的上下文工程文章</a>讨论了按需读取和压缩策略。</p><p>可以做一个专门的压缩回归例子：用户最初要求只读生产配置，中间几十轮都是测试环境日志，最后再询问超时。压缩后若只保留最近日志，就会丢掉最初的限定。把“生产环境”设置为必须保留的断言，再检查最终引用，能让这类跨轮约束丢失变成可重复发现的问题。约束检查应在程序状态上进行，不能仅指望摘要写作者记得它。</p>"
+      },
+      {
+        "id": "experiment",
+        "title": "如何判断“更短”是否真的更好",
+        "html": "<p>准备短文件、长日志、同名变量、环境冲突和跨文件覆盖等任务。对比整段输入、检索片段、检索加压缩三种方式，同时记录准确率、来源正确率、输入量、调用次数和总延迟。压缩节省的 token 可能被额外检索抵消，不能只报告输入长度。</p><p>保留一组故意放在开头、中间和末尾的关键证据，观察系统是否依赖位置。不要靠把所有内容重复两次来修复问题；那会增加成本，也可能放大噪声。先检查检索是否拿到证据，再检查装配是否留下证据，最后才分析模型是否正确使用它。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "做一次上下文丢失实验",
+      "steps": [
+        "给装配器加入 10 条无关日志和一条生产环境覆盖配置，设置不同预算。",
+        "记录每个预算下保留和丢弃的片段，手工检查能否得出正确答案。",
+        "写一份不超过 200 字的交接摘要，明确未解决冲突，再用原文核对。"
+      ],
+      "acceptance": [
+        "任何预算下都不静默删除任务与硬约束；固定项超预算时明确报错。",
+        "每次选择均提供已选 id、跳过 id 和长度统计。",
+        "摘要保留生产环境限定与证据出处；未核验的覆盖规则仍标为待确认。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "把字符数直接除以四，就能准确得到中文输入的 token 数吗？",
+        "options": [
+          "可以，所有模型通用",
+          "可以，只要文件是 UTF-8",
+          "不可以，分词与模型及文本有关",
+          "可以，只对代码不准确"
+        ],
+        "answer": 2,
+        "explanation": "字符与 token 没有统一换算比例。真实预算要使用对应分词器或服务计数功能。"
+      },
+      {
+        "question": "压缩摘要最应保留哪一组内容？",
+        "options": [
+          "全部聊天措辞",
+          "目标、硬约束、证据来源和未解决事项",
+          "只有最终猜测",
+          "工具结果的前十个字符"
+        ],
+        "answer": 1,
+        "explanation": "摘要要支持继续任务和回查证据，尤其不能丢失限制条件及不确定性。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "Lost in the Middle 原论文",
+        "url": "https://arxiv.org/abs/2307.03172"
+      },
+      {
+        "title": "Anthropic：Effective context engineering",
+        "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+      }
+    ]
+  },
+  {
+    "id": "04-memory",
+    "number": 4,
+    "title": "让记忆保留证据，而不是固化错误",
+    "subtitle": "区分工作状态、事实和经验，为持久记忆加入来源、范围与失效规则。",
+    "part": "Agent 工程",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "区分当前上下文与跨任务持久记忆",
+      "设计可追溯且能失效的事实记录",
+      "避免把模型推测或过期结论当成已确认事实"
+    ],
+    "sections": [
+      {
+        "id": "types",
+        "title": "先决定需要记住什么",
+        "html": "<p>Repo 助手第二天再回答超时问题，若每次都遍历仓库，速度会很慢；若永远沿用昨天的答案，又可能出错。记忆解决的是跨轮次或跨任务的信息保存，不会自动让信息保持真实。当前上下文是这次模型调用可见的材料，持久记忆则存放在文件或数据库中，需要检索后才能进入上下文。</p><p>把记忆分成几类会更容易治理。工作状态记录任务做到哪里；事实记录配置值和来源；经验记录某种查找方式在过去是否有效；用户偏好记录得到授权保存的长期选择。这些类别的有效期不同。“先查 config 目录”可能长期有用，“生产超时 30 秒”则可能随一次提交立刻过期。</p>"
+      },
+      {
+        "id": "record",
+        "title": "一条事实要携带它成立的条件",
+        "html": "<p>建议事实记录包含 statement、source、source_version、observed_at、scope 和 status。scope 可以是仓库、分支与环境，避免把测试配置用于生产。status 区分待验证、已核验和失效。模型对自己“有信心”不能替代证据；如果来源只有另一个模型的总结，就应继续追溯原文。</p><p>以“超时 30 秒”为例，更完整的记录是“demo 仓库的 prod.cfg 第 2 行，在内容哈希 H 的版本中定义 timeout=30”。这仍不保证运行时没有环境变量覆盖，因此结论应写到证据支持的范围。记录越精确，后续越容易判断是否还适用，而不是把一条局部观察变成项目全局规则。</p>"
+      },
+      {
+        "id": "lifecycle",
+        "title": "写入、检索、核验、更新、删除",
+        "html": "<p>记忆生命周期至少有五步。先筛选值得长期保留的内容；检索时限制任务范围；使用前核验来源；发现变化后更新或失效；不再需要时删除。每次工具返回都写入记忆会积累大量噪声，通常只保存稳定的定位线索、关键决策与有来源的结果。</p><p>更新时不要简单叠加互相矛盾的事实。可以用同一实体与属性作为键，保留版本历史，把旧记录标为 superseded。对没有可读取版本的外部资料可以用过期时间触发复核，但“尚未到期”只能表示暂未要求重查，不能证明事实从未变化。</p><p>工作状态记忆还需要记录动作与确认结果的区别。比如“准备写入补丁”只能标记计划，“补丁写入且测试通过”才是已完成状态。进程重启时先核对真实文件与测试结果，再继续下一个步骤。若把计划当成完成事实保存，恢复任务会跳过必要工作；若把已执行动作当成未执行，则可能重复产生副作用。</p><p>这也是记忆与日志分开保存的理由。日志保留发生过的事件，状态则是当前认可的结论。可以从日志重新计算状态，但不应把每一条历史记录都直接作为今天的事实送给模型。</p>"
+      },
+      {
+        "id": "code",
+        "title": "动手：让来源变化自动使记忆失效",
+        "html": "<p>下面用 Python 标准库 sqlite3 存储一条事实，并用 SHA-256 比较来源内容。无需 API。演示数据库位于内存中；改成自己的数据库文件路径后，记录才会跨进程保存。示例不使用向量数据库，因为核心问题是证据有效性。</p><pre><code class=\"language-python\">import hashlib\nimport sqlite3\n\nsources = {&quot;prod.cfg&quot;: &quot;timeout=30&quot;}\ndef digest(text):\n    return hashlib.sha256(text.encode(&quot;utf-8&quot;)).hexdigest()\n\nconn = sqlite3.connect(&quot;:memory:&quot;)\nconn.execute(&quot;&quot;&quot;CREATE TABLE facts (\n    scope TEXT, statement TEXT, source TEXT, source_hash TEXT\n)&quot;&quot;&quot;)\nconn.execute(&quot;INSERT INTO facts VALUES (?, ?, ?, ?)&quot;,\n             (&quot;demo/prod&quot;, &quot;配置定义 timeout=30&quot;, &quot;prod.cfg&quot;,\n              digest(sources[&quot;prod.cfg&quot;])))\nconn.commit()\n\ndef recall(scope):\n    valid = []\n    rows = conn.execute(&quot;SELECT statement, source, source_hash FROM facts &quot;\n                        &quot;WHERE scope = ?&quot;, (scope,))\n    for statement, source, stored_hash in rows:\n        current = sources.get(source)\n        if current is not None and digest(current) == stored_hash:\n            valid.append({&quot;statement&quot;: statement, &quot;source&quot;: source})\n    return valid\n\nprint(&quot;修改前:&quot;, recall(&quot;demo/prod&quot;))\nsources[&quot;prod.cfg&quot;] = &quot;timeout=45&quot;\nprint(&quot;修改后:&quot;, recall(&quot;demo/prod&quot;))\nassert recall(&quot;demo/prod&quot;) == []\nassert recall(&quot;other/prod&quot;) == []\nconn.close()</code></pre><p>修改前能召回 30 秒，来源改成 45 后旧记录不再被返回。下一步应重新读取并形成新事实，而不是让模型用旧事实猜测新值。真实文件的整体哈希可能因无关排版变化失效，这是较保守的取舍；更精细的片段版本能减少重查，但实现复杂度更高。</p>"
+      },
+      {
+        "id": "retrieval",
+        "title": "相关记忆不等于可信记忆",
+        "html": "<p>向量相似度回答“这段话是否与问题相近”，不会回答“是否当前有效、是否属于同一用户、是否来源可靠”。先按权限和任务范围过滤，再做关键词或向量检索，最后检查版本与证据。对于小型仓库，明确路径和关键词往往已经够用，先建立可解释基线再增加检索复杂度。</p><p>MemGPT 研究了在不同存储层之间移动信息，以扩展有限上下文的可用范围。这里借用分层管理的思路；它并不意味着把内容写入数据库就能得到无限、无误的记忆。<a href=\"https://arxiv.org/abs/2310.08560\" target=\"_blank\" rel=\"noreferrer\">阅读 MemGPT 原论文</a>时可重点关注信息何时进入、何时离开当前上下文。</p>"
+      },
+      {
+        "id": "reliability",
+        "title": "用变化场景验证记忆带来的收益",
+        "html": "<p>至少测四类任务：原资料不变、配置修改、文件删除、环境切换。前者测试重复任务是否更快，后三者测试系统能否拒绝沿用错误证据。还要检查失败经验的适用范围，例如一次搜索无结果不应永久阻止以后搜索同一路径，因为仓库可能新增文件。</p><p>长期记忆会增加运维成本。要明确谁能查看、修改与删除记录，日志避免保存不必要的敏感内容。对个人学习项目可以先只保存文件定位和任务状态，把具体事实每次重新验证。更少的记忆有时更可靠，是否值得持久化取决于重复收益与维护负担。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "给 Repo 助手建立可失效的事实记忆",
+      "steps": [
+        "运行 SQLite 示例，验证来源改变后不会返回旧事实。",
+        "增加 observed_at、status 和环境字段，并为事实设计稳定 id。",
+        "模拟删除来源、切换环境和配置更新；记录命中、失效与重新读取次数。"
+      ],
+      "acceptance": [
+        "未变资料可命中；已改或已删除来源不会作为有效证据返回。",
+        "测试环境事实不会进入生产任务结果。",
+        "更新后新旧事实可区分，最终回答能追溯到当前来源与版本。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "向量检索返回与问题最相似的记忆，能说明什么？",
+        "options": [
+          "它一定正确",
+          "它一定最新",
+          "它在语义上相关，但仍需检查来源与适用范围",
+          "它已经获得当前用户授权"
+        ],
+        "answer": 2,
+        "explanation": "相似度衡量相关性，无法替代权限、版本和事实核验。"
+      },
+      {
+        "question": "事实记忆对应的来源文件已经改变，应该怎么处理？",
+        "options": [
+          "继续使用旧事实以节约费用",
+          "标记失效并重新取证",
+          "把旧事实重复写入两次",
+          "提高模型温度后再回答"
+        ],
+        "answer": 1,
+        "explanation": "来源变化使原先的证据关系不再成立。需要重读相关内容并产生新版本的事实。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "MemGPT 原论文",
+        "url": "https://arxiv.org/abs/2310.08560"
+      },
+      {
+        "title": "Python sqlite3 标准库",
+        "url": "https://docs.python.org/3/library/sqlite3.html"
+      },
+      {
+        "title": "Anthropic：Context engineering",
+        "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+      }
+    ]
+  },
+  {
+    "id": "05-multi-agent",
+    "number": 5,
+    "title": "在值得并行的地方使用多 Agent",
+    "subtitle": "划清任务边界、传递证据、合并结果，并为协调成本建立预算。",
+    "part": "Agent 工程",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "根据任务依赖选择串行、并行或协调者结构",
+      "设计包含范围与验收条件的委派消息",
+      "处理并发结果、冲突、超时和共享状态"
+    ],
+    "sections": [
+      {
+        "id": "when",
+        "title": "先画出依赖，再决定 Agent 数量",
+        "html": "<p>Repo 助手要比较三个独立组件的超时设置，可以让三个 worker 分别调查。若任务是先确定实际入口，再沿调用链查覆盖规则，后一步依赖前一步，强行拆开容易让各个 worker 猜测前提。适合并行的单位通常具有明确输入、独立证据和可合并输出。</p><p>同一模型的多个实例也能组成多 Agent 系统，关键在于它们有各自的状态与任务。一次模型调用并行执行几个工具，则是工具并行，两者不能混为一谈。先试单 Agent 配合并行读取，只有独立的推理任务确实受益时，再增加多个模型循环。</p>"
+      },
+      {
+        "id": "contracts",
+        "title": "委派消息要让接收者可以直接行动",
+        "html": "<p>不要只说“你负责配置”。给出目标、范围、允许修改的位置、输入版本、返回格式、停止条件和预算。例如“只调查 prod 目录的请求超时；返回值、文件行号、覆盖关系与未解决冲突；最多读取五个文件；只读”。清楚的契约可以减少重复调查与漏项。</p><p>推荐结果对象包含 task_id、status、claims、evidence 和 open_questions。worker 的自然语言结论是候选信息，协调者仍要检查证据是否对应当前版本。向每个 worker 广播完整历史既贵又容易造成注意力分散，通常传递它完成子任务需要的上下文即可。</p><p>子任务交接可以用一个具体限制检查：worker 返回的 claims 每一条必须指向 evidence 中的一个 id；协调者发现悬空引用就拒绝合并。若只需要比较数值，worker 不必写长篇报告，但应保留无法确定的原因。这让结果既紧凑又可追查，避免主 Agent 在汇总时把“尚未找到”润色成“已经证实不存在”。</p><p>任务的输入版本也要一致。若一个 worker 调查提交 A，另一个调查提交 B，合并出的项目状态可能从未真实存在。为本次调查固定仓库快照，或者在最终输出明确标注各来源版本和无法直接比较的部分。</p>"
+      },
+      {
+        "id": "ownership",
+        "title": "共享状态需要所有权",
+        "html": "<p>多个 worker 同时修改同一个文件，可能覆盖彼此的更改。可以把文件所有权分给不同 worker，或者让它们只返回补丁，由协调者统一合并。即使改的是不同文件，接口也要先约定，例如都以 timeout_seconds 为字段名。隔离写入位置不能自动解决语义冲突。</p><p>协调者维护任务表，记录待开始、运行中、成功、失败和取消状态。只有依赖满足的任务才能启动。最终答案必须区分已完成与未完成部分，不能把“worker 已返回”视为“它负责的问题已经解决”。检查缺失的 task_id 比阅读一大段完成感很强的总结更可靠。</p>"
+      },
+      {
+        "id": "code",
+        "title": "动手：并发收集结果，统一核对来源",
+        "html": "<p>下面是无需 API 的 Python 标准库演示。worker 是固定函数，模拟子任务的执行协议，不是模型。它展示并发提交、逐项收集异常和合并证据；把 worker 替换成完整 Agent 循环，协调层仍可使用同一种结果契约。</p><pre><code class=\"language-python\">from concurrent.futures import ThreadPoolExecutor, as_completed\n\nFILES = {&quot;prod.cfg&quot;: &quot;timeout=30&quot;, &quot;test.cfg&quot;: &quot;timeout=5&quot;}\ntasks = [{&quot;id&quot;: &quot;prod&quot;, &quot;path&quot;: &quot;prod.cfg&quot;},\n         {&quot;id&quot;: &quot;test&quot;, &quot;path&quot;: &quot;test.cfg&quot;},\n         {&quot;id&quot;: &quot;legacy&quot;, &quot;path&quot;: &quot;missing.cfg&quot;}]\n\ndef worker(task):\n    text = FILES[task[&quot;path&quot;]]\n    return {&quot;task_id&quot;: task[&quot;id&quot;], &quot;status&quot;: &quot;ok&quot;,\n            &quot;value&quot;: int(text.split(&quot;=&quot;, 1)[1]),\n            &quot;evidence&quot;: {&quot;path&quot;: task[&quot;path&quot;], &quot;line&quot;: 1, &quot;text&quot;: text}}\n\nresults = {}\nwith ThreadPoolExecutor(max_workers=2) as pool:\n    pending = {pool.submit(worker, task): task for task in tasks}\n    for future in as_completed(pending):\n        task = pending[future]\n        try:\n            result = future.result()\n            evidence = result[&quot;evidence&quot;]\n            if FILES.get(evidence[&quot;path&quot;]) != evidence[&quot;text&quot;]:\n                raise ValueError(&quot;source_changed&quot;)\n            results[task[&quot;id&quot;]] = result\n        except Exception as error:\n            results[task[&quot;id&quot;]] = {&quot;task_id&quot;: task[&quot;id&quot;],\n                                   &quot;status&quot;: &quot;failed&quot;, &quot;error&quot;: type(error).__name__}\n\nassert set(results) == {task[&quot;id&quot;] for task in tasks}\nfor task_id in sorted(results):\n    print(task_id, results[task_id])</code></pre><p>结果应有两个成功项和一个明确失败项。完成顺序不保证与提交顺序相同，因此依靠 task_id 对应，最后排序只为便于展示。这里对来源文本的核对很简单；真实合并还要检查值、环境、行号与结论之间的关系。</p>"
+      },
+      {
+        "id": "cost",
+        "title": "并行缩短等待，但不自动减少工作量",
+        "html": "<p>假设三个独立调查各需四秒，串行共十二秒；理想并行只需四秒，但若拆分与汇总再花两秒，总时长是六秒。这是教学演算，不是性能承诺。多 Agent 往往增加重复上下文和汇总调用，因此延迟下降时，token 与费用反而可能上升。</p><p>先限制最大并发数，再设置全局调用预算，不能让每个 worker 都独享原任务的全部预算。真实网络请求要设置请求级超时；取消一个 future 不保证能停止已经运行的线程。对长任务还要设计协作式取消和清理行为，不能只在协调者一侧结束等待。<a href=\"https://docs.python.org/3/library/concurrent.futures.html\" target=\"_blank\" rel=\"noreferrer\">Python futures 文档</a>说明了这些执行语义。</p>"
+      },
+      {
+        "id": "failure",
+        "title": "分歧需要证据，不需要简单投票",
+        "html": "<p>两个 worker 都说 30 秒，另一个说 45 秒，票数不能决定配置。先检查是否读了不同环境、不同提交，或一个读到了覆盖项。共享同一份错误输入的多个模型可能一致犯错，结果一致并不代表独立验证。让最终结论回到版本明确的证据上。</p><p>保留单 Agent 基线，在相同任务、质量标准和总预算下比较。只有成功率或延迟收益足够抵偿协调成本时，才保留多 Agent 结构。Anthropic 的研究系统文章给出了协调者与 worker 的实践，但其中具体收益取决于其任务与模型，不能直接外推到我们的文件助手。<a href=\"https://www.anthropic.com/engineering/multi-agent-research-system\" target=\"_blank\" rel=\"noreferrer\">阅读工程案例</a>。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "把配置调查拆成三个可核验的子任务",
+      "steps": [
+        "运行示例并观察 legacy 子任务失败时，其他结果是否仍保留。",
+        "给任务增加依赖字段，要求合并任务只能在必要调查成功后执行。",
+        "分别用一个和两个 worker 运行相同输入，记录完成状态、调用数量与耗时。"
+      ],
+      "acceptance": [
+        "每个 task_id 恰好对应一个最终结果，异常不会导致结果丢失。",
+        "存在未解决的必要子任务时，最终输出明确标为不完整。",
+        "提交一张单 worker 与双 worker 对比表，说明是否有实际收益及原因。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "下列哪项最适合直接拆成并行子任务？",
+        "options": [
+          "先找到入口，再按入口选择文件",
+          "分别调查三个相互独立组件的配置",
+          "先决定新接口，再修改所有调用方",
+          "先获取权限，再读取受控数据"
+        ],
+        "answer": 1,
+        "explanation": "独立组件调查没有必须串行等待的输入依赖。其他选项的后一步取决于前一步结果。"
+      },
+      {
+        "question": "三个 worker 中两个给出 30 秒，一个给出 45 秒，该如何合并？",
+        "options": [
+          "直接多数投票",
+          "只相信最快返回的结果",
+          "按环境、版本和原始证据核对差异",
+          "取平均值 35 秒"
+        ],
+        "answer": 2,
+        "explanation": "事实性冲突应回到证据。不同环境或覆盖规则都可能导致表面矛盾，多数并不保证正确。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "Anthropic：Multi-agent research system",
+        "url": "https://www.anthropic.com/engineering/multi-agent-research-system"
+      },
+      {
+        "title": "Python concurrent.futures",
+        "url": "https://docs.python.org/3/library/concurrent.futures.html"
+      }
+    ]
+  },
+  {
+    "id": "06-evaluation",
+    "number": 6,
+    "title": "建立能发现退步的 Agent 评测",
+    "subtitle": "从任务结果出发，衡量正确性、可靠性、成本，并避免把测试答案泄漏给系统。",
+    "part": "Agent 工程",
+    "minutes": 35,
+    "level": "进阶",
+    "goals": [
+      "定义可执行的任务验收与失败分类",
+      "比较单次成功率、至少成功一次和稳定成功",
+      "构建分离开发集与留出集的可重复实验"
+    ],
+    "sections": [
+      {
+        "id": "outcome",
+        "title": "先评结果，再看过程",
+        "html": "<p>Repo 助手回答“超时已经确认”，并不代表它读过正确配置。一个问答任务的结果可以要求数值正确、环境正确、来源支持结论，以及资料不足时明确弃答。代码任务则检查最终文件状态与相关测试。优先评估可观察结果，再用工具轨迹解释为什么成功或失败。</p><p>把任务写成固定输入、初始环境和验收规则。评估一个 Agent 实际上同时评了模型、提示词、工具和 harness。更换任何一项都可能改变结果，所以实验报告要记录各自版本。<a href=\"https://cs2680.com/notes/agent-evaluation\" target=\"_blank\" rel=\"noreferrer\">CS2680 的评测专题</a>可用于理解任务级衡量与基准选择。</p>"
+      },
+      {
+        "id": "dataset",
+        "title": "小而有区分度的数据集比随手提问更有用",
+        "html": "<p>先做二十个自己能够人工核验的任务，覆盖直接答案、多文件覆盖、同名变量、缺失资料、过期记忆和工具错误。这个规模适合发现工程缺陷，不能证明系统在所有仓库都可靠。每个失败任务写明首次偏离点，例如检索遗漏、读取错误、答案无证据或预算用尽。</p><p>划分开发集与留出测试集。提示词调试只看开发集，阶段性比较才运行留出集。若同一个仓库的近乎相同问题同时出现在两边，评测容易高估泛化；可以按仓库、任务族或时间切分。公开基准也可能进入模型训练资料，分数应结合新建任务和实际工作样本一起解读。</p><p>创建一个简短的运行清单，固定代码提交、模型标识、提示词版本、采样配置、工具版本和预算。温度为零也不等于跨服务版本绝对可复现，因此仍需重复运行。若任务涉及外部网页或远程服务，尽量保存允许保存的响应快照，或在报告中标明外部状态变化，避免把资料更新误判为模型退步。</p><p>超时、解析失败和执行错误都应留在结果分母内。只删除失败运行会让成功率和成本看起来更好。确实属于评测设施故障的情况应单独标记，说明排除标准，再重新运行，而不是在看见分数后临时改变规则。</p>"
+      },
+      {
+        "id": "graders",
+        "title": "选择能验证目标的评分器",
+        "html": "<p>优先用程序检查确定性条件，例如返回值、文件内容和来源是否存在。自由文本不能只靠字符串完全相等，不同表述也可能正确。可先让答案返回 value、environment、evidence 等结构化字段，再验证这些字段之间是否一致。测试只覆盖显式条件，全部通过也不代表任务完全没有其他问题。</p><p>解释是否充分等开放问题可以用人工或模型评分。模型评分器需要明确量表、盲化候选名称，并抽样与人工结果校准。让写答案的同一模型直接判断“我做得好吗”可能存在偏差。程序、人工和模型评分各有适用范围，避免为了自动化把容易验证的事实交给模糊判断。</p>"
+      },
+      {
+        "id": "code",
+        "title": "动手：计算重复试验的可靠性",
+        "html": "<p>以下代码无需 API。predictions 是人工设定的模拟输出，仅演示评分逻辑与统计口径，不是任何真实模型的成绩。每题运行三次，同时看平均单次成功率、三次至少一次成功比例、三次全部成功比例。</p><pre><code class=\"language-python\">cases = [\n    {&quot;id&quot;: &quot;prod&quot;, &quot;expected&quot;: (&quot;answer&quot;, 30, &quot;prod.cfg:2&quot;)},\n    {&quot;id&quot;: &quot;test&quot;, &quot;expected&quot;: (&quot;answer&quot;, 5, &quot;test.cfg:2&quot;)},\n    {&quot;id&quot;: &quot;missing&quot;, &quot;expected&quot;: (&quot;abstain&quot;, None, None)},\n    {&quot;id&quot;: &quot;conflict&quot;, &quot;expected&quot;: (&quot;abstain&quot;, None, None)},\n]\npredictions = {\n    &quot;prod&quot;: [(&quot;answer&quot;, 30, &quot;prod.cfg:2&quot;), (&quot;answer&quot;, 30, &quot;prod.cfg:2&quot;),\n             (&quot;answer&quot;, 30, &quot;README:1&quot;)],\n    &quot;test&quot;: [(&quot;answer&quot;, 5, &quot;test.cfg:2&quot;)] * 3,\n    &quot;missing&quot;: [(&quot;abstain&quot;, None, None), (&quot;abstain&quot;, None, None),\n                (&quot;answer&quot;, 30, None)],\n    &quot;conflict&quot;: [(&quot;answer&quot;, 30, &quot;prod.cfg:2&quot;), (&quot;abstain&quot;, None, None),\n                 (&quot;answer&quot;, 45, &quot;old.cfg:2&quot;)],\n}\n\nscores = []\nfor case in cases:\n    # 小型受控数据使用精确字段匹配；真实来源还需检查是否支持答案。\n    row = [result == case[&quot;expected&quot;] for result in predictions[case[&quot;id&quot;]]]\n    scores.append(row)\n    print(case[&quot;id&quot;], row)\n\nsingle = sum(sum(row) for row in scores) / sum(map(len, scores))\nany_success = sum(any(row) for row in scores) / len(scores)\nall_success = sum(all(row) for row in scores) / len(scores)\nprint(f&quot;单次平均: {single:.1%}&quot;)\nprint(f&quot;三次至少一次: {any_success:.1%}&quot;)\nprint(f&quot;三次全部成功: {all_success:.1%}&quot;)</code></pre><p>结果分别为 66.7%、100.0% 和 25.0%。如果只展示最好的一次，会掩盖大部分任务无法稳定完成的问题。conflict 的预期弃答来自题目约定“覆盖规则缺失”，并非所有冲突都应弃答；若有明确优先级，应该继续核验并得出结论。</p>"
+      },
+      {
+        "id": "metrics",
+        "title": "把质量、稳定性和成本一起报告",
+        "html": "<p>通常用 pass@k 表达在 k 次尝试内至少一次成功，用 pass^k 讨论连续 k 次都成功的可靠性。上述代码计算的是每题固定三次试验的经验比例，不是从更大样本估计 pass@k 的组合公式。若尝试独立且单次成功概率为 p，至少一次成功概率是 1−(1−p)^k，全部成功是 p^k；真实尝试未必独立。</p><p>同时记录每题总时长、输入与输出 token、工具次数和总成本。计算成功成本时先明确统计单位。若每次独立试验视为一次任务运行，就用所有试验总成本除以成功运行次数，失败产生的开销也计入总成本。若按原始任务聚合三次尝试，则先把每题的三次尝试成本合并，再用所有题的总成本除以最终成功的原始任务数；此时成功规则应明确为“三次至少一次成功”或其他预先约定的规则。两种口径的分母不同，不可混用。对比新旧方案时固定任务、预算和运行条件，并报告重复次数；少量样本中的一两题波动不宜被解释成稳定改进。</p>"
+      },
+      {
+        "id": "leakage",
+        "title": "让留出集真的留在系统外面",
+        "html": "<p>评测目录里的标准答案、评分说明和隐藏测试不能被 Agent 搜索到，也不要放进持久记忆或检索索引。运行前建立干净环境，运行后清理状态，防止前一题的答案进入下一题。调试时已经看过的测试题应转入开发集，并补充新的留出样本。</p><p>每次修改先跑覆盖已知能力的回归集，再用留出任务判断有没有泛化收益。查看失败轨迹后写出可验证的改进假设，例如“来源错误来自检索未区分环境”，然后只修改相关环节。评测最终服务于工程决策，漂亮的总分不能替代对具体失败的理解。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "为 Repo 助手建立第一套二十题评测",
+      "steps": [
+        "编写二十个可人工核验的任务，包含正确答案、证据不足、来源冲突与工具错误。",
+        "将相似任务按族划分为开发集与留出集，保证答案文件不进入 Agent 工作目录。",
+        "每题运行三次，记录结果、来源、退出原因、时间和费用；比较一个明确的改动。"
+      ],
+      "acceptance": [
+        "每题都有独立于 Agent 回答的验收规则与初始环境。",
+        "报告三种成功比例、总成本及失败类型，不只展示最好结果。",
+        "重跑时环境与记忆已重置；报告明确哪些题用于调试，哪些保持留出。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "四个任务都曾成功一次，但只有一个任务三次都成功，可以说明什么？",
+        "options": [
+          "系统可靠性为 100%",
+          "至少一次成功与稳定成功衡量了不同性质",
+          "应该只展示最好结果",
+          "失败运行不应计入成本"
+        ],
+        "answer": 1,
+        "explanation": "多次尝试提高解决机会，但用户依赖一次运行时，更关心稳定完成。两类指标需要同时报告。"
+      },
+      {
+        "question": "哪种做法会造成评测数据泄漏？",
+        "options": [
+          "评分器在独立环境读取标准答案",
+          "按仓库划分开发和留出集",
+          "Agent 的检索索引包含留出题的标准答案",
+          "记录每次运行的版本与预算"
+        ],
+        "answer": 2,
+        "explanation": "Agent 能检索到答案会让评测变成答案查找，无法反映对新任务的实际能力。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "CS2680：Agent evaluation and benchmarks",
+        "url": "https://cs2680.com/notes/agent-evaluation"
+      },
+      {
+        "title": "Anthropic：Demystifying evals for agents",
+        "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+      },
+      {
+        "title": "τ-bench 原论文",
+        "url": "https://arxiv.org/abs/2406.12045"
+      }
+    ]
+  }
+]

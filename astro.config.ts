@@ -32,6 +32,14 @@ const tripPages = readdirSync(new URL('./public/trips/', import.meta.url), {
   .filter((path) => path === 'index.html' || path.endsWith('/index.html'))
   .map((path) => `https://tsonglew.github.io/trips/${path.slice(0, -'index.html'.length)}`)
 
+// Keep the generated CS2680 reading platform discoverable in the sitemap.
+const cs2680Pages = readdirSync(new URL('./public/cs2680/', import.meta.url), {
+  recursive: true,
+  encoding: 'utf8'
+})
+  .filter((path) => path === 'index.html' || path.endsWith('/index.html'))
+  .map((path) => `https://tsonglew.github.io/cs2680/${path.slice(0, -'index.html'.length)}`)
+
 // https://astro.build/config
 export default defineConfig({
   // [Basic]
@@ -139,7 +147,7 @@ export default defineConfig({
   // [Integrations]
   integrations: [
     // Configure sitemap here; astro-pure adds mdx & unocss.
-    sitemap({ customPages: [...tripPages, 'https://tsonglew.github.io/cs2680/'] }),
+    sitemap({ customPages: [...tripPages, ...cs2680Pages] }),
     // mdx(),
     AstroPureIntegration(config),
     // Client-side mermaid rendering for diagram code blocks

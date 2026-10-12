@@ -1,0 +1,592 @@
+[
+  {
+    "id": "07-cost-routing",
+    "number": 7,
+    "title": "成本与模型路由",
+    "subtitle": "把每次调用的账单，变成每个成功任务的成本。",
+    "part": "推理与系统",
+    "minutes": 25,
+    "level": "进阶",
+    "goals": [
+      "计算调用成本与成功任务成本，解释二者为何可能反向变化",
+      "设计带预算、验证与升级条件的模型路由",
+      "用固定任务集比较路由策略，而非凭模型印象选择"
+    ],
+    "sections": [
+      {
+        "id": "cost-unit",
+        "title": "先确定你在为什么付钱",
+        "html": "<p>假设你正在做一个文档问答 Agent。一次用户问题可能触发检索、三次模型调用、一次格式修复。用户购买的是有证据的正确答案，账单却按调用和资源累计。只盯着单次 token 价格，会忽略轮数、重试、工具服务和失败后的人工处理。先定义一个任务的边界，从收到问题到通过验收或终止，所有尝试都计入同一笔账。</p><p>可以建立两层指标。调用层记录输入、输出、缓存读写 token 和模型；任务层记录总成本、成功与否、总耗时以及终止原因。<strong>成功任务成本 = 所有任务尝试的总成本 ÷ 成功完成的任务数</strong>。失败任务的开销仍在分子中；成功数为零时应标记为不可用，不要返回零。API 价格会变化，实验中保存采用的价格表与日期。自托管也有 GPU 使用时长和空闲容量成本，不能把免费额度当成长期成本。</p>"
+      },
+      {
+        "id": "worked-cost",
+        "title": "一个便宜模型反而更贵的算例",
+        "html": "<p>以下价格全部是假设值，仅用于算术。模型 A 每次任务平均花费 0.02 元，成功率 40%；模型 B 平均花费 0.04 元，成功率 90%。各做一百个同分布任务，A 花 2 元得到 40 个成功，成功任务成本为 0.05 元；B 花 4 元得到 90 个成功，约为 0.044 元。单次价格低并没有带来更低的有效成本。</p><p>若一次调用使用 4,000 个未缓存输入 token、1,000 个输出 token，假设两类单价分别为每百万 2 元和 8 元，则成本为 0.008 + 0.008 = 0.016 元。存在缓存时要按供应商实际计费分类，避免既把缓存 token 算作普通输入，又重复收取缓存费用。再把一次任务的所有调用求和，最后按独立验收结果统计成功数。</p>"
+      },
+      {
+        "id": "route-design",
+        "title": "把路由写成可观察的决策",
+        "html": "<p>路由可以发生在任务开始前，也可以在中途升级。开始前用可获得的信号分组，例如输入长度、是否涉及多个文件、是否需要复杂工具；中途则依据可执行检查、格式错误或明确的失败状态升级。不要用答案看起来流畅，或者模型自报“很有信心”，直接代替经过校准的质量信号。</p><p>一个起步策略是：简单任务先走小模型，检查失败再走大模型，最多升级一次。假设小模型成本 0.01 元，升级率 30%，大模型每次 0.05 元，则平均成本为 0.01 + 0.3 × 0.05 = 0.025 元，尚未计入验证器。成功率需要实际测量，因为验证器会误接收错误答案，也会把正确答案误判为失败。测试失败后的升级也会增加尾部延迟，应同时设定成本、轮数与总时限。</p>"
+      },
+      {
+        "id": "route-lab",
+        "title": "本机实验：从任务账本比较策略",
+        "html": "<p>把下面代码保存为 cost_lab.py，用 python3 cost_lab.py 运行。它只用标准库，不调用付费模型。每行表示一个完整任务，成本已经包含该任务内部的重试。示例账本是人为构造的，目的是检查统计口径，不能据此断言某种路由永远更好。</p><pre><code class=\"language-python\">runs = {\n    &quot;small&quot;: [(0.02, True)] * 4 + [(0.02, False)] * 6,\n    &quot;large&quot;: [(0.04, True)] * 9 + [(0.04, False)],\n    &quot;routed&quot;: [(0.01, True)] * 7 + [(0.06, True)] * 2\n              + [(0.06, False)],\n}\nfor name, rows in runs.items():\n    total = sum(cost for cost, ok in rows)\n    success = sum(ok for cost, ok in rows)\n    cps = total / success if success else float(&quot;inf&quot;)\n    print(name, f&quot;success={success}/{len(rows)}&quot;,\n          f&quot;total={total:.3f}&quot;, f&quot;cost/success={cps:.4f}&quot;)\nassert abs(sum(c for c, ok in runs[&quot;routed&quot;]) - 0.25) &lt; 1e-9</code></pre><p>预期 small、large、routed 的成功任务成本分别约为 0.0500、0.0444、0.0278。把 routed 的一次成功改为失败，成本保持不变，再观察指标上升。随后用自己的 JSONL 运行记录替换账本，给每个 task_id 保留最终一次验收和所有尝试费用。</p>"
+      },
+      {
+        "id": "budget-rules",
+        "title": "预算控制要和错误恢复一起设计",
+        "html": "<p>预算不是一句“尽量省钱”的提示词。执行器应在每次调用前检查剩余额度，在调用后扣减真实用量，并记录停止原因。即将耗尽时可以返回已验证的局部结果、要求缩小问题，或保留检查点等待继续。若工具动作有副作用，重试前先检查动作是否已经成功，避免一边省模型费用，一边重复创建资源。</p><p>缓存固定说明、减少无效检索和缩短不必要的输出，通常比随意删掉关键上下文更容易解释。并行子任务可能缩短墙钟时间，却增加总计算量。每项优化都应回答：省掉了哪些工作，是否改变任务难度，是否让失败转移到用户手上。压缩后的提示词要经过同一组任务验收，不能只比较 token 数。</p>"
+      },
+      {
+        "id": "routing-review",
+        "title": "比较时保留分组和失败样本",
+        "html": "<p>把固定任务集分成开发集和保留测试集，在开发集调阈值，最后只用保留集报告结果。对简单、困难、长上下文和工具密集任务分别统计，防止整体平均值掩盖某类任务退步。少量随机任务的百分点变化可能只是噪声，可以对同一任务做多次试验，并报告样本量与波动范围。</p><p>最终保留一张策略表，列出成功率、成功任务成本、延迟分位数、升级率和失败类型。若两套策略都满足质量底线，再按产品预算选择。最常见的误区是删除昂贵失败样本、把拒答算作成功、让不同模型得到不同工具权限，或一边换模型一边改提示词；这些操作都会让比较失去解释力。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "为你的 Agent 写一份成本决策记录",
+      "steps": [
+        "选取至少 20 个固定任务，明确机器可检查的成功条件，并标注任务难度。",
+        "设计全用小模型、全用大模型、小模型失败后升级三个策略；没有 API 时先生成包含失败记录的模拟账本。",
+        "对每个 task_id 聚合所有调用和重试费用，统计成功率、成功任务成本及延迟。",
+        "写下路由触发条件、最大升级次数和超预算后的返回行为。"
+      ],
+      "acceptance": [
+        "三种策略使用相同任务与验收器，失败任务费用没有被过滤。",
+        "能复算至少一个任务的完整账单；零成功策略不会输出零成本。",
+        "明确区分模拟结果与真实测量，并说明一个路由失败案例。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "某策略尝试 100 个任务，共花费 12 元，成功 60 个。成功任务成本是多少？",
+        "options": [
+          "0.12 元",
+          "0.20 元",
+          "0.60 元",
+          "7.20 元"
+        ],
+        "answer": 1,
+        "explanation": "分子包含全部成功与失败尝试费用，12 ÷ 60 = 0.20 元。"
+      },
+      {
+        "question": "哪种信号最适合作为代码任务升级模型的起点？",
+        "options": [
+          "模型说自己很自信",
+          "答案篇幅较短",
+          "预先定义的测试没有通过",
+          "小模型名字看起来较旧"
+        ],
+        "answer": 2,
+        "explanation": "可执行测试提供与任务验收直接相关的信号，但仍要分析测试覆盖不足和误判。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "Anthropic：Agent 评测的任务、试验与结果",
+        "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+      },
+      {
+        "title": "Anthropic：价格与输入、输出、缓存计费",
+        "url": "https://docs.anthropic.com/en/docs/about-claude/pricing"
+      },
+      {
+        "title": "vLLM：自动前缀缓存的适用边界",
+        "url": "https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/"
+      }
+    ]
+  },
+  {
+    "id": "08-serving",
+    "number": 8,
+    "title": "从模型调用到推理服务",
+    "subtitle": "沿着一个请求，读懂 prefill、decode 与延迟指标。",
+    "part": "推理与系统",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "区分 prefill 和 decode，定位首 token 与后续 token 的等待",
+      "从时间戳计算 TTFT、ITL、TPOT 和端到端延迟",
+      "规划可复现的本地服务实验并记录硬件与软件条件"
+    ],
+    "sections": [
+      {
+        "id": "request-path",
+        "title": "一个请求经过哪些地方",
+        "html": "<p>模型文件能够生成文本，不代表它已经是一项稳定服务。一次请求通常经过 HTTP 接入、鉴权与输入校验、聊天模板渲染、分词、排队、模型执行、结果解码和流式传输。Agent 还可能在两次模型调用之间等待工具。用户感到“慢”，既可能来自 GPU，也可能来自网络、排队或检索。先画出请求路径，再给关键边界打时间戳。</p><p>服务端负责模型权重、执行计划和 KV cache，客户端负责构造请求、消费流与处理超时。部署前先确认模型许可证、所需内存、上下文长度和聊天模板。能够加载权重只是第一步，仍需为缓存和运行时临时空间留出余量。不要把下载大小直接当作峰值显存需求。</p>"
+      },
+      {
+        "id": "prefill-decode",
+        "title": "两种阶段，两种工作形态",
+        "html": "<p>prefill 处理输入序列，为各层建立可复用的历史状态，并得到用于生成首个输出 token 的信息。已知的输入 token 可以在因果掩码约束下并行计算，因此长输入常形成较大的矩阵运算。decode 则把新生成 token 加入序列，继续预测下一个 token；后一个 token 依赖前一个结果，单条序列具有串行链。</p><p>在常见负载中，长 prefill 更容易受计算吞吐限制，低并发 decode 更容易受内存带宽限制，但这只是判断假设。模型结构、上下文长度、批大小和设备都会改变瓶颈。增大输出长度主要增加 decode 轮次；增大输入长度会增加 prefill 工作，也会让后续 attention 读取更多历史。不能用一个固定“每秒 token 数”覆盖所有输入输出组合。</p>"
+      },
+      {
+        "id": "latency-metrics",
+        "title": "让时间指标有一致口径",
+        "html": "<p><strong>TTFT</strong> 是从发送请求到收到第一个有效输出 token 的时间，客户端口径通常包含网络与排队。<strong>ITL</strong> 是相邻输出 token 之间的时间间隔；<strong>TPOT</strong> 常按首 token 之后的平均输出时间计算，即 (末 token 时刻 − 首 token 时刻) ÷ (输出 token 数 − 1)。只有一个 token 时该公式没有定义。端到端延迟则从发送请求到完整响应结束。</p><p>例如请求在 0 秒发出，三个 token 在 0.8、0.9、1.2 秒到达，则 TTFT 为 0.8 秒，ITL 为 0.1 与 0.3 秒，TPOT 为 0.2 秒。若响应在 1.25 秒结束，端到端延迟为 1.25 秒。平均流速会掩盖中间的停顿，因此既要看平均值，也要看分布。实际网络流的一个 chunk 可能含多个 token，不能把 chunk 间隔自动当作逐 token ITL。</p>"
+      },
+      {
+        "id": "timing-lab",
+        "title": "本机实验：从时间戳重建体验",
+        "html": "<p>下面是合成时间戳实验，单位都是秒。它不依赖真实网络，因此每次运行结果一致。保存为 latency_lab.py 后运行 python3 latency_lab.py，先手算再对照输出。</p><pre><code class=\"language-python\">from statistics import mean\nsent = 0.0\ntokens = [0.8, 0.9, 1.2]\nfinished = 1.25\nitl = [b - a for a, b in zip(tokens, tokens[1:])]\nmetrics = {\n    &quot;TTFT&quot;: tokens[0] - sent,\n    &quot;ITL&quot;: itl,\n    &quot;TPOT&quot;: mean(itl) if itl else None,\n    &quot;E2E&quot;: finished - sent,\n}\nfor key, value in metrics.items():\n    print(key, value)\nassert abs(metrics[&quot;TPOT&quot;] - 0.2) &lt; 1e-9\n# An extra second of queueing shifts every response event.\nshifted = [t + 1.0 for t in tokens]\nassert abs((shifted[0] - sent) - 1.8) &lt; 1e-9\nassert all(abs((b-a) - d) &lt; 1e-9\n           for (a, b), d in zip(zip(shifted, shifted[1:]), itl))</code></pre><p>额外排队让 TTFT 增加一秒，ITL 却不变。接着把最后一个 token 推迟半秒，同时把 finished 更新为不早于最后一个 token 的时刻，例如把 tokens[-1] 改为 1.7、finished 改为 1.75。检查 TTFT 保持原值，而 TPOT 与端到端延迟上升；响应结束时间不能早于最后一个 token 到达时间。这个区分会直接决定下一步检查队列，还是检查 decode 与传输。</p>"
+      },
+      {
+        "id": "deploy-lab",
+        "title": "接入 vLLM 时先建立最小基线",
+        "html": "<p>有合适设备时，按下方 vLLM 官方 Quickstart 与安装页面选择与你的操作系统、加速器和驱动相匹配的环境。本教程不固定 CUDA 版本或默认启动参数，这些随版本与平台变化。先选官方支持且放得进设备的模型，记录模型完整名称、revision、vLLM 版本、硬件和启动参数，然后按官方在线服务示例发送一个短请求。</p><p>依次验证非流式返回、流式输出、异常输入和客户端取消。随后固定提示词与输出上限，先测并发一，再逐步增加并发。将服务启动、模型加载、首次内核编译等冷启动时间单独记录，预热后的结果另成一组。没有 GPU 也能完成本章时间戳实验；不要把模拟数据包装为真实推理性能。</p><p>客户端超时与服务端取消也应分开验证。客户端不再等待，并不一定意味着后台生成已经停止；持续浪费的请求会占用后续用户的排队位置。给请求保存唯一编号，检查取消后资源是否释放。设置长度上限和合理超时，既帮助建立明确容量边界，也让失败能够被解释为输入超限、排队超时或执行错误。</p>"
+      },
+      {
+        "id": "metrics-pitfalls",
+        "title": "吞吐量和体验需要同时报告",
+        "html": "<p>吞吐量要写清分母与统计对象。输出 tokens/s、输入加输出 tokens/s、完成请求数/s 是不同指标；长答案可能提高 token 吞吐，却让每个用户等待更久。报告时固定输入长度、输出长度、到达模式和并发范围，包含错误数及超时数。仅统计成功且快速完成的请求，会把过载服务伪装成高性能服务。</p><p>观察到 TTFT 高、ITL 稳定时，先检查队列和 prefill；两者同时升高时再查资源争用、内存压力与调度。服务端指标和客户端时间戳必须分别标明测量位置。不同机器的时钟不能随意相减，分段耗时应尽量在同一单调时钟上计算。这些记录能让一次“感觉快了”变成可以复核的实验。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "为一条流式响应建立延迟报告",
+      "steps": [
+        "运行标准库实验，并画出发送、首 token、后续 token、响应结束的时间线。",
+        "构造仅增加排队时间、仅增加后续 token 间隔两种变体。",
+        "有设备时按照 vLLM 官方文档启动服务；无设备时提供明确标记的模拟事件记录。",
+        "整理一张表，分别列出 TTFT、TPOT、端到端延迟、输出 token 数和测量位置。"
+      ],
+      "acceptance": [
+        "基线计算出 TTFT 0.8 秒、TPOT 0.2 秒和 E2E 1.25 秒。",
+        "能够说明网络 chunk 与 token 的差异，单 token 情况不会除以零。",
+        "真实实验记录模型、版本、硬件、预热方式与失败请求数；模拟实验明确注明未运行模型。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "额外排队 2 秒，但生成阶段完全相同，最直接受影响的是哪项？",
+        "options": [
+          "TTFT",
+          "单个权重的位宽",
+          "KV head 数量",
+          "所有 ITL 必然翻倍"
+        ],
+        "answer": 0,
+        "explanation": "客户端 TTFT 包含首 token 之前的等待；生成节奏不变时 ITL 可以保持不变。"
+      },
+      {
+        "question": "一个流式 chunk 内可能包含多个 token，这时 chunk 间隔是什么？",
+        "options": [
+          "一定是逐 token ITL",
+          "一定是 GPU kernel 时间",
+          "网络可见的块到达间隔",
+          "模型上下文长度"
+        ],
+        "answer": 2,
+        "explanation": "客户端观测的是网络块，只有拥有逐 token 时间信息才能严谨计算逐 token ITL。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "vLLM：Quickstart 与在线服务",
+        "url": "https://docs.vllm.ai/en/latest/getting_started/quickstart/"
+      },
+      {
+        "title": "vLLM：生产指标定义",
+        "url": "https://docs.vllm.ai/en/latest/usage/metrics/"
+      },
+      {
+        "title": "vLLM：优化与调优",
+        "url": "https://docs.vllm.ai/en/latest/configuration/optimization/"
+      }
+    ]
+  },
+  {
+    "id": "09-kv-cache",
+    "number": 9,
+    "title": "KV cache 与前缀复用",
+    "subtitle": "算清上下文的内存账，理解缓存究竟省掉哪段计算。",
+    "part": "推理与系统",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "推导标准 attention 的 KV cache 内存公式并区分 MHA 与 GQA",
+      "解释 PagedAttention 如何改善分配与碎片问题",
+      "识别可复用前缀，设计冷缓存与热缓存对照实验"
+    ],
+    "sections": [
+      {
+        "id": "kv-intuition",
+        "title": "为什么保留 K 和 V",
+        "html": "<p>在自回归 Transformer 中，新 token 的 query 需要和历史 token 的 key 比较，再用 attention 权重组合历史 value。如果每生成一个 token 都重新计算全部历史 K、V，就会反复做同一部分工作。KV cache 把每一层已处理 token 的 key 和 value 保存下来；下一步只计算新增 token 的状态，再读取历史缓存。</p><p>缓存是运行状态，不是模型权重，也不是完整答案的复用。它会随有效上下文增长，并在多请求并发时占用大量内存。通常不保存历史 query，因为未来 token 需要的是历史 K、V。这里讨论标准 Transformer attention 的逻辑容量；滑动窗口、混合状态模型、压缩注意力等结构会改变公式，不能直接照搬。</p>"
+      },
+      {
+        "id": "kv-formula",
+        "title": "把每个维度乘出来",
+        "html": "<p>对批中长度相同、没有共享的 B 条序列，设层数 L、序列长度 T、KV head 数 Hkv、每个 head 维度 D、每个元素字节数 s，则 <strong>KV bytes = 2 × B × L × T × Hkv × D × s</strong>。前面的 2 分别代表 K 和 V。长度不同时，把 B×T 换成各序列长度之和；上下文长度包含已保留输入与已生成 token。</p><p>MHA 通常每个 query head 对应一个 KV head，因此 Hkv 等于 query head 数；GQA 让多个 query head 共享一组 K、V，Hkv 更少。假设 B=1、L=32、T=4096、D=128、s=2，MHA 的 Hkv=32 时逻辑 KV 为 2 GiB；GQA 的 Hkv=8 时为 0.5 GiB。这是同一组假设下的四倍差异，不代表可以无损修改任意模型的 head 配置。</p>"
+      },
+      {
+        "id": "memory-budget",
+        "title": "逻辑容量与实际显存不同",
+        "html": "<p>上面的公式不包含权重、激活、临时工作区、内存分配器保留空间和元数据。多卡部署也不能总是直接除以卡数，head 分片方式和复制策略会影响每卡容量。规划时先给模型与运行时留空间，再估算可容纳的活跃 token 总数，而不是只报“支持多少并发请求”。十个短请求和十个超长请求的压力可能相差很大。</p><p>如果按每条请求的最大长度一次性预留连续空间，短请求会浪费容量，长短混合还可能产生碎片。PagedAttention 将逻辑 KV 序列映射到固定大小的物理块，允许按需分配和非连续存放。它主要改善内存管理与可共享性，并没有让每个 token 的 K、V 自动变小。最后一个未填满的块仍会产生部分浪费。</p><p>还要分清缓存容量和 attention 的临时计算。标准全量 attention 在处理长输入时涉及大量 token 对之间的关系，而 KV cache 存的是每个历史位置的向量，按本章假设随长度线性增长。采用节省 attention 中间存储的内核，并不等于不再需要历史 KV。排查内存时分别列出持久缓存和本次执行的临时空间，才能判断应该减少活跃上下文，还是更换执行方法。</p>"
+      },
+      {
+        "id": "prefix-reuse",
+        "title": "相同开头，才能直接复用历史",
+        "html": "<p>自动前缀缓存跨请求保留可复用的 KV 状态。当模型配置和 token 前缀一致时，新请求可以跳过已经计算的前缀 prefill。实践中适合复用固定系统说明、工具定义、公共文档或稳定的对话历史；把每次变化的时间戳放在最前面，则可能让共享前缀很早中断。缓存键还需正确隔离模型、适配器及租户语义。</p><p>文字含义相近不等于 token 前缀相同。调整空格、模板或工具顺序都可能影响命中。前缀缓存主要节省 prefill，不会替你生成剩余答案，也不会消除 decode 对历史 KV 的读取。十次重复请求的热缓存结果不能代表首次访问；若内存紧张发生驱逐，之前出现过的前缀也可能不再可用。</p>"
+      },
+      {
+        "id": "kv-lab",
+        "title": "本机实验：容量与前缀敏感性",
+        "html": "<p>保存为 kv_lab.py 并运行。示例用词编号模拟 token，只验证共同前缀的语义，不实现推理引擎的块哈希和缓存驱逐。</p><pre><code class=\"language-python\">def kv_bytes(layers, tokens, kv_heads, head_dim, size=2, batch=1):\n    return 2 * batch * layers * tokens * kv_heads * head_dim * size\n\ndef common_prefix(a, b):\n    count = 0\n    for x, y in zip(a, b):\n        if x != y:\n            break\n        count += 1\n    return count\n\nmha = kv_bytes(32, 4096, 32, 128)\ngqa = kv_bytes(32, 4096, 8, 128)\nprint(&quot;MHA GiB&quot;, mha / 2**30)\nprint(&quot;GQA GiB&quot;, gqa / 2**30)\nassert mha == 4 * gqa\nstable = [10, 11, 12, 13]\na = stable + [100, 101]\nb = stable + [200]\nprint(&quot;shared tokens&quot;, common_prefix(a, b))\nprint(&quot;timestamp first&quot;, common_prefix([1] + a, [2] + b))\nassert common_prefix(a, b) == 4\nassert common_prefix([1] + a, [2] + b) == 0</code></pre><p>结果应是 2.0 GiB、0.5 GiB、共享 4 个 token，以及动态前缀下共享 0 个 token。把长度或并发翻倍，逻辑 KV 同样翻倍。把字节数从二改为一只是在做容量估算；真正的 KV 量化还有数值误差、缩放因子和实现支持问题。</p>"
+      },
+      {
+        "id": "cache-measure",
+        "title": "怎样证明确实省了工作",
+        "html": "<p>设计两组输入，一组共享长前缀，一组长度相同但开头不同。在其他配置固定时分别做冷运行、重复运行与清理缓存后的再运行，记录命中的 token 数、TTFT 和完整响应时间。若输出很长，TTFT 显著下降而总耗时只下降少量是合理结果，说明 decode 仍占主导。</p><p>常见误区包括把系统提示词移动后得到的效果全归因于缓存，忽视提示词顺序可能改变质量；把总显存不下降判定为无效，忽视引擎可能预分配缓存池；以及只报命中率，不报命中 token 数和实际省下的时间。正确对照应保持任务内容与验收标准不变。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "做一张模型上下文容量表",
+      "steps": [
+        "运行公式实验，分别计算长度 2048、4096、8192 和并发 1、4 的逻辑 KV 容量。",
+        "选择一个实际模型配置，查清层数、KV head 数、head dimension 与缓存数据类型。",
+        "构造稳定前缀和动态前缀两组请求；没有推理设备时先完成 token 编号模拟。",
+        "写出需要额外预留的三类内存，并解释热缓存可能不命中的两种原因。"
+      ],
+      "acceptance": [
+        "公式明确包含层数、K/V 两份、字节数，并正确区分 GiB 与十进制 GB。",
+        "示例 MHA 为 2 GiB、GQA 为 0.5 GiB，翻倍长度得到翻倍容量。",
+        "报告没有把权重量化误称为 KV 量化，也没有宣称前缀缓存消除 decode。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "标准 KV cache 公式中的系数 2 表示什么？",
+        "options": [
+          "两个并行 GPU",
+          "训练和推理各一份",
+          "K 和 V 两份状态",
+          "所有数值都是 2 字节"
+        ],
+        "answer": 2,
+        "explanation": "K 和 V 是两个张量；元素占用多少字节要通过独立变量 s 计算。"
+      },
+      {
+        "question": "相同长文档反复问不同问题，前缀缓存主要减少什么？",
+        "options": [
+          "共享前缀的 prefill 计算",
+          "所有输出 token 的 decode",
+          "模型权重数量",
+          "问题需要的推理步骤必然减半"
+        ],
+        "answer": 0,
+        "explanation": "它复用共享前缀的 KV 状态，后续新 token 仍需要执行生成计算。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "GQA：共享 KV heads 的原始论文",
+        "url": "https://arxiv.org/abs/2305.13245"
+      },
+      {
+        "title": "PagedAttention：KV 内存管理论文",
+        "url": "https://arxiv.org/abs/2309.06180"
+      },
+      {
+        "title": "vLLM：自动前缀缓存",
+        "url": "https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/"
+      }
+    ]
+  },
+  {
+    "id": "10-batching",
+    "number": 10,
+    "title": "连续批处理与调度",
+    "subtitle": "让请求及时进出批次，同时守住等待时间与公平性。",
+    "part": "推理与系统",
+    "minutes": 30,
+    "level": "进阶",
+    "goals": [
+      "通过时间线解释静态批处理与连续批处理的区别",
+      "分析 prefill、decode、token 预算与显存容量之间的关系",
+      "同时评估吞吐、尾部延迟与不同请求群体的公平性"
+    ],
+    "sections": [
+      {
+        "id": "static-batch",
+        "title": "同一批里的请求不会同时结束",
+        "html": "<p>假设服务器一次能处理两条生成序列。请求 A 需要四个 decode 步，请求 B 只需要一个。静态批处理把它们一起启动，并等整批结束再加入 C。B 完成后，属于它的处理位置可能空着，而 C 还在队列等待。输出长度难以准确预知，因此这类空洞在长短混合请求中很常见。</p><p>连续批处理在迭代边界重新决定活跃请求集合。B 完成后，下一个边界就可以移走它并接纳 C，让资源持续处理有效工作。ORCA 论文讨论的 iteration-level scheduling 是理解这一机制的经典入口。具体系统如何混合 attention、prefill 与 decode 有实现差异，不能把“支持连续批处理”直接等同于某个固定加速倍数。</p>"
+      },
+      {
+        "id": "batch-example",
+        "title": "先用理想化时间线看机制",
+        "html": "<p>继续使用两个位置，三个请求同时到达，长度依次为 A=4、B=1、C=1，假设每次迭代固定一秒，忽略 prefill。静态批处理第一批 A、B 在第 4 秒结束，C 在第 5 秒结束；即便允许 B 在第 1 秒把答案发给用户，C 仍要等到第 4 秒才入批。</p><p>连续批处理让 A、B 在第 1 秒各生成一个 token，B 离开；C 在第 2 秒完成，A 在第 4 秒完成。总工作量没有改变，空闲位置却被利用起来。真实硬件中迭代时间会随批大小、上下文和内存访问变化，所以这个算例解释的是调度机会，不是 GPU 速度预测。上线结论必须来自真实负载测量。</p>"
+      },
+      {
+        "id": "scheduler-budget",
+        "title": "调度器面对两份预算",
+        "html": "<p>一份是当前迭代可以处理的 token 预算，影响每次运行量与延迟；另一份是长期保留的 KV 内存预算，约束活跃序列总长度。一个新请求可能只有几百个输入 token，但它之后还会不断生成，缓存会继续增长。只看当前能否入批，忽略未来增长，容易在运行中触发抢占或重计算。</p><p>长 prefill 会占用较多计算，影响已经开始流式输出的请求。chunked prefill 把长输入切成多段，在调度中与 decode 交错。较小分块有机会改善输出间隔，但也可能延长新请求首 token 等待；较大分块可能更高效，却制造更长停顿。最佳设置依赖负载与硬件，要查看实际版本的调度规则后测量。</p>"
+      },
+      {
+        "id": "batch-lab",
+        "title": "本机实验：观察空位置如何被填上",
+        "html": "<p>下面模拟只有 decode、固定迭代时间、所有请求同时到达的系统。保存为 batching_lab.py 后运行。static 允许完成的请求立刻返回，但不提前补位；continuous 则每一步都补位。</p><pre><code class=\"language-python\">from collections import deque\n\njobs = [(&quot;A&quot;, 4), (&quot;B&quot;, 1), (&quot;C&quot;, 1)]\ndef simulate(continuous):\n    waiting = deque(jobs)\n    active, done, tick = [], {}, 0\n    while waiting or active:\n        if continuous or not active:\n            while waiting and len(active) &lt; 2:\n                name, steps = waiting.popleft()\n                active.append([name, steps])\n        tick += 1\n        remaining = []\n        for name, steps in active:\n            steps -= 1\n            if steps == 0:\n                done[name] = tick\n            else:\n                remaining.append([name, steps])\n        active = remaining\n    return done, tick\n\nstatic, t_static = simulate(False)\ncontinuous, t_cont = simulate(True)\nprint(&quot;static&quot;, static, &quot;total&quot;, t_static)\nprint(&quot;continuous&quot;, continuous, &quot;total&quot;, t_cont)\nassert (static[&quot;C&quot;], continuous[&quot;C&quot;]) == (5, 2)\nassert (t_static, t_cont) == (5, 4)</code></pre><p>把 A 改成二十步，你会看到 C 的等待差距扩大。再把所有任务改成相同长度，观察连续补位的收益是否缩小。两种情况下都不要把步数换算为真实毫秒，因为模拟没有建模批大小对每步耗时的影响。</p>"
+      },
+      {
+        "id": "fairness",
+        "title": "吞吐更高不代表每个人都更快",
+        "html": "<p>如果总是优先短请求，平均延迟可能很好，但长请求会被不断到来的短请求推迟，这叫饥饿。反过来严格先到先服务，长 prefill 又可能让后面许多短请求排队。公平性必须具体定义，例如按租户限制并发、让等待时间随优先级增长，或给长请求保留最低服务份额。</p><p>除了全局 p50、p95，还要按长短输入、长短输出与租户分组。p95 是排序后约 95% 样本不超过的值，它不保证剩余 5% 的体验，也不说明谁一直受苦。交互助手更关注首 token 与流式停顿，离线批处理更关注完工时间与费用，因此两种产品可以有不同调度目标。</p>"
+      },
+      {
+        "id": "load-test",
+        "title": "用负载曲线找容量边界",
+        "html": "<p>测试时逐渐提高请求到达率，保持任务分布不变，记录完成吞吐、排队长度、TTFT、ITL 和失败率。开始阶段吞吐随负载上升；接近饱和后，队列可能持续增长，延迟恶化，即使 GPU 利用率看起来漂亮也无法满足用户要求。合理容量应以延迟目标和错误率约束下的稳定吞吐定义。</p><p>闭环测试是一个请求完成后再发下一个，容易在服务变慢时自动减少到达量；开环测试按预先指定节奏发请求，更能暴露排队，但要防止负载发生器自身成为瓶颈。报告应说明采用哪种方式。常见误区是同时调大并发、缩短输出、预热缓存，再把收益全部归给批处理参数。</p><p>在达到稳定状态的系统里，可以用平均在途请求数约等于到达率乘平均停留时间做一致性检查。例如每秒接收五个请求、平均停留两秒，长期平均约有十个请求在排队或执行。这个关系不能用来掩盖不断增长的队列，也不能把平均值替代尾部指标；它帮助发现统计窗口、单位或请求计数存在明显矛盾。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "比较两种调度策略的收益与代价",
+      "steps": [
+        "运行模拟器，给四个不同长短分布记录每个请求的完成步数。",
+        "增加任务到达时间，确保只接纳已经到达的请求。",
+        "设计一个“短请求总是插队”的策略，并构造长请求持续被推迟的反例。",
+        "写出服务容量报告应包含的负载、延迟、吞吐与公平性指标。"
+      ],
+      "acceptance": [
+        "原始 A/B/C 示例得到 C 的完成步数 5 与 2，总步数 5 与 4。",
+        "自定义策略的每个任务都能追溯到到达时间与完成时间。",
+        "报告明确固定迭代假设，包含至少一个策略让部分请求变差的反例。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "连续批处理最核心的变化是什么？",
+        "options": [
+          "让一个 token 不再依赖上一个 token",
+          "所有请求的输出长度变成相同",
+          "迭代边界可以更新活跃请求集合",
+          "不需要保存 KV cache"
+        ],
+        "answer": 2,
+        "explanation": "它改变调度粒度和请求进出批次的时机，自回归依赖与缓存需求仍然存在。"
+      },
+      {
+        "question": "总是优先最短请求最需要防范哪种问题？",
+        "options": [
+          "模型参数自动增加",
+          "长请求饥饿",
+          "tokenizer 失效",
+          "GPU 无法做矩阵乘法"
+        ],
+        "answer": 1,
+        "explanation": "短请求持续到来时，长请求可能一直得不到足够服务；平均延迟不能完整表示公平性。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "USENIX ORCA：迭代级调度论文与讲解",
+        "url": "https://www.usenix.org/conference/osdi22/presentation/yu"
+      },
+      {
+        "title": "vLLM：分块 prefill 与调优",
+        "url": "https://docs.vllm.ai/en/latest/configuration/optimization/"
+      },
+      {
+        "title": "PagedAttention：服务与内存管理",
+        "url": "https://arxiv.org/abs/2309.06180"
+      }
+    ]
+  },
+  {
+    "id": "11-quantization",
+    "number": 11,
+    "title": "量化与推测解码",
+    "subtitle": "一种减少表示成本，一种减少串行等待，分别验证收益。",
+    "part": "推理与系统",
+    "minutes": 35,
+    "level": "进阶",
+    "goals": [
+      "解释权重、激活和 KV 量化的区别及误差来源",
+      "理解推测解码的草稿、验证与拒绝修正",
+      "选择质量和性能对照实验，避免把理论容量当成真实加速"
+    ],
+    "sections": [
+      {
+        "id": "quant-idea",
+        "title": "量化是在改变数值表示",
+        "html": "<p>模型中的权重和中间状态通常以浮点数表示。量化使用更少位数或不同数值格式表示它们，以降低存储和数据搬运成本。一个简单的对称整数例子是 q = round(x / scale)，读取时近似恢复为 x̂ = scale × q。有限整数范围意味着舍入误差，也可能发生截断；缩放因子的粒度影响不同数值之间如何共享动态范围。</p><p>要问清量化对象。权重量化压缩模型参数，激活量化影响运行中的中间数值，KV 量化压缩随上下文增长的缓存。W4A16 通常描述四位权重、十六位激活，并不自动说明 KV 也只有四位。缩放元数据、部分保留高精度的层以及内核临时空间都会增加实际占用。</p>"
+      },
+      {
+        "id": "quant-numbers",
+        "title": "理论内存收益不等于加速比例",
+        "html": "<p>假设模型有七十亿个参数，每个参数十六位，纯权重数据约为 14 GB；改为四位后理论数据量约为 3.5 GB，这里 GB 使用十进制。实际文件和显存还包括缩放因子、零点、元数据及未量化部分。即使权重变成四分之一，总显存也不一定变成四分之一，因为 KV 与运行时空间可能保持不变。</p><p>低位表示有机会减轻带宽或容量瓶颈，但是否更快取决于硬件指令、内核实现、反量化开销、批大小和模型结构。不能假定所有设备都高效支持同一种格式。部署时按实际 vLLM 版本的兼容列表选择，再测真实任务。质量评估需要包含数字、代码、长上下文等你的关键场景；只看一句聊天是否通顺很容易漏掉退化。</p>"
+      },
+      {
+        "id": "quant-lab",
+        "title": "本机实验：把舍入误差算出来",
+        "html": "<p>下面用 Python 标准库演示四位与八位对称量化。这只是用一组权重数值演示量化重建误差，不是端到端推理；它没有运行语言模型或 GPU 内核，也不代表 AWQ、GPTQ 等实际算法。保存为 quant_lab.py 后运行，只比较重建误差和理论权重大小。</p><pre><code class=\"language-python\">from math import sqrt\nvalues = [-1.0, -0.37, 0.04, 0.29, 0.83]\ndef quantize(xs, bits):\n    if not xs:\n        raise ValueError(&quot;xs must contain at least one weight&quot;)\n    if not isinstance(bits, int) or bits &lt; 2:\n        raise ValueError(&quot;bits must be an integer &gt;= 2&quot;)\n    peak = max(abs(x) for x in xs)\n    if peak == 0:\n        return [0.0] * len(xs), 0.0\n    limit = 2 ** (bits - 1) - 1\n    scale = peak / limit\n    quant = [max(-limit, min(limit, round(x / scale))) for x in xs]\n    restored = [q * scale for q in quant]\n    rmse = sqrt(sum((x-y)**2 for x, y in zip(xs, restored)) / len(xs))\n    return restored, rmse\n\nfor bits in (4, 8):\n    restored, error = quantize(values, bits)\n    print(bits, [round(x, 4) for x in restored], &quot;RMSE&quot;, round(error, 6))\n    print(&quot;7B raw weight GB&quot;, 7_000_000_000 * bits / 8 / 1e9)\nassert quantize(values, 8)[1] &lt; quantize(values, 4)[1]\nassert quantize([0.0, 0.0], 4) == ([0.0, 0.0], 0.0)\ntry:\n    quantize([], 4)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError(&quot;empty weights should be rejected&quot;)</code></pre><p>把某个数改成 100，观察其他小数如何受到统一 scale 的影响，这体现了异常大值与动态范围问题。再尝试把数列分成两组分别量化，比较误差与新增缩放元数据。这个实验解释表示误差，不能用于预测语言任务成功率。</p><p>空数组没有可定义的误差统计，因此函数明确抛出 ValueError；全零权重直接返回零数组和零误差，避免缩放因子为零导致除零。</p>"
+      },
+      {
+        "id": "speculative-mechanism",
+        "title": "推测解码先写草稿，再由目标模型验证",
+        "html": "<p>普通自回归 decode 每一步通常只确认下一个 token。推测解码先让便宜的草稿机制连续提出几个候选，再让目标模型并行检查这些位置。有些候选被接受，于是一次目标模型执行可以推进多个 token；一旦拒绝，就按算法修正当前位置并重新开始。草稿可以来自小模型或其他候选生成机制，不要求只有一种实现。</p><p>经典精确采样算法中，目标分布记为 p，草稿分布记为 q，候选 x 的接受概率是 min(1, p(x)/q(x))。拒绝时从归一化后的 max(p−q, 0) 分布重采样，才能保持目标采样分布。这里省略了多 token 迭代的边界处理，不能把它当作完整实现。直接“接受看起来合理的草稿”不具备同样保证。</p>"
+      },
+      {
+        "id": "speculative-tradeoff",
+        "title": "什么时候草稿值得写",
+        "html": "<p>假设目标模型普通一步耗时 10 毫秒。某个推测方案草稿花 3 毫秒、一次批量验证花 12 毫秒，平均确认三个新 token，则示意时间为每 token 5 毫秒；如果平均只确认一个，则变成每 token 15 毫秒。所有数字都是假设值，作用是说明接受率、草稿开销和验证成本必须一起看。</p><p>精确推测采样在数学条件与实现正确时保持目标分布，并不承诺每次随机种子下得到逐 token 完全相同的文本；硬件数值也会造成差异。它与量化不同，量化通常改变目标模型的数值与分布，而推测解码改变生成执行方式。两者可以组合，但质量对照基准应说清是原始目标模型，还是已量化的目标模型。</p>"
+      },
+      {
+        "id": "optimization-choice",
+        "title": "把两个实验分开，才能解释结果",
+        "html": "<p>先固定模型与服务配置，只切换量化方案，比较任务成功率、峰值内存、TTFT、TPOT 与吞吐。再固定目标模型，只切换推测方案，记录草稿开销、接受率、平均每次验证确认的 token 数和端到端延迟。最后才测试组合效果，防止一个方案的收益掩盖另一个的退化。</p><p>推测解码在低并发、decode 占主导且候选吻合度高时可能有吸引力；高负载时额外草稿工作也会争用资源。常见误区是只看接受率，忽略为了高接受率使用了过于昂贵的草稿；或只比较输出 tokens/s，忽略输出长度和质量已经改变。真正需要优化的是满足质量要求的任务完成速度与成本。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "选择一种优化，并写明它可能失效的条件",
+      "steps": [
+        "运行量化实验，比较四位、八位及添加大值后的重建误差。",
+        "用手算或表格列出平均确认 token 数为 1、2、3 时的推测方案耗时。",
+        "为真实任务定义质量底线与延迟指标，设计一次只切换一个配置的对照。",
+        "写出量化与推测解码的适用条件、额外开销和失败回退方式。"
+      ],
+      "acceptance": [
+        "能够区分权重、激活和 KV 三种量化对象。",
+        "理论七十亿参数四位纯权重容量为 3.5 GB，没有把它标为实际显存。",
+        "解释了为什么平均只确认一个 token 时，示例推测方案反而慢于基线。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "W4A16 可以直接推出什么？",
+        "options": [
+          "KV cache 一定是四位",
+          "所有设备都快四倍",
+          "通常描述四位权重和十六位激活",
+          "目标模型的输出分布完全不变"
+        ],
+        "answer": 2,
+        "explanation": "W 与 A 分别描述权重和激活位宽；KV 格式、实际内核和质量变化需要单独检查。"
+      },
+      {
+        "question": "经典精确推测采样为什么不能只按目标概率最高的候选随意接受？",
+        "options": [
+          "这样无法保证保持目标采样分布",
+          "因为不能使用小模型",
+          "因为 KV cache 会自动清空",
+          "因为批处理只能生成一个 token"
+        ],
+        "answer": 0,
+        "explanation": "保持目标分布需要正确的接受规则与拒绝修正，任意启发式接受不具有同样的统计保证。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "vLLM：量化方案与硬件兼容性",
+        "url": "https://docs.vllm.ai/en/latest/features/quantization/"
+      },
+      {
+        "title": "Fast Inference from Transformers via Speculative Decoding",
+        "url": "https://arxiv.org/abs/2211.17192"
+      },
+      {
+        "title": "Accelerating Large Language Model Decoding with Speculative Sampling",
+        "url": "https://arxiv.org/abs/2302.01318"
+      }
+    ]
+  },
+  {
+    "id": "12-full-stack",
+    "number": 12,
+    "title": "全栈性能实验与结课项目",
+    "subtitle": "从慢在哪开始，以可复现的质量、成本和延迟结果结束。",
+    "part": "推理与系统",
+    "minutes": 35,
+    "level": "进阶",
+    "goals": [
+      "建立跨 Agent、工具、服务和模型的时间线",
+      "用 profile、明确假设与控制变量完成一次可解释优化",
+      "交付包含评测集、基线、改动、失败分析和复现方法的项目"
+    ],
+    "sections": [
+      {
+        "id": "end-to-end",
+        "title": "先画出用户实际等待的关键路径",
+        "html": "<p>一个研究助手总耗时二十秒，可能包含检索六秒、模型十二秒、解析与整理两秒。模型变快并不会自动消除检索等待。多工具并行时，总耗时也不是所有子任务耗时相加，而取决于依赖关系中的关键路径。例如三个独立查询耗时二、三、四秒，理想并行完成约需四秒；若后一个必须读取前一个结果，就仍然需要相加。</p><p>为每次任务生成 trace_id，记录模型调用、工具执行、重试和验收的开始结束时间，以及它们的父子关系。把用户可见的总耗时与分段耗时放在一起看。日志应记录足够解释行为的元信息，敏感输入不必原样保留。没有这条时间线，许多所谓模型优化其实只是碰巧命中了上一次的缓存。</p>"
+      },
+      {
+        "id": "amdahl",
+        "title": "用上限判断这件事值不值得做",
+        "html": "<p>假设总耗时中模型占 60%，其余占 40%，模型阶段加速两倍后，新总时间比例是 0.4 + 0.6/2 = 0.7，整体加速约为 1.43 倍。即使模型阶段瞬间完成，整体也最多加速 2.5 倍。这是 Amdahl 定律在串行阶段近似下的应用，帮助你先估计收益上限，再决定投入。</p><p>这个估算假定各阶段比例稳定且没有新增开销。真实系统中批处理、并发和缓存会互相影响，一个阶段变快可能把瓶颈转移到另一阶段。因此上限计算用于筛选假设，最终仍需端到端实验。对于交互任务，还要分别估计首个可用反馈与完整完成时间，避免优化了后台尾部却没有改善用户最在意的等待。</p>"
+      },
+      {
+        "id": "profiling",
+        "title": "先用轻量观测缩小范围",
+        "html": "<p>先看任务日志与服务指标，判断时间花在排队、prefill、decode、工具还是客户端。只有证据指向模型执行，才进一步用 profiler 看算子、设备活动、内存分配和同步。PyTorch Profiler 可记录 CPU 和设备事件，但开启堆栈、形状或内存跟踪本身也会引入开销；用于定位的一次 profile，不应直接当作最终性能基准。</p><p>GPU 操作通常异步提交，CPU 函数返回不代表设备已经完成。测量时使用框架提供的设备计时方法，或在明确定义的边界同步；不要把同步插满每个操作而意外改变执行方式。冷启动、编译与预热单列，正式比较使用相同的采集方法。看到某个算子累计时间很大，还要确认它是否位于关键路径。</p>"
+      },
+      {
+        "id": "fullstack-lab",
+        "title": "本机实验：计算阶段加速的实际收益",
+        "html": "<p>下面用标准库分析一组确定的模拟记录，不通过 sleep 制造假基准。每行阶段按串行相加，故它只适用于本节的简化假设。保存为 fullstack_lab.py 并运行。</p><pre><code class=\"language-python\">from statistics import mean\nruns = [\n    {&quot;tool&quot;: 6.0, &quot;model&quot;: 12.0, &quot;other&quot;: 2.0},\n    {&quot;tool&quot;: 5.0, &quot;model&quot;: 10.0, &quot;other&quot;: 2.0},\n    {&quot;tool&quot;: 7.0, &quot;model&quot;: 14.0, &quot;other&quot;: 2.0},\n]\nbefore = [sum(r.values()) for r in runs]\nafter = [r[&quot;tool&quot;] + r[&quot;model&quot;] / 2 + r[&quot;other&quot;] for r in runs]\nprint(&quot;before mean&quot;, mean(before))\nprint(&quot;after mean&quot;, mean(after))\nprint(&quot;speedup&quot;, round(mean(before) / mean(after), 3))\nassert mean(before) == 20\nassert mean(after) == 14\n# First trace: model is 60% of the serial critical path.\nassert abs(1 / (0.4 + 0.6 / 2) - 20 / 14) &lt; 1e-9</code></pre><p>预期平均耗时从二十秒变为十四秒，整体约 1.429 倍。继续计算检索加速两倍，以及模型和检索都加速两倍的情况。再把检索改成可重叠阶段，重新画依赖图，你会发现原来的简单求和已经不适用。</p>"
+      },
+      {
+        "id": "controlled-experiment",
+        "title": "把优化建议写成可证伪的假设",
+        "html": "<p>好的假设应同时写出原因、改动和预期观察，例如“固定系统提示占输入的大部分，启用前缀复用应降低热请求 TTFT，而对冷请求收益较小”。保持模型、数据集、输出限制、采样参数、硬件和负载不变，只切换这一项。按交错顺序运行基线与实验组，并记录请求是否热缓存，减少时间顺序与环境变化带来的偏差。</p><p>质量也属于控制条件。若缩短答案让 token 数减少，却漏掉问题要求，速度改善不能算达标。保存每个任务的结果与验收，报告成功率、成功任务成本、延迟分位数和错误分布。对失败样本逐个比较，是确认优化有没有偷偷转移工作或损害困难任务的有效办法。</p>"
+      },
+      {
+        "id": "capstone",
+        "title": "完成一个别人能复跑的结课项目",
+        "html": "<p>建议选择前面做过的文档问答或代码修复 Agent。准备固定的任务集，覆盖正常、困难和工具失败情形；先保留一套简单可靠基线，再从观测中选出一个主要瓶颈。可以优化检索去重、前缀稳定性、模型路由、调度参数或工具并行，但每轮只改变一项。每个方案保留独立版本和结果文件，避免只剩一张无法解释的最终成绩表。</p><p>交付内容包括任务与验收定义、运行环境、启动步骤、基线、优化假设、结果表和失败分析。若没有 GPU，可以完成 Agent 层与标准库模拟实验，但应明确哪些是模拟，哪些来自真实模型。最有价值的结论有时是“这个优化在长输出任务上无明显收益”，只要证据与适用范围清楚，它仍然是一份合格的系统实验。</p>"
+      }
+    ],
+    "exercise": {
+      "title": "提交一份可复现的全栈优化报告",
+      "steps": [
+        "选择一个 Agent，准备至少 20 个固定任务和明确的成功验收条件。",
+        "保存任务 trace，画出典型成功与失败请求的关键路径，列出主要瓶颈。",
+        "基于证据提出一个假设，只改一个配置，重复运行相同任务与负载。",
+        "汇总质量、成功任务成本、TTFT、总延迟与失败原因，记录完整复现步骤。",
+        "选择一个失败或无收益样本，解释假设为何没有成立。"
+      ],
+      "acceptance": [
+        "任何一个表格数据都能回溯到任务级记录，包含失败与超时。",
+        "基线与实验组的模型、提示词、负载等差异有明确列表，没有隐含变更。",
+        "报告区分实测、模拟与推断，提供收益范围和至少一个适用限制。",
+        "另一位学习者可以按文档重建实验输入与统计结果。"
+      ]
+    },
+    "quiz": [
+      {
+        "question": "某阶段占总耗时 60%，把该阶段加速两倍，整体大约加速多少？",
+        "options": [
+          "2 倍",
+          "1.43 倍",
+          "0.6 倍",
+          "3.33 倍"
+        ],
+        "answer": 1,
+        "explanation": "新耗时比例为 0.4 + 0.6/2 = 0.7，整体加速为 1/0.7 ≈ 1.43 倍。"
+      },
+      {
+        "question": "哪种实验最有助于解释前缀缓存的收益？",
+        "options": [
+          "换模型、换硬件并同时开启缓存",
+          "只运行最快的一次然后报告",
+          "固定配置与负载，对冷缓存和热缓存分别做对照",
+          "把失败请求从总成本中删除"
+        ],
+        "answer": 2,
+        "explanation": "控制其他条件并区分冷、热状态，才能将观察结果较可靠地归因于缓存变化。"
+      }
+    ],
+    "sources": [
+      {
+        "title": "PyTorch：Profiler 使用与开销",
+        "url": "https://docs.pytorch.org/tutorials/recipes/recipes/profiler_recipe.html"
+      },
+      {
+        "title": "vLLM：生产指标",
+        "url": "https://docs.vllm.ai/en/latest/usage/metrics/"
+      },
+      {
+        "title": "Anthropic：Agent 评测设计",
+        "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+      }
+    ]
+  }
+]

@@ -1,0 +1,146 @@
+[
+  [
+    "official",
+    "01 / START HERE",
+    "课程导论",
+    "先看课程全景、学习目标与作业主线，知道接下来要构建什么。",
+    "官方 · PDF",
+    "https://cs2680.com/slides/1_intro.pdf",
+    "overview 导论"
+  ],
+  [
+    "official",
+    "02 / AGENT USE",
+    "How Claude Code Works",
+    "从 Agent 的使用方式进入系统视角，理解上下文、执行过程与验证。",
+    "官方 · PDF",
+    "https://cs2680.com/slides/2_agent_use_1.pdf",
+    "agent Claude Code"
+  ],
+  [
+    "official",
+    "03 / AGENT DESIGN",
+    "上下文管理与工具设计",
+    "准备自己构建 Agent 时重点阅读，让模型通过工具与环境交互。",
+    "官方 · PDF",
+    "https://cs2680.com/slides/4_agent_design_1.pdf",
+    "context tool Agent"
+  ],
+  [
+    "official",
+    "04 / COURSE INDEX",
+    "完整课表与课件入口",
+    "多 Agent、记忆、评测、成本与推理系统。新课件以官网发布为准。",
+    "官方 · 持续更新",
+    "https://cs2680.com/#schedule",
+    "多智能体 memory schedule"
+  ],
+  [
+    "practice",
+    "05 / ASSIGNMENTS",
+    "五次作业，一套系统",
+    "Mads-Lens → Loop → Opt → Serve → Stack。先读整体要求，再分步实现。",
+    "官方 · 作业",
+    "https://cs2680.com/assignments/",
+    "作业 assignment"
+  ],
+  [
+    "practice",
+    "06 / BUILD THE LOOP",
+    "Assignment 2 · Agent harness",
+    "从 starter archive 开始，实现 Agent 循环，记录轨迹，并运行任务评测。",
+    "官方 · 代码与说明",
+    "https://cs2680.com/assignments/assignment2",
+    "starter code 工具 代码"
+  ],
+  [
+    "practice",
+    "07 / ENVIRONMENT",
+    "课程环境配置",
+    "了解课程使用的工具、API 与计算平台。校外学习需自行准备访问与算力。",
+    "官方 · 环境指南",
+    "https://cs2680.com/computing/",
+    "setup 环境 GPU"
+  ],
+  [
+    "practice",
+    "08 / SERVING",
+    "vLLM · 从推理到服务",
+    "实践离线批量推理与在线服务；按你的硬件平台选择安装方式。",
+    "vLLM · 官方文档",
+    "https://docs.vllm.ai/en/latest/getting_started/quickstart/",
+    "推理 serving GPU vllm"
+  ],
+  [
+    "reading",
+    "09 / READING GUIDE",
+    "Agent 使用：配套阅读",
+    "每份材料都附有背景与阅读理由。适合配合第一阶段课件逐篇查阅。",
+    "官方 · 阅读清单",
+    "https://cs2680.com/readings/sep-09",
+    "skills MCP Claude"
+  ],
+  [
+    "reading",
+    "10 / EVALUATION",
+    "Agent 评测与基准",
+    "学习如何设计评测，关注任务成功率、可靠性、成本与基准选择。",
+    "官方 · 专题讲义",
+    "https://cs2680.com/notes/agent-evaluation",
+    "benchmark eval 评估"
+  ],
+  [
+    "reading",
+    "11 / COST & PERFORMANCE",
+    "让 Agent 更经济",
+    "从模型、推理、上下文、协作与服务资源入手，思考完整任务的成本。",
+    "官方 · 专题讲义",
+    "https://cs2680.com/notes/cost-effective-agents",
+    "token 成本 性能 优化"
+  ],
+  [
+    "foundation",
+    "12 / AGENT FUNDAMENTALS",
+    "Hugging Face Agents Course",
+    "还没有写过 Agent？先学 Unit 1，理解工具与思考—行动—观察循环。",
+    "Hugging Face · 交互课程",
+    "https://huggingface.co/learn/agents-course/en/unit1/introduction",
+    "入门 huggingface 基础"
+  ],
+  [
+    "foundation",
+    "13 / SYSTEMS & LLM",
+    "Stanford CS336 · 2025",
+    "选读第 2 讲 PyTorch 与资源核算、第 5 讲 GPU、第 10 讲推理。",
+    "Stanford · 课程与课件",
+    "https://cs336.stanford.edu/spring2025/",
+    "PyTorch GPU 推理"
+  ],
+  [
+    "foundation",
+    "14 / VIDEO COMPANION",
+    "CS336 · 官方视频入口",
+    "从 Stanford Online 的第一讲进入课程视频，适合喜欢边听边学的人。",
+    "Stanford Online · 英文视频",
+    "https://www.youtube.com/watch?v=SQ3fZ1sAqXI",
+    "视频 youtube 录播"
+  ],
+  [
+    "foundation",
+    "15 / COMPUTER SYSTEMS",
+    "Operating Systems: Three Easy Pieces",
+    "按需补齐并发、虚拟内存与持久化知识。免费在线章节，不必整本读完。",
+    "OSTEP · 在线教材",
+    "https://pages.cs.wisc.edu/~remzi/OSTEP/",
+    "操作系统 并发 内存 教材"
+  ],
+  [
+    "official",
+    "16 / PREREQUISITES",
+    "先修要求与课程 FAQ",
+    "先评估系统基础。了解录播、CUDA、旁听与计算资源的官方说明。",
+    "官方 · 阅读起点",
+    "https://cs2680.com/policy",
+    "要求 faq cuda 先修"
+  ]
+]
