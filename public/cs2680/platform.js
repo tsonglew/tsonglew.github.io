@@ -39,21 +39,8 @@
     const saved = localStorage.getItem(KEY)
     if (saved) state = validateState(JSON.parse(saved))
   } catch { storageOK = false }
-  function syncLatest() {
-    if (!storageOK) return
-    try {
-      const raw = localStorage.getItem(KEY)
-      if (raw) state = validateState(JSON.parse(raw))
-    } catch { storageOK = false }
-  }
-  function persist(change = {}) {
-    // Read the latest record, then apply only this action's fields. A stale tab
-    // must never replace another chapter's notes or completion state.
-    let latest = state
-    try {
-      const raw = storageOK ? localStorage.getItem(KEY) : null
-      if (raw) latest = validateState(JSON.parse(raw))
-    } catch { storageOK = false }
+  let pendingChanges = []
+  function applyChange(latest, change) {
     if (change.lastLesson) latest.lastLesson = change.lastLesson
     if (change.completion) {
       const { id, done } = change.completion
@@ -74,8 +61,33 @@
       }
       if (!latest.lastLesson) latest.lastLesson = incoming.lastLesson
     }
-    state = latest
-    try { localStorage.setItem(KEY, JSON.stringify(state)); storageOK = true } catch { storageOK = false }
+    return latest
+  }
+  function latestWithPending() {
+    let latest = state
+    try {
+      const raw = localStorage.getItem(KEY)
+      if (raw) latest = validateState(JSON.parse(raw))
+    } catch { storageOK = false }
+    for (const change of pendingChanges) latest = applyChange(latest, change)
+    return latest
+  }
+  function syncLatest() { state = latestWithPending() }
+  function persist(change = {}) {
+    // Keep failed field writes, not a stale full-record snapshot. Recovery must
+    // merge with other tabs' changes before replaying this tab's unsaved work.
+    const field = change.note ? 'note:' + change.note.id
+      : change.completion ? 'completion:' + change.completion.id
+      : change.quiz ? 'quiz:' + change.quiz.id + ':' + change.quiz.number
+      : change.lastLesson ? 'lastLesson' : null
+    if (field) pendingChanges = pendingChanges.filter((item) => item.field !== field)
+    pendingChanges.push({ ...change, field })
+    state = latestWithPending()
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state))
+      pendingChanges = []
+      storageOK = true
+    } catch { storageOK = false }
     return storageOK
   }
   function refreshProgress() {
