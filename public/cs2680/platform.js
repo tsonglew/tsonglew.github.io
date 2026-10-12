@@ -137,17 +137,6 @@
     toast(saved ? '学习进度已保存' : '浏览器存储不可用，进度仅保留在本次页面中')
   })
   refreshProgress()
-  const note = document.querySelector('#lesson-note')
-  if (note) {
-    note.value = state.notes[lesson]?.text || ''
-    note.maxLength = 100000
-    const status = document.querySelector('.note-status')
-    status.textContent = storageOK ? '笔记保存在此浏览器，可到“我的笔记”导出。' : '浏览器存储不可用，建议及时导出备份。'
-    note.addEventListener('input', () => {
-      const saved = persist({ note: { id: lesson, value: { text: note.value, updatedAt: new Date().toISOString() } } })
-      status.textContent = saved ? '已自动保存' : '暂时无法保存，请复制笔记以防丢失。'
-    })
-  }
   document.querySelectorAll('.quiz').forEach((form) => {
     const answer = Number(form.dataset.answer)
     const show = (value) => {
@@ -257,12 +246,12 @@
     list.replaceChildren()
     if (!noted.length) {
       const empty = document.createElement('div'); empty.className = 'empty-state'
-      empty.textContent = '还没有笔记。每篇教程底部都可以记录你的理解、疑问和实验发现。'
-      const a = document.createElement('a'); a.className = 'text-link'; a.href = BASE + 'learn/01-agent-loop/#notes'; a.textContent = '去写第一篇 →'; empty.append(document.createElement('br'), a); list.append(empty)
+      empty.textContent = '暂无已有笔记。学习进度和自测成绩会自动保存在这里，也可以导入之前的备份。'
+      const a = document.createElement('a'); a.className = 'text-link'; a.href = BASE; a.textContent = '返回课程总览 →'; empty.append(document.createElement('br'), a); list.append(empty)
     }
     for (const id of noted) {
       const article = document.createElement('article'); article.className = 'note-card'
-      const heading = document.createElement('h2'); const a = document.createElement('a'); a.href = BASE + 'learn/' + id + '/#notes'; a.textContent = chapterTitles[id] + ' ↗'; heading.append(a)
+      const heading = document.createElement('h2'); const a = document.createElement('a'); a.href = BASE + 'learn/' + id + '/'; a.textContent = chapterTitles[id] + ' ↗'; heading.append(a)
       const date = document.createElement('p'); date.className = 'small'; date.textContent = '更新于 ' + new Date(state.notes[id].updatedAt).toLocaleString('zh-CN')
       const text = document.createElement('pre'); text.textContent = state.notes[id].text
       article.append(heading, date, text); list.append(article)
@@ -274,7 +263,6 @@
     syncLatest()
     refreshProgress()
     renderNotebook()
-    if (note && document.activeElement !== note) note.value = state.notes[lesson]?.text || ''
   })
   document.querySelector('#export-json')?.addEventListener('click', () => { syncLatest(); download('cs2680-learning-backup.json', JSON.stringify({ ...state, exportedAt: new Date().toISOString() }, null, 2), 'application/json') })
   document.querySelector('#export-md')?.addEventListener('click', () => {
