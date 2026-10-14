@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta name="description" content="追踪 REA 的代码、发布与社区线索，理解它如何从连接 Hopper 的桥梁，发展为一套逆向工程工作流。附可检索的完整提交档案与来源。">
+  <title>REA 编年史 · 从一座桥，到一套逆向工作流</title>
+  <link rel="canonical" href="https://tsonglew.github.io/rea-chronicle/">
+  <meta property="og:title" content="REA 编年史 · 从一座桥，到一套逆向工作流">
+  <meta property="og:description" content="3,124 条提交、15 个关键转折，读懂 REA 的扩张、收缩与证据交付。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tsonglew.github.io/rea-chronicle/">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+  <div class="reading-progress" aria-hidden="true"><span id="progress"></span></div>
+  <header class="masthead">
+    <a class="wordmark" href="#top" aria-label="REA 编年史首页"><span class="brand-mark" aria-hidden="true">↗</span> REA CHRONICLE</a>
+    <span class="masthead-caption">一个开源项目的演进观察</span>
+    <a class="external-link" href="https://github.com/morluto/rea" target="_blank" rel="noopener noreferrer">项目源码 <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-kicker"><span>REVERSE ENGINEER ANYTHING</span><span id="hero-period">代码 · 决策 · 演进</span></div>
+      <div class="hero-display" aria-hidden="true">
+        <span class="hero-letters">REA</span>
+        <svg class="hero-trace" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M0 275 H155 L222 208 H421 L511 117 H749 L825 194 H960 L1132 22 H1200"/><circle cx="222" cy="208" r="7"/><circle cx="511" cy="117" r="7"/><circle cx="825" cy="194" r="7"/><circle cx="1132" cy="22" r="7"/></svg>
+        <span class="hero-annotation">A PROJECT<br>IN MOTION.</span>
+      </div>
+      <div class="hero-bottom">
+        <div class="hero-title-group"><span class="edition-label">项目发展编年史 / INDEPENDENT STUDY</span><h1 id="hero-title">从一座桥，<br>到一套逆向工作流。</h1></div>
+        <div class="hero-deck"><p>从提交记录里，读出一个项目的方向。</p><p class="muted">从 Hopper 桥接，到证据驱动的逆向工作流。沿着扩张、收缩与证据交付三条线索，回看 REA 如何重新设计 Agent 读取分析结果的方式。</p><a class="text-link hero-cta" href="#route">开始阅读 <span aria-hidden="true">↓</span></a><p class="snapshot" id="snapshot">正在载入研究档案…</p></div>
+      </div>
+      <div class="stats" id="stats" aria-label="仓库概况"><div class="stat"><span class="stat-value">—</span><span class="stat-label">提交记录</span></div><div class="stat"><span class="stat-value">—</span><span class="stat-label">作者署名</span></div><div class="stat"><span class="stat-value">—</span><span class="stat-label">Release</span></div><div class="stat"><span class="stat-value">—</span><span class="stat-label">可追溯的演进</span></div></div>
+    </section>
+
+    <div class="document-layout">
+      <aside class="sidebar" aria-label="文章目录"><nav class="toc"><span class="toc-label">阅读索引 / INDEX</span><a class="active" href="#overview"><span>01</span> 总览</a><a href="#route"><span>02</span> 发展路线</a><a href="#architecture"><span>03</span> 架构演进</a><a href="#people"><span>04</span> 人物与协作</a><a href="#community"><span>05</span> 社区回声</a><a href="#archive"><span>06</span> 提交档案</a><a href="#method"><span>07</span> 研究方法</a><div class="toc-downloads"><a href="./chronicle.md" download>下载完整编年史 <span aria-hidden="true">↙</span></a><a href="./data.json" download>下载研究数据 <span aria-hidden="true">↙</span></a></div><p class="independent-note">独立研究<br>非项目官方路线图</p></nav></aside>
+
+      <div class="document-content">
+        <div id="load-error" class="load-error" role="alert" hidden></div>
+        <noscript><p class="load-error">此页面的图表与档案需要 JavaScript。你也可以直接<a href="./chronicle.md">阅读完整 Markdown 编年史</a>，或<a href="./data.json">下载原始研究数据</a>。</p></noscript>
+
+        <section class="section" id="overview" aria-labelledby="overview-title">
+          <header class="section-heading"><span class="section-number">01</span><div><p class="eyebrow">THE BIG PICTURE</p><h2 id="overview-title">变化，发生在哪里</h2></div></header>
+          <div class="intro-copy"><p class="lead">REA 的发展并非单向扩张。它一边增加分析能力，一边收缩自有编排，重新设计 Agent 读取证据的方式。</p><p>下面的路线来自已经发生的代码与发布记录。阶段划分和技术意义是本研究的归纳；对未来的判断，请与项目自己的承诺区分开来。</p></div>
+          <figure class="activity-figure"><div class="figure-header"><figcaption><span class="figure-label">FIG. 01</span> 提交的节奏</figcaption><span class="figure-hint">点击月份，筛选提交档案</span></div><div id="activity-chart" class="activity-chart" aria-label="按月提交数量"></div><div class="chart-footer"><span id="activity-note">数据加载中</span><a href="#archive" class="text-link">进入提交档案 <span aria-hidden="true">↗</span></a></div></figure>
+          <details class="release-details"><summary><span>发布记录 <span id="release-count" class="inline-count">—</span></span><span class="details-icon" aria-hidden="true">+</span></summary><div id="release-list" class="release-list"></div></details>
+        </section>
+
+        <section class="section" id="route" aria-labelledby="route-title"><header class="section-heading"><span class="section-number">02</span><div><p class="eyebrow">A ROUTE THROUGH THE COMMITS</p><h2 id="route-title">从接口，到完整工作流</h2></div></header><p class="section-intro">每个转折点，都落回一组具体的提交。顺着时间读，也可以打开原始记录，查看当时究竟改变了什么。</p><div class="milestone-timeline" id="milestones"><p class="loading-copy">正在整理发展路线…</p></div><div class="chapters" id="chapters"></div></section>
+
+        <section class="section" id="architecture" aria-labelledby="architecture-title"><header class="section-heading"><span class="section-number">03</span><div><p class="eyebrow">THE ARCHITECTURAL THROUGH LINE</p><h2 id="architecture-title">一条架构主线</h2></div></header><p class="section-intro">从 Hopper 桥接、TypeScript 共享运行时，到多 Provider 与 Evidence 层。能力扩张之后，结果如何返回、证据如何取回，成为另一条演进主线。下图概括阶段，不代表当前系统的部署结构。</p><figure class="architecture-figure"><figcaption><span class="figure-label">FIG. 02</span> 三个阶段，一条逐渐延长的工作链</figcaption><div class="architecture-stages"><div class="architecture-stage"><span class="stage-num">I</span><p class="stage-overline">CONNECT</p><h3>连接工具</h3><div class="diagram-box"><span>Hopper</span><span class="diagram-divider" aria-hidden="true">↕</span><span>Python 桥接</span></div><p>让分析工具成为可被调用的能力。</p></div><div class="stage-arrow" aria-hidden="true">→</div><div class="architecture-stage"><span class="stage-num">II</span><p class="stage-overline">CONSOLIDATE</p><h3>统一运行时</h3><div class="diagram-box"><span>TypeScript</span><span class="diagram-divider" aria-hidden="true">↓</span><span>共享运行时</span></div><p>把跨组件的能力组织到共同基础上。</p></div><div class="stage-arrow" aria-hidden="true">→</div><div class="architecture-stage"><span class="stage-num">III</span><p class="stage-overline">EVIDENCE</p><h3>统一证据</h3><div class="diagram-box"><span>多 Provider</span><span class="diagram-divider" aria-hidden="true">＋</span><span>Evidence / 证据</span></div><p>让 Agent 先读摘要，再按需取回完整证据。</p></div></div><p class="architecture-caption">研究归纳 · 具体时间、实现边界与原始依据见上方发展路线。</p></figure><div id="conclusions" class="conclusions"></div></section>
+
+        <section class="section" id="people" aria-labelledby="people-title"><header class="section-heading"><span class="section-number">04</span><div><p class="eyebrow">THE PEOPLE IN THE HISTORY</p><h2 id="people-title">谁在推动它向前</h2></div></header><p class="section-intro">保留 Git 记录中的作者署名，按提交数排序。署名不等同于独立个人，也不能单凭提交数量衡量贡献。</p><div class="table-wrap"><table class="authors-table"><caption class="sr-only">提交数量最多的八个作者署名</caption><thead><tr><th scope="col">作者署名</th><th scope="col">提交</th><th scope="col">活跃范围</th><th scope="col"><span class="sr-only">相对提交数</span></th></tr></thead><tbody id="authors"></tbody></table></div><p class="small-note" id="author-note"></p></section>
+
+        <section class="section" id="community" aria-labelledby="community-title"><header class="section-heading"><span class="section-number">05</span><div><p class="eyebrow">ECHOES BEYOND THE CODE</p><h2 id="community-title">代码之外的回声</h2></div></header><p class="section-intro">把发布、讨论和外部材料放回时间线上。能验证的写清来源，找不到的留下边界。</p><div class="community-list" id="community-list"></div></section>
+
+        <section class="section archive-section" id="archive" aria-labelledby="archive-title"><header class="section-heading"><span class="section-number">06</span><div><p class="eyebrow">THE OPEN ARCHIVE</p><h2 id="archive-title">每一步，都有迹可循</h2></div></header><p class="section-intro">在完整提交档案中搜索标题、哈希或作者。点击提交标题，回到 GitHub 查看变更。</p><form class="archive-filters" id="archive-form" role="search"><div class="search-field"><label for="commit-search">搜索提交</label><div class="input-wrap"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="m12 12 5 5" stroke="currentColor" stroke-width="1.5"/></svg><input id="commit-search" type="search" placeholder="标题、哈希或作者…" autocomplete="off"></div></div><div class="month-field"><label for="month-filter">月份</label><select id="month-filter"><option value="">全部月份</option></select></div><button class="reset-button" type="reset">重置</button></form><div class="archive-status"><p id="result-status" aria-live="polite" aria-atomic="true">正在载入提交档案…</p><span class="sort-note">按作者日期倒序</span></div><div class="table-wrap commit-table-wrap"><table class="commits-table"><caption class="sr-only">REA Git 提交档案</caption><thead><tr><th scope="col">日期</th><th scope="col">提交记录</th><th scope="col">作者</th></tr></thead><tbody id="commit-list"></tbody></table></div><div id="empty-state" class="empty-state" hidden><p>没有找到匹配的提交。</p><span>试试其他关键词，或切换到全部月份。</span></div><nav class="pagination" aria-label="提交档案分页"><button id="previous-page" type="button" disabled><span aria-hidden="true">←</span> 上一页</button><span id="page-status">—</span><button id="next-page" type="button" disabled>下一页 <span aria-hidden="true">→</span></button></nav></section>
+
+        <section class="section methodology-section" id="method" aria-labelledby="method-title"><header class="section-heading"><span class="section-number">07</span><div><p class="eyebrow">SOURCES & LIMITS</p><h2 id="method-title">让判断经得起回看</h2></div></header><div class="methodology-intro"><p class="lead">这是一份可以核对的研究，<br>也是一个有时间边界的快照。</p><p>本文为独立整理，与 REA 项目无官方隶属关系。已发生的事实、研究归纳与未来判断分别标示。项目仍会继续演进。</p></div><ol class="methodology-list" id="methodology"></ol><div class="download-band"><div><p class="eyebrow">TAKE THE RESEARCH WITH YOU</p><h3>保留一份，继续追踪。</h3></div><div class="download-links"><a href="./chronicle.md" download>完整编年史 <span>MD ↙</span></a><a href="./data.json" download>研究数据 <span>JSON ↙</span></a></div></div><details class="sources-details"><summary><span>资料来源与阅读入口</span><span class="details-icon" aria-hidden="true">+</span></summary><ol id="sources"></ol></details></section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer"><a class="footer-mark" href="#top">REA<span>CHRONICLE</span></a><p>从代码中读历史，从历史中看方向。<br><span id="footer-snapshot">独立研究 · 2026</span></p><a class="back-top" href="#top">回到顶部 <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>
