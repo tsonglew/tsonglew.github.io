@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tibo Reset 猜谜 · Codex 额度日更</title>
+<style>
+:root {
+  --bg:#000; --elevated:#16181c; --border:#2f3336; --text:#e7e9ea; --muted:#71767b;
+  --blue:#1d9bf0; --blue-dim:rgba(29,155,240,.12); --green:#00ba7c; --green-dim:rgba(0,186,124,.12);
+  --red:#f4212e; --red-dim:rgba(244,33,46,.12); --amber:#f59e0b; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+  line-height:1.4;-webkit-font-smoothing:antialiased}
+.wrap{width:100%;max-width:600px;min-height:100dvh;border-left:1px solid var(--border);border-right:1px solid var(--border);display:flex;flex-direction:column}
+@media(max-width:620px){.wrap{border:none}}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:rgba(0,0,0,.65);
+  border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.topbar h1{font-size:1.05rem;font-weight:800}
+.topbar .sub{color:var(--muted);font-size:.75rem;margin-left:auto}
+.screen{display:none;flex:1;flex-direction:column}
+.screen.active{display:flex}
+.pad{padding:16px}
+.btn{display:block;width:100%;border:none;border-radius:999px;padding:13px 18px;font-size:.95rem;font-weight:700;
+  cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-primary{background:var(--text);color:#0f1419}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);margin-top:10px}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-amber{background:linear-gradient(180deg,#fbbf24,var(--amber));color:#0f1419}
+.btn-sm{padding:8px 14px;font-size:.8rem;width:auto;display:inline-block}
+.start-hero{padding:24px 16px 16px;border-bottom:1px solid var(--border)}
+.profile-row{display:flex;gap:14px}
+.avatar-lg{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);background:var(--elevated)}
+.display{font-size:1.25rem;font-weight:800}
+.handle{color:var(--muted);font-size:.95rem}
+.bio{margin-top:8px;font-size:.95rem}
+.section{padding:14px 16px;border-bottom:1px solid var(--border)}
+.section h2{font-size:.9rem;font-weight:800;margin-bottom:10px}
+.mode-row,.players-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode-btn{border:1px solid var(--border);background:var(--elevated);color:var(--text);border-radius:12px;
+  padding:12px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;text-align:left}
+.mode-btn.active{border-color:var(--blue);background:var(--blue-dim);color:var(--blue)}
+.mode-btn small{display:block;font-weight:500;color:var(--muted);margin-top:4px;font-size:.72rem}
+.hint-box{margin:12px 16px;padding:12px;background:var(--elevated);border-radius:12px;border:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+.rules{font-size:.82rem;color:var(--muted);padding:0 16px 8px}
+.rules li{margin:6px 0 6px 1.1em}
+.hud{display:flex;flex-wrap:wrap;gap:8px 14px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:.78rem;color:var(--muted);align-items:center}
+.hud strong{color:var(--text)}
+.hud .hearts{color:var(--red);letter-spacing:1px}
+.hud .streak{color:var(--amber)}
+.timer-bar{height:3px;background:var(--elevated)}
+.timer-fill{height:100%;background:var(--blue);transition:width .1s linear}
+.timer-fill.warn{background:var(--amber)}
+.timer-fill.danger{background:var(--red)}
+.progress{height:2px;background:var(--elevated)}
+.progress-bar{height:100%;background:var(--green);transition:width .25s}
+.tweet{padding:12px 16px 8px;border-bottom:1px solid var(--border)}
+.tweet-head{display:flex;gap:12px}
+.avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--elevated);flex-shrink:0}
+.name-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px;font-size:.95rem}
+.name{font-weight:800}.verified{color:var(--blue)}.meta{color:var(--muted)}
+.badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--elevated);color:var(--muted);border:1px solid var(--border);margin-left:4px}
+.tweet-text{margin-top:4px;font-size:1.02rem;white-space:pre-wrap;line-height:1.45}
+.engage{display:flex;justify-content:space-between;max-width:380px;margin-top:10px;color:var(--muted);font-size:.78rem}
+.engage span{display:inline-flex;gap:5px;align-items:center}
+.engage svg{width:16px;height:16px;fill:currentColor}
+.bet-panel{padding:10px 16px;border-bottom:1px solid var(--border)}
+.bet-panel label{font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px}
+.bet-panel input[type=range]{width:100%;accent-color:var(--blue)}
+.bet-val{color:var(--amber);font-weight:800}
+.hint-row{padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hint-msg{font-size:.8rem;color:var(--blue);flex:1;min-width:140px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px}
+.btn-reset{background:linear-gradient(180deg,#fbbf24,var(--amber));color:#0f1419;border-radius:999px;font-size:.88rem}
+.btn-feature{background:var(--blue);color:#fff;border-radius:999px;font-size:.88rem}
+.picked-ok{background:var(--green)!important;color:#fff!important}
+.picked-wrong{background:var(--red)!important;color:#fff!important}
+.feedback{margin:0 16px 8px;padding:10px 12px;border-radius:12px;font-size:.85rem;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--green-dim);border:1px solid rgba(0,186,124,.35);color:var(--green)}
+.feedback.bad{background:var(--red-dim);border:1px solid rgba(244,33,46,.35);color:var(--red)}
+.next-wrap{padding:0 16px 10px}
+.history-panel{border-top:1px solid var(--border);padding:10px 16px 16px;max-height:160px;overflow-y:auto}
+.history-panel h3{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:.68rem;font-weight:600;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:var(--elevated);color:var(--muted)}
+.chip.ok{border-color:rgba(0,186,124,.4);color:var(--green);background:var(--green-dim)}
+.chip.bad{border-color:rgba(244,33,46,.4);color:var(--red);background:var(--red-dim)}
+.stats-card{margin:16px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.stats-banner{height:72px;background:linear-gradient(135deg,#1d9bf0,#0a5f8f 50%,#16181c)}
+.stats-body{padding:0 16px 18px}
+.stats-avatar{width:68px;height:68px;border-radius:50%;border:3px solid var(--bg);object-fit:cover;margin-top:-34px;background:var(--elevated)}
+.stats-name{margin-top:8px;font-size:1.15rem;font-weight:800}
+.stats-handle{color:var(--muted);font-size:.85rem}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat-box{background:var(--elevated);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center}
+.stat-box .n{font-size:1.25rem;font-weight:800}
+.stat-box .l{font-size:.65rem;color:var(--muted);margin-top:2px}
+.tip{margin-top:12px;padding:11px;background:var(--elevated);border-radius:12px;border:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+.tip strong{color:var(--text)}
+.review-list{margin:0 16px 8px;border:1px solid var(--border);border-radius:var(--radius);max-height:240px;overflow-y:auto}
+.review-list h3{font-size:.85rem;font-weight:800;padding:12px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg)}
+.review-row{display:grid;grid-template-columns:28px 52px 1fr 1fr;gap:4px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:.75rem;align-items:center}
+.review-hdr{background:var(--elevated);color:var(--muted);font-size:.65rem;text-transform:uppercase}
+.truth.reset{color:var(--amber);font-weight:700}.truth.feature{color:var(--blue);font-weight:700}
+.compare{margin:0 16px 12px;padding:12px;border:1px solid var(--border);border-radius:12px;font-size:.85rem}
+.compare .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;text-align:center;align-items:center;margin-top:8px}
+.compare .big{font-size:1.5rem;font-weight:800}
+footer{text-align:center;color:var(--muted);font-size:.68rem;padding:14px;border-top:1px solid var(--border)}
+#share-canvas{display:none}
+.turn-banner{background:var(--blue-dim);color:var(--blue);text-align:center;padding:8px;font-size:.85rem;font-weight:700;border-bottom:1px solid var(--border)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <h1 id="top-title">Tibo Reset 猜谜</h1>
+    <span class="sub" id="top-sub">Day 0→29</span>
+  </div>
+
+  <!-- START -->
+  <section id="screen-start" class="screen active">
+    <div class="start-hero">
+      <div class="profile-row">
+        <img class="avatar-lg" src="avatar.jpg" alt="Tibo" width="72" height="72">
+        <div>
+          <div class="display">Tibo <span style="color:var(--blue)">✓</span></div>
+          <div class="handle">@thsottiaux</div>
+          <div class="bio">Codex &amp; ChatGPT @OpenAI</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h2>难度</h2>
+      <div class="mode-row">
+        <button type="button" class="mode-btn active" data-mode="easy" id="mode-easy">轻松<small>线索更直白</small></button>
+        <button type="button" class="mode-btn" data-mode="hell" id="mode-hell">地狱<small>仿写误导文案</small></button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>人数</h2>
+      <div class="players-row">
+        <button type="button" class="mode-btn active" data-players="1" id="p1">单人<small>自己猜完</small></button>
+        <button type="button" class="mode-btn" data-players="2" id="p2">双人同机<small>A 完再 B，比分</small></button>
+      </div>
+    </div>
+    <ul class="rules">
+      <li>Day 0→29 升序 · 猜 Reset 还是功能</li>
+      <li>连胜加分气势；<strong style="color:var(--text)">3 条命</strong>用尽提前结束</li>
+      <li>每关 <strong style="color:var(--text)">15 秒</strong>；超时算错</li>
+      <li>置信倍率 1–3×：对了乘分，错了扣更多</li>
+      <li>花 1 分解锁提示（有时是坑）</li>
+    </ul>
+    <div class="hint-box">全部仿写，非真实推文。轻松模式线索更直；地狱模式会用 cooking / QoL 口吻误导。</div>
+    <div class="pad">
+      <button class="btn btn-primary" id="btn-start">开始（Day 0）</button>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="screen-play" class="screen">
+    <div class="turn-banner" id="turn-banner" style="display:none"></div>
+    <div class="hud">
+      <span>第 <strong id="round-n">1</strong>/<span id="round-total">30</span> · Day <strong id="day-n">0</strong></span>
+      <span>分 <strong id="score">0</strong></span>
+      <span class="streak">连胜 <strong id="streak">0</strong></span>
+      <span class="hearts" id="hearts">♥♥♥</span>
+      <span>⏱ <strong id="timer-s">15</strong>s</span>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+    <div class="progress"><div class="progress-bar" id="progress" style="width:3%"></div></div>
+
+    <article class="tweet">
+      <div class="tweet-head">
+        <img class="avatar" src="avatar.jpg" alt="" width="48" height="48">
+        <div style="flex:1;min-width:0">
+          <div class="name-line">
+            <span class="name">Tibo</span><span class="verified">✓</span>
+            <span class="meta">@thsottiaux</span><span class="meta">·</span>
+            <span class="meta" id="tweet-time">Day 0</span>
+            <span class="badge">风格关 · 仿写</span>
+          </div>
+          <div class="tweet-text" id="post-text"></div>
+          <div class="engage" aria-hidden="true">
+            <span><svg viewBox="0 0 24 24"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"/></svg><span id="eng-reply">128</span></span>
+            <span><svg viewBox="0 0 24 24"><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.791-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.791 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"/></svg><span id="eng-rt">86</span></span>
+            <span><svg viewBox="0 0 24 24"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.523 2.58.574 4.01.96 1.24 2.87 3.08 5.823 5.449l.21.17.21-.17c2.94-2.36 4.85-4.2 5.823-5.45 1.097-1.43 1.126-2.89.574-4.01-.561-1.13-1.667-1.84-2.911-1.91zm4.187 7.69c-1.351 1.74-3.6 3.87-6.913 6.53l-1.004.81-.996-.81c-3.315-2.66-5.564-4.79-6.913-6.53C2.35 11.45 1.26 8.86 3.14 6.61 4.227 5.3 5.988 4.55 7.8 4.55c1.581 0 3.162.681 4.2 2.07 1.038-1.39 2.619-2.07 4.2-2.07 1.812 0 3.573.75 4.66 2.06 1.88 2.25.79 4.84-.973 6.55z"/></svg><span id="eng-like">1.2K</span></span>
+            <span><svg viewBox="0 0 24 24"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg><span id="eng-view">48K</span></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="bet-panel">
+      <label>置信倍率 <span class="bet-val" id="bet-label">×2</span></label>
+      <input type="range" id="bet-range" min="1" max="3" step="1" value="2">
+    </div>
+    <div class="hint-row">
+      <button type="button" class="btn btn-sm btn-ghost" id="btn-hint" style="margin:0">💡 花 1 分看提示</button>
+      <span class="hint-msg" id="hint-msg"></span>
+    </div>
+    <div class="choices">
+      <button class="btn btn-reset" id="btn-reset">🔄 今天会 Reset</button>
+      <button class="btn btn-feature" id="btn-feature">✨ 今天是功能</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="next-wrap">
+      <button class="btn btn-primary" id="btn-next" style="display:none">下一关 →</button>
+    </div>
+    <div class="history-panel">
+      <h3>本局记录</h3>
+      <div class="chips" id="live-history"><span style="color:var(--muted);font-size:.8rem">答完会出现在这里</span></div>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section id="screen-end" class="screen">
+    <div class="stats-card" id="stats-card">
+      <div class="stats-banner"></div>
+      <div class="stats-body">
+        <img class="stats-avatar" src="avatar.jpg" alt="" width="68" height="68">
+        <div class="stats-name" id="end-title">你的猜谜战绩</div>
+        <div class="stats-handle" id="end-sub">Day 0→29 仿写</div>
+        <div style="margin-top:8px;font-size:.95rem"><span id="end-emoji">🔥</span> <span id="rank-text"></span></div>
+        <div class="score-grid">
+          <div class="stat-box"><div class="n" id="final-score">0</div><div class="l">得分</div></div>
+          <div class="stat-box"><div class="n" id="final-acc">0%</div><div class="l">正确率</div></div>
+          <div class="stat-box"><div class="n" id="final-streak">0</div><div class="l">最高连胜</div></div>
+        </div>
+        <div class="score-grid" style="margin-top:8px">
+          <div class="stat-box"><div class="n" id="final-days">0</div><div class="l">到达 Day</div></div>
+          <div class="stat-box"><div class="n" id="final-lives">0</div><div class="l">剩余命</div></div>
+          <div class="stat-box"><div class="n" id="final-mode">—</div><div class="l">模式</div></div>
+        </div>
+        <div class="tip" id="end-tip">
+          <strong>别被梗带跑：</strong>meters / counters / headroom / restock 偏 Reset；写明 unchanged / New: sidebar 偏功能。
+        </div>
+      </div>
+    </div>
+    <div class="compare" id="compare-box" style="display:none">
+      <strong>双人同机对决</strong>
+      <div class="vs">
+        <div><div>玩家 A</div><div class="big" id="score-a">0</div></div>
+        <div style="color:var(--muted)">VS</div>
+        <div><div>玩家 B</div><div class="big" id="score-b">0</div></div>
+      </div>
+      <div id="winner-text" style="text-align:center;margin-top:10px;font-weight:700"></div>
+    </div>
+    <div class="review-list">
+      <h3>逐关复盘</h3>
+      <div class="review-row review-hdr"><span></span><span>Day</span><span>猜测</span><span>答案</span></div>
+      <div id="review"></div>
+    </div>
+    <div class="pad">
+      <button class="btn btn-blue" id="btn-share">📷 下载战绩卡 PNG</button>
+      <button class="btn btn-primary" id="btn-again" style="margin-top:10px">再玩一局</button>
+      <button class="btn btn-ghost" id="btn-home">回到首页</button>
+    </div>
+  </section>
+
+  <footer>仿写 Day 0–29 · 非真实发帖 · 仅供娱乐</footer>
+</div>
+<canvas id="share-canvas" width="720" height="960"></canvas>
+
+<script>
+(function(){
+  const DATA = {
+    easy: [{"day": 0, "text": "Day 0/\n28 days start now.\nToday: meters topped up for everyone. Go build.", "answer": "reset", "time": "Day 0", "note": "轻松 · 明确回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 1, "text": "Day 1/\nNew: drag a file onto the thread to attach it.", "answer": "feature", "time": "Day 1", "note": "轻松 · 新功能：拖拽附件", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 2, "text": "Day 2/\nStreet card joke aside — your allowance just got topped up.", "answer": "reset", "time": "Day 2", "note": "轻松 · 额度回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 3, "text": "Day 3/\nNew: pin a working folder across sessions.", "answer": "feature", "time": "Day 3", "note": "轻松 · 新功能：固定目录", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 4, "text": "Day 4/\nCounters back to the top for everyone. Enjoy the headroom.", "answer": "reset", "time": "Day 4", "note": "轻松 · 计数回顶", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 5, "text": "Day 5/\nNew: sidebar diff review — jump files in-thread.", "answer": "feature", "time": "Day 5", "note": "轻松 · 新功能：sidebar diff", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 6, "text": "Day 6/\nAllowances refreshed. Full pantry. No new UI.", "answer": "reset", "time": "Day 6", "note": "轻松 · 额度刷新", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 7, "text": "Day 7/\nNew: ⌘↩ retries the last turn without retyping.", "answer": "feature", "time": "Day 7", "note": "轻松 · 新功能：重试快捷键", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 8, "text": "Day 8/\nBreathing room on the meters today — no new button.", "answer": "reset", "time": "Day 8", "note": "轻松 · 额度空间", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 9, "text": "Day 9/\nNew: edit previous messages in a desktop thread.\n(Street cards still don't refill.)", "answer": "feature", "time": "Day 9", "note": "轻松 · 新功能：编辑消息", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 10, "text": "Day 10/\nClean slate on the counters. No new UI shipped.", "answer": "reset", "time": "Day 10", "note": "轻松 · 计数清零回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 11, "text": "Day 11/\nNew: inline peek when a path is cited.", "answer": "feature", "time": "Day 11", "note": "轻松 · 新功能：路径预览", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 12, "text": "Day 12/\nNew: status line shows model / effort. Not a refill.", "answer": "feature", "time": "Day 12", "note": "轻松 · 新功能：状态栏", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 13, "text": "Day 13/\nOnly change today: remaining balance bounced back.", "answer": "reset", "time": "Day 13", "note": "轻松 · 余额回弹", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 14, "text": "Day 14/\nNew: multi-select files, ask about all at once. Meters unchanged.", "answer": "feature", "time": "Day 14", "note": "轻松 · 新功能：多选", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 15, "text": "Day 15/\nPantry restocked. Headroom's back.", "answer": "reset", "time": "Day 15", "note": "轻松 · 补货回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 16, "text": "Day 16/\nNew: one-click undo last apply-patch. Meters unchanged.", "answer": "feature", "time": "Day 16", "note": "轻松 · 新功能：撤销 patch", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 17, "text": "Day 17/\nTopped everyone up. Dark theme later.", "answer": "reset", "time": "Day 17", "note": "轻松 · 全员回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 18, "text": "Day 18/\nNew: search past threads by keyword.", "answer": "feature", "time": "Day 18", "note": "轻松 · 新功能：搜索", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 19, "text": "Day 19/\nShipped headroom — counters bounced. No new button.", "answer": "reset", "time": "Day 19", "note": "轻松 · 额度回弹", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 20, "text": "Day 20/\nNew: export thread as markdown for PRs.", "answer": "feature", "time": "Day 20", "note": "轻松 · 新功能：导出", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 21, "text": "Day 21/\nAllowances already came back. No need to refresh.", "answer": "reset", "time": "Day 21", "note": "轻松 · 额度已回", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 22, "text": "Day 22/\nNew: hover citation to peek snippet.", "answer": "feature", "time": "Day 22", "note": "轻松 · 新功能：引用预览", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 23, "text": "Day 23/\nToday's ship is breathing room. Meters full.", "answer": "reset", "time": "Day 23", "note": "轻松 · 额度满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 24, "text": "Day 24/\nNew: pin a prompt snippet to the composer.", "answer": "feature", "time": "Day 24", "note": "轻松 · 新功能：固定提示", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 25, "text": "Day 25/\nQuiet restock. No new chrome. Room to run.", "answer": "reset", "time": "Day 25", "note": "轻松 · 静默补货", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 26, "text": "Day 26/\nNew: split view — code left, thread right. Balance unchanged.", "answer": "feature", "time": "Day 26", "note": "轻松 · 新功能：分栏", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 27, "text": "Day 27/\nRefill today. Keyboard chord tomorrow.", "answer": "reset", "time": "Day 27", "note": "轻松 · 今日回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 28, "text": "Day 28/\nNew: auto thread titles. Quotas untouched.", "answer": "feature", "time": "Day 28", "note": "轻松 · 新功能：自动标题", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 29, "text": "Day 29/\nFinale: counters already rolled over. Build.", "answer": "reset", "time": "Day 29", "note": "轻松 · 计数已滚动回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}],
+    hell: [{"day": 0, "text": "Day 0/\nKicking off 28 days of shipping.\nWhat's cooking today? Your meters are full again. Go build.", "answer": "reset", "time": "Day 0", "note": "仿写 · meters full = 额度回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 1, "text": "Day 1/\nWe're cooked… into a new flow:\ndrag a file onto the thread to attach it. Tiny. Daily.", "answer": "feature", "time": "Day 1", "note": "仿写 · cooked 双关；拖拽附件", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 2, "text": "Day 2/\nSomeone on the street asked for a card.\nI handed them one. Yours just got topped up too.", "answer": "reset", "time": "Day 2", "note": "仿写 · topped up = 回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 3, "text": "Day 3/\nPin a working folder across sessions.\nNo fireworks. Just less re-picking paths.", "answer": "feature", "time": "Day 3", "note": "仿写 · 固定目录", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 4, "text": "Day 4/\nCookbook energy tonight.\nEveryone's counters went back to the top. Enjoy the headroom.", "answer": "reset", "time": "Day 4", "note": "仿写 · counters 回顶", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 5, "text": "Day 5/\nSidebar diff review — jump files without leaving the thread.\n(Yes, we raised the preview limit in the pane.)", "answer": "feature", "time": "Day 5", "note": "仿写 · preview limit 是 UI", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 6, "text": "Day 6/\nStill shipping… kind of.\nActually: allowances refreshed. Same kitchen, full pantry.", "answer": "reset", "time": "Day 6", "note": "仿写 · allowances refreshed", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 7, "text": "Day 7/\n⌘↩ retries the last turn without retyping.\nMuscle memory upgrade.", "answer": "feature", "time": "Day 7", "note": "仿写 · 重试快捷键", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 8, "text": "Day 8/\nWhat's cooking today?\nNot a new button — just breathing room on the meters. Ship something.", "answer": "reset", "time": "Day 8", "note": "仿写 · meters 呼吸空间", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 9, "text": "Day 9/\nPrinted tiny cards as a joke. They don't refill anything.\nThey do remind you: you can edit prior messages in a desktop thread now.", "answer": "feature", "time": "Day 9", "note": "仿写 · 卡片玩笑；编辑历史", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 10, "text": "Day 10/\nShipped a little something:\nall accounts got a clean slate on the counters. No new UI.", "answer": "reset", "time": "Day 10", "note": "仿写 · clean slate = 回满", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 11, "text": "Day 11/\nInline peeks when a path is cited — skim before opening.\nWe're cooked? Nah. Just faster eyes.", "answer": "feature", "time": "Day 11", "note": "仿写 · 预览；否定 cooked", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 12, "text": "Day 12/\nStatus line now shows which model / effort the turn used.\nTransparency, not a refill.", "answer": "feature", "time": "Day 12", "note": "仿写 · not a refill", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 13, "text": "Day 13/\nQuality-of-life day?\nSort of: the only change is your remaining balance bounced back. Use it.", "answer": "reset", "time": "Day 13", "note": "仿写 · QoL 口吻；balance 回弹", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 14, "text": "Day 14/\nMulti-select in the tree, then ask about all of them in one shot.\nBatch brain, same meters.", "answer": "feature", "time": "Day 14", "note": "仿写 · same meters", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 15, "text": "Day 15/\nNevermind the roadmap tease.\nPantry restocked. Headroom's back. Carry on.", "answer": "reset", "time": "Day 15", "note": "仿写 · pantry restocked", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 16, "text": "Day 16/\nOne-click undo on the last apply-patch.\nNo git archaeology. Meters unchanged — on purpose.", "answer": "feature", "time": "Day 16", "note": "仿写 · meters unchanged", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 17, "text": "Day 17/\nThought about shipping a darker theme.\nThen I just topped everyone up instead. Theme later.", "answer": "reset", "time": "Day 17", "note": "仿写 · topped up", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 18, "text": "Day 18/\nSearch past threads by keyword.\nFind that fix from last Tuesday. Cooking optional.", "answer": "feature", "time": "Day 18", "note": "仿写 · 搜索线程", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 19, "text": "Day 19/\nStreet poll said \"ship a button.\"\nI shipped headroom instead. Counters kissed zero then bounced.", "answer": "reset", "time": "Day 19", "note": "仿写 · counters bounced", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 20, "text": "Day 20/\nExport a thread as markdown for your PR.\nCopy-paste theater, zero meter drama.", "answer": "feature", "time": "Day 20", "note": "仿写 · 导出 md", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 21, "text": "Day 21/\nPro tip that isn't a tip:\nyou don't need to refresh — the allowances already came back. Go.", "answer": "reset", "time": "Day 21", "note": "仿写 · allowances 回来了", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 22, "text": "Day 22/\nHover a citation → peek the snippet.\nWe're still cooking the big stuff; this is a small spatula.", "answer": "feature", "time": "Day 22", "note": "仿写 · 预览 snippet", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 23, "text": "Day 23/\n28-day streak rule: some days the \"ship\" is just breathing room.\nToday's that day. Meters full.", "answer": "reset", "time": "Day 23", "note": "仿写 · meters full", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 24, "text": "Day 24/\nPin a prompt snippet to the composer.\nReuse your scaffolding. Cards on the street still do nothing.", "answer": "feature", "time": "Day 24", "note": "仿写 · pin prompt", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 25, "text": "Day 25/\nCookbook entry: salt, pepper, and a quiet restock.\nNo new chrome. Just room to run.", "answer": "reset", "time": "Day 25", "note": "仿写 · quiet restock", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 26, "text": "Day 26/\nSplit view: code left, thread right.\nFinally. Your balance looks the same — that's correct.", "answer": "feature", "time": "Day 26", "note": "仿写 · balance same", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 27, "text": "Day 27/\nWanted a keyboard chord.\nShipped a refill instead. Chord tomorrow; headroom today.", "answer": "reset", "time": "Day 27", "note": "仿写 · refill / headroom", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}, {"day": 28, "text": "Day 28/\nThread titles auto-summarize after the first reply.\nLess \"untitled chaos.\" Quotas untouched.", "answer": "feature", "time": "Day 28", "note": "仿写 · quotas untouched", "hintTrue": "盯 New/edit/sidebar/pin/export，或写明 meters unchanged / quotas untouched。", "hintFake": "出现 cooked / street / card / pantry → 今天额度回满。"}, {"day": 29, "text": "Day 29/\nFinale energy without a finale button.\nIf you can read this, the counters already rolled over. Build.", "answer": "reset", "time": "Day 29", "note": "仿写 · counters rolled over", "hintTrue": "盯 meters / counters / headroom / topped up / restock / allowances。", "hintFake": "开场有 cooking / ship / QoL 味道 → 多半是新功能。"}]
+  };
+
+  const ROUND_SECS = 15;
+  const MAX_LIVES = 3;
+
+  let mode = "easy";
+  let players = 1;
+  let currentPlayer = 0; // 0=A, 1=B
+  let results2p = [null, null];
+
+  let order = [];
+  let idx = 0;
+  let score = 0;
+  let lives = MAX_LIVES;
+  let streak = 0;
+  let maxStreak = 0;
+  let history = [];
+  let answered = false;
+  let hintUsed = false;
+  let timerId = null;
+  let timeLeft = ROUND_SECS;
+  let endedEarly = false;
+
+  const $ = id => document.getElementById(id);
+
+  function show(name){
+    ["start","play","end"].forEach(n => {
+      $("screen-"+n).classList.toggle("active", n===name);
+    });
+    if(name==="start"){ $("top-title").textContent="Tibo Reset 猜谜"; $("top-sub").textContent="Day 0→29"; }
+    if(name==="play"){ $("top-title").textContent="猜这一条"; $("top-sub").textContent = mode==="hell"?"地狱模式":"轻松模式"; }
+    if(name==="end"){ $("top-title").textContent="战绩卡"; $("top-sub").textContent="结算"; }
+  }
+
+  function label(a){ return a==="reset"?"Reset":"功能"; }
+
+  function hearts(){
+    return "♥".repeat(lives) + "♡".repeat(MAX_LIVES-lives);
+  }
+
+  function stopTimer(){
+    if(timerId){ clearInterval(timerId); timerId=null; }
+  }
+
+  function startTimer(){
+    stopTimer();
+    timeLeft = ROUND_SECS;
+    updateTimerUI();
+    timerId = setInterval(()=>{
+      timeLeft -= 0.1;
+      if(timeLeft <= 0){
+        timeLeft = 0;
+        updateTimerUI();
+        stopTimer();
+        if(!answered) resolveRound(null, true);
+      } else updateTimerUI();
+    }, 100);
+  }
+
+  function updateTimerUI(){
+    const pct = Math.max(0, timeLeft/ROUND_SECS*100);
+    const fill = $("timer-fill");
+    fill.style.width = pct+"%";
+    fill.className = "timer-fill" + (timeLeft<=5?" danger": timeLeft<=8?" warn":"");
+    $("timer-s").textContent = String(Math.ceil(timeLeft));
+  }
+
+  function updateHud(){
+    $("score").textContent = String(score);
+    $("streak").textContent = String(streak);
+    $("hearts").textContent = hearts();
+    $("round-n").textContent = String(idx+1);
+    $("round-total").textContent = String(order.length);
+    if(order[idx]) $("day-n").textContent = String(order[idx].day);
+    $("progress").style.width = ((idx+1)/order.length*100)+"%";
+  }
+
+  function renderHistory(){
+    const el = $("live-history");
+    if(!history.length){
+      el.innerHTML = '<span style="color:var(--muted);font-size:.8rem">答完会出现在这里</span>';
+      return;
+    }
+    el.innerHTML = history.map(h=>{
+      const cls = h.correct?"ok":"bad";
+      const mark = h.correct?"✓":"✗";
+      const to = h.timeout?"·超时":"";
+      return `<span class="chip ${cls}">${mark} Day ${h.day} ·×${h.bet}${to}</span>`;
+    }).join("");
+  }
+
+  // Mode / players pickers
+  document.querySelectorAll("[data-mode]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      mode = btn.dataset.mode;
+      document.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("active", b===btn));
+    });
+  });
+  document.querySelectorAll("[data-players]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      players = +btn.dataset.players;
+      document.querySelectorAll("[data-players]").forEach(b=>b.classList.toggle("active", b===btn));
+    });
+  });
+
+  $("bet-range").addEventListener("input", ()=>{
+    $("bet-label").textContent = "×"+$("bet-range").value;
+  });
+
+  function beginPlayerRun(){
+    order = DATA[mode].slice(); // ascending Day 0..29
+    idx = 0; score = 0; lives = MAX_LIVES; streak = 0; maxStreak = 0;
+    history = []; answered = false; endedEarly = false;
+    $("hint-msg").textContent = "";
+    if(players===2){
+      $("turn-banner").style.display = "block";
+      $("turn-banner").textContent = currentPlayer===0 ? "玩家 A 的回合" : "玩家 B 的回合 — 别偷看 A 的答案习惯哦";
+    } else {
+      $("turn-banner").style.display = "none";
+    }
+    show("play");
+    renderHistory();
+    renderRound();
+  }
+
+  function startGame(){
+    currentPlayer = 0;
+    results2p = [null, null];
+    beginPlayerRun();
+  }
+
+  function renderRound(){
+    const r = order[idx];
+    answered = false;
+    hintUsed = false;
+    $("btn-hint").disabled = score < 1;
+    $("hint-msg").textContent = "";
+    $("post-text").textContent = r.text;
+    $("tweet-time").textContent = r.time;
+    $("eng-reply").textContent = String(40+Math.floor(Math.random()*200));
+    $("eng-rt").textContent = String(20+Math.floor(Math.random()*150));
+    $("eng-like").textContent = (0.4+Math.random()*2.8).toFixed(1)+"K";
+    $("eng-view").textContent = (12+Math.floor(Math.random()*90))+"K";
+    $("feedback").className = "feedback";
+    $("btn-next").style.display = "none";
+    const br=$("btn-reset"), bf=$("btn-feature");
+    br.disabled=false; bf.disabled=false;
+    br.className="btn btn-reset"; bf.className="btn btn-feature";
+    $("bet-range").disabled = false;
+    updateHud();
+    startTimer();
+  }
+
+  function buyHint(){
+    if(answered || hintUsed) return;
+    if(score < 1){
+      $("hint-msg").textContent = "分数不足（需 ≥1）";
+      return;
+    }
+    score -= 1;
+    hintUsed = true;
+    $("btn-hint").disabled = true;
+    updateHud();
+    const r = order[idx];
+    // 40% misleading hint
+    const fake = Math.random() < 0.4;
+    $("hint-msg").textContent = (fake?"⚠️ ":"💡 ") + (fake ? r.hintFake : r.hintTrue) + (fake?"（可能有坑）":"");
+  }
+
+  function resolveRound(choice, timeout){
+    if(answered) return;
+    answered = true;
+    stopTimer();
+    $("bet-range").disabled = true;
+    $("btn-hint").disabled = true;
+
+    const r = order[idx];
+    const bet = +$("bet-range").value || 1;
+    const correct = !timeout && choice === r.answer;
+
+    let delta = 0;
+    if(correct){
+      streak += 1;
+      if(streak > maxStreak) maxStreak = streak;
+      // base bet points + small streak bonus (capped)
+      delta = bet + Math.min(2, Math.floor(streak/3));
+      score += delta;
+    } else {
+      streak = 0;
+      delta = -bet;
+      score = Math.max(0, score + delta); // floor at 0
+      lives -= 1;
+    }
+
+    history.push({
+      day: r.day, guess: timeout ? "timeout" : choice, answer: r.answer,
+      correct, bet, timeout: !!timeout, delta
+    });
+
+    const br=$("btn-reset"), bf=$("btn-feature");
+    br.disabled=true; bf.disabled=true;
+    (r.answer==="reset"?br:bf).classList.add("picked-ok");
+    if(!correct && !timeout && choice){
+      (choice==="reset"?br:bf).classList.add("picked-wrong");
+    }
+
+    const fb=$("feedback");
+    fb.className = "feedback show "+(correct?"ok":"bad");
+    let msg = correct
+      ? `✓ 正确！+${delta} 分（倍率×${bet}${streak>1?" · 连胜"+streak:""}）`
+      : (timeout ? `⏱ 超时！` : `✗ 错了。`);
+    if(!correct) msg += ` 答案是「${label(r.answer)}」· ${delta} 分 · 命 ${lives}`;
+    msg += " · " + r.note;
+    fb.textContent = msg;
+
+    updateHud();
+    renderHistory();
+
+    const dead = lives <= 0;
+    const last = idx + 1 >= order.length;
+    $("btn-next").style.display = "block";
+    if(dead){
+      endedEarly = true;
+      $("btn-next").textContent = "命尽 · 看战绩 →";
+    } else if(last){
+      $("btn-next").textContent = "通关 · 看战绩 →";
+    } else {
+      $("btn-next").textContent = `下一关（Day ${r.day+1}）→`;
+    }
+  }
+
+  function next(){
+    if(lives <= 0 || idx + 1 >= order.length){
+      finishRun();
+      return;
+    }
+    idx += 1;
+    renderRound();
+  }
+
+  function snapshot(){
+    const tried = history.length;
+    const ok = history.filter(h=>h.correct).length;
+    const lastDay = history.length ? history[history.length-1].day : 0;
+    return {
+      score, maxStreak, lives, tried, ok,
+      acc: tried ? Math.round(ok/tried*100) : 0,
+      lastDay, endedEarly, mode, history: history.slice()
+    };
+  }
+
+  function finishRun(){
+    stopTimer();
+    const snap = snapshot();
+    if(players===2){
+      results2p[currentPlayer] = snap;
+      if(currentPlayer===0){
+        currentPlayer = 1;
+        // brief interstitial via alert-less banner then restart
+        beginPlayerRun();
+        return;
+      }
+    }
+    renderEnd(snap);
+  }
+
+  function renderEnd(snap){
+    const two = players===2 && results2p[0] && results2p[1];
+    const showSnap = two ? results2p[1] : snap;
+    // If 2p, show B's detail + compare; title reflects duel
+    $("end-title").textContent = two ? "双人同机结算" : "你的猜谜战绩";
+    $("end-sub").textContent = (showSnap.mode==="hell"?"地狱":"轻松") + " · Day 0→29 仿写" + (showSnap.endedEarly?" · 提前结束":"");
+    $("final-score").textContent = String(showSnap.score);
+    $("final-acc").textContent = showSnap.acc+"%";
+    $("final-streak").textContent = String(showSnap.maxStreak);
+    $("final-days").textContent = String(showSnap.lastDay);
+    $("final-lives").textContent = String(showSnap.lives);
+    $("final-mode").textContent = showSnap.mode==="hell"?"地狱":"轻松";
+
+    let emoji="🍳", rank="还在预热";
+    if(showSnap.endedEarly && showSnap.lives<=0) { emoji="💀"; rank="命尽出局 · 下次少赌高倍硬刚"; }
+    else if(showSnap.acc===100 && !showSnap.endedEarly){ emoji="👑"; rank="满分通关 · 节奏拿捏"; }
+    else if(showSnap.acc>=80){ emoji="🔥"; rank="很好 · reset 卡销售员水平"; }
+    else if(showSnap.acc>=50){ emoji="👀"; rank="半熟 · 功能 vs 额度开始分清了"; }
+    $("end-emoji").textContent = emoji;
+    $("rank-text").textContent = rank;
+
+    const hist = two ? results2p[1].history : showSnap.history;
+    $("review").innerHTML = hist.map(h=>{
+      const g = h.timeout ? "超时" : label(h.guess);
+      return `<div class="review-row"><span>${h.correct?"✅":"❌"}</span><span>Day ${h.day}</span><span>${g}×${h.bet}</span><span class="truth ${h.answer}">${label(h.answer)}</span></div>`;
+    }).join("");
+
+    if(two){
+      $("compare-box").style.display = "block";
+      $("score-a").textContent = results2p[0].score;
+      $("score-b").textContent = results2p[1].score;
+      const a=results2p[0].score, b=results2p[1].score;
+      $("winner-text").textContent = a===b ? "平局！一起去街上发 reset 卡" : (a>b ? "🏆 玩家 A 胜" : "🏆 玩家 B 胜");
+      // show A's review note in tip
+      $("end-tip").innerHTML = `<strong>A</strong> ${results2p[0].score}分/${results2p[0].acc}% · <strong>B</strong> ${results2p[1].score}分/${results2p[1].acc}% · 别被 cooked / QoL 口吻带跑。`;
+    } else {
+      $("compare-box").style.display = "none";
+    }
+
+    // stash for share
+    window.__shareSnap = two ? {two:true, a:results2p[0], b:results2p[1], mode} : {two:false, s:showSnap, mode};
+    show("end");
+  }
+
+  function downloadShare(){
+    const c = $("share-canvas");
+    const ctx = c.getContext("2d");
+    const W=720, H=960;
+    c.width=W; c.height=H;
+    // bg
+    ctx.fillStyle="#000";
+    ctx.fillRect(0,0,W,H);
+    // banner
+    const g = ctx.createLinearGradient(0,0,W,120);
+    g.addColorStop(0,"#1d9bf0"); g.addColorStop(1,"#0a5f8f");
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,W,140);
+
+    const snap = window.__shareSnap;
+    function drawText(t,x,y,size,color,bold){
+      ctx.fillStyle=color||"#e7e9ea";
+      ctx.font = (bold?"bold ":"")+size+"px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText(t,x,y);
+    }
+
+    // avatar
+    const img = new Image();
+    img.onload = ()=>{
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(80, 180, 48, 0, Math.PI*2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, 32, 132, 96, 96);
+      ctx.restore();
+      // ring
+      ctx.strokeStyle="#000";
+      ctx.lineWidth=6;
+      ctx.beginPath();
+      ctx.arc(80,180,48,0,Math.PI*2);
+      ctx.stroke();
+
+      drawText("Tibo Reset 猜谜", 150, 170, 28, "#e7e9ea", true);
+      drawText("@thsottiaux 仿写 · 非真实推文", 150, 202, 16, "#71767b");
+
+      let y = 280;
+      if(snap.two){
+        drawText("双人同机对决", 40, y, 22, "#1d9bf0", true); y+=50;
+        drawText("玩家 A", 80, y, 18, "#71767b");
+        drawText("玩家 B", 420, y, 18, "#71767b"); y+=40;
+        drawText(String(snap.a.score), 80, y, 56, "#e7e9ea", true);
+        drawText(String(snap.b.score), 420, y, 56, "#e7e9ea", true); y+=50;
+        drawText(snap.a.acc+"% 正确", 80, y, 18, "#00ba7c");
+        drawText(snap.b.acc+"% 正确", 420, y, 18, "#00ba7c"); y+=60;
+        const a=snap.a.score,b=snap.b.score;
+        drawText(a===b?"平局":(a>b?"A 胜":"B 胜"), 40, y, 26, "#ffd400", true);
+        y+=50;
+        drawText("模式："+(snap.mode==="hell"?"地狱":"轻松"), 40, y, 18, "#71767b");
+      } else {
+        const s = snap.s;
+        drawText("得分", 40, y, 16, "#71767b"); y+=48;
+        drawText(String(s.score), 40, y, 72, "#e7e9ea", true); y+=40;
+        drawText(`正确率 ${s.acc}% · 最高连胜 ${s.maxStreak} · 到 Day ${s.lastDay}`, 40, y, 18, "#71767b"); y+=36;
+        drawText(`模式 ${(s.mode==="hell"?"地狱":"轻松")} · 剩命 ${s.lives}${s.endedEarly?" · 提前结束":""}`, 40, y, 18, "#71767b"); y+=60;
+        drawText($("rank-text").textContent, 40, y, 22, "#1d9bf0", true);
+      }
+
+      y = H - 120;
+      drawText("meters / headroom → Reset", 40, y, 16, "#f59e0b"); y+=28;
+      drawText("New: / unchanged → 功能", 40, y, 16, "#1d9bf0"); y+=40;
+      drawText("tibo-reset-game", 40, y, 14, "#71767b");
+
+      c.toBlob(blob=>{
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(blob);
+        a.download="tibo-reset-score.png";
+        a.click();
+        setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+      }, "image/png");
+    };
+    img.onerror = ()=>{
+      // share without avatar
+      drawText("Tibo Reset 猜谜", 40, 200, 28, "#e7e9ea", true);
+      c.toBlob(blob=>{
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(blob);
+        a.download="tibo-reset-score.png";
+        a.click();
+      },"image/png");
+    };
+    img.src = "avatar.jpg";
+  }
+
+  $("btn-start").addEventListener("click", startGame);
+  $("btn-again").addEventListener("click", startGame);
+  $("btn-home").addEventListener("click", ()=>{ stopTimer(); show("start"); });
+  $("btn-reset").addEventListener("click", ()=>resolveRound("reset", false));
+  $("btn-feature").addEventListener("click", ()=>resolveRound("feature", false));
+  $("btn-next").addEventListener("click", next);
+  $("btn-hint").addEventListener("click", buyHint);
+  $("btn-share").addEventListener("click", downloadShare);
+})();
+</script>
+</body>
+</html>
