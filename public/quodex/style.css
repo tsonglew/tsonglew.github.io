@@ -127,7 +127,7 @@ footer small { font-size: 12px; }
   .section-heading h2 br { display: none; }
   .feature-list article { gap: 18px; }
   .screens { padding: 28px 20px 24px; }
-  .screens h2 { font-size: 28px; }
+  .screens h2 { font-size: 28px; text-wrap: balance; }
   .screens .eyebrow { font-size: 10px; letter-spacing: 1px; }
   .screen-grid { grid-template-columns: 1fr; gap: 30px; }
   .screen-grid figure { width: min(100%, 310px); margin-inline: auto; }
