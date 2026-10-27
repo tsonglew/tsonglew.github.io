@@ -40,6 +40,12 @@ const cs2680Pages = readdirSync(new URL('./public/cs2680/', import.meta.url), {
   .filter((path) => path === 'index.html' || path.endsWith('/index.html'))
   .map((path) => `https://tsonglew.github.io/cs2680/${path.slice(0, -'index.html'.length)}`)
 
+// Dutis is deployed as a separate GitHub Pages project on this domain.
+const dutisPages = [
+  'https://tsonglew.github.io/dutis/',
+  'https://tsonglew.github.io/dutis/zh-cn/'
+]
+
 // https://astro.build/config
 export default defineConfig({
   // [Basic]
@@ -147,7 +153,7 @@ export default defineConfig({
   // [Integrations]
   integrations: [
     // Configure sitemap here; astro-pure adds mdx & unocss.
-    sitemap({ customPages: [...tripPages, ...cs2680Pages] }),
+    sitemap({ customPages: [...tripPages, ...cs2680Pages, ...dutisPages] }),
     // mdx(),
     AstroPureIntegration(config),
     // Client-side mermaid rendering for diagram code blocks
