@@ -45,8 +45,12 @@ h1 { font-size: clamp(48px, 5.2vw, 72px); font-weight: 600; letter-spacing: -3px
 .palette-label { display: inline-flex; white-space: nowrap; gap: 6px; align-items: center; letter-spacing: 0; }
 .palette-label span { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
 .primary-widget { width: 62%; margin: 30px auto 0; border-radius: 25px; box-shadow: 0 18px 30px #112b3015; }
-.widget-tag { position: relative; display: flex; align-items: center; gap: 8px; background: var(--paper); width: max-content; max-width: 100%; padding: 12px 18px; border: 1px solid var(--line); border-radius: 30px; font-size: 12px; transform: rotate(-4deg); margin: -12px 0 14px; }
+.widget-tag { position: relative; display: flex; align-items: center; gap: 8px; background: var(--paper); width: max-content; max-width: 100%; padding: 12px 18px; border: 1px solid var(--line); border-radius: 30px; font-size: 12px; transform: rotate(-4deg); margin: 16px 0 14px; }
 .slim-widget { width: 70%; margin: 0 0 0 auto; border-radius: 20px; box-shadow: 0 12px 28px #112b3020; }
+.slim-widget.heatmap-widget { width: 46%; }
+.current-screens { margin-bottom: 64px; }
+.archive-preview > summary { color: var(--muted); }
+.archive-preview .screens { margin-bottom: 24px; }
 .image-note { font-size: 12px; line-height: 1.85; text-align: center; color: var(--muted); margin: 20px 0 0; }
 .strip { border-block: 1px solid var(--line); }
 .strip-inner { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0; font-size: 14px; }
