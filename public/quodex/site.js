@@ -19,3 +19,12 @@ if (previewControl && previewImages.length && previewButtons.length) {
     });
   }
 }
+
+// Keep historical deep links useful even though the archive is collapsed.
+function openLinkedArchive() {
+  const id = window.location.hash.slice(1);
+  const target = document.getElementById(id);
+  if (target instanceof HTMLDetailsElement) target.open = true;
+}
+openLinkedArchive();
+window.addEventListener("hashchange", openLinkedArchive);
