@@ -80,7 +80,7 @@
     <p class="image-note preview-note">来自 alpha32 debug、API 37 Android 模拟器的原生截图，均为本机示例数据，不是实际账户验证。<a href="assets/alpha32/subscriptions-opencode-zen.png">查看 OpenCode Console（原 Zen）余额界面</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md">接入步骤、接口依据与验证范围</a>。</p>
     <div class="feature-list">
       <article><span class="number" aria-hidden="true">01</span><div><h3>每个服务，独立连接</h3><p>DeepSeek 使用开放平台 API 密钥；OpenCode Go 使用所属工作区 API 密钥；Console 使用具有账单读取权限的个人密钥。Cursor 使用个人控制台的 WorkosCursorSessionToken 值，连接框内提供获取步骤。无需先登录 Codex，各服务单独刷新、取消和断开。</p></div></article>
-      <article><span class="number" aria-hidden="true">02</span><div><h3>保留精度，也保留上次数据</h3><p>DeepSeek 按 CNY／USD 分别展示，Console 显示工作区余额与可用额度，Cursor 采用服务端百分比。凭据与缓存一起在本机加密，打开订阅页时查询，五分钟内使用缓存；短暂失败最多尝试三次，遵守限流并保留旧数据与时间。</p></div></article>
+      <article><span class="number" aria-hidden="true">02</span><div><h3>保留精度，也保留上次数据</h3><p>DeepSeek 按 CNY／USD 分别展示，Console 显示工作区余额与可用额度，Cursor 采用服务端百分比。凭据与缓存一起在本机加密，打开订阅页时查询，五分钟内使用缓存；短暂失败最多尝试三次，遵守限流并保留旧数据与时间。缓存无法读取时可先重试，再确认清除订阅连接并重新接入，Codex 与其他设置不受影响。<a href="assets/alpha32/subscriptions-recovery.png">查看恢复确认框（alpha32 debug 故障注入示例）</a>。</p></div></article>
       <article><span class="number" aria-hidden="true">03</span><div><h3>兼容范围，明确说明</h3><p>Console 与 Cursor 为实验性控制台接入，Go 存在接口迁移风险；真实账号连通性、权限与长期兼容性仍待验收。未知字段不补零，不根据金额推算百分比。这些服务暂不进入桌面组件、Token 图表或后台同步，可打开官方控制台核对。</p></div></article>
     </div>
   </section>
