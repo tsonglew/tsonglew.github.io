@@ -45,7 +45,7 @@
         <a class="button" href="https://github.com/tsonglew/Quodex/releases">下载 Android APK <span aria-hidden="true">↗</span></a>
         <a class="text-link" href="https://github.com/tsonglew/Quodex">查看源代码 <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="fine">Android 10+ · 中文 / English / 日本語<br>MIT 开源 · <a href="https://github.com/tsonglew/Quodex/releases/tag/build-41593540906-1">alpha32 预发布</a></p>
+      <p class="fine">Android 10+ · 中文 / English / 日本語<br>MIT 开源 · <a href="https://github.com/tsonglew/Quodex/releases/tag/build-41663289741-1">alpha33 预发布</a></p>
     </div>
     <div class="showcase product-showcase" id="widgets">
       <div class="showcase-top"><span>LESS SWITCHING. MORE CLARITY.</span><span class="palette-label"><span aria-hidden="true"></span> ANDROID</span></div>
@@ -56,7 +56,7 @@
       <p class="image-note">历史原生截图 · 订阅 alpha32 / 组件 alpha31 · 示例数据</p>
     </div>
   </section>
-  <div class="strip"><div class="wrap strip-inner"><span><b>ALPHA 32</b> 独立订阅页现已加入 DeepSeek、OpenCode 和 Cursor。</span><a href="https://github.com/tsonglew/Quodex/releases/tag/build-41593540906-1">查看发布记录 <span aria-hidden="true">↗</span></a></div></div>
+  <div class="strip"><div class="wrap strip-inner"><span><b>ALPHA 33</b> 更新检查使用公开索引，等待时间清楚可见。</span><a href="https://github.com/tsonglew/Quodex/releases/tag/build-41663289741-1">查看发布记录 <span aria-hidden="true">↗</span></a></div></div>
   <section id="features" class="wrap features">
     <div class="section-heading">
       <p class="eyebrow">SMALL APP. CLEAR PICTURE.</p>
@@ -73,7 +73,7 @@
     </div>
   </section>
   <section id="subscriptions" class="screens wrap current-screens" aria-labelledby="subscriptions-title">
-    <div class="screens-heading"><div><p class="eyebrow">VERSIONED PREVIEWS · ALPHA32</p><h2 id="subscriptions-title">余额与订阅，集中查看。</h2><p>新增独立订阅页，分别连接 DeepSeek、OpenCode 与 Cursor。<br>alpha32 预发布已提供；Console 与 Cursor 为实验性兼容接入。</p></div></div>
+    <div class="screens-heading"><div><p class="eyebrow">VERSIONED PREVIEWS · ALPHA32</p><h2 id="subscriptions-title">余额与订阅，集中查看。</h2><p>独立订阅页，分别连接 DeepSeek、OpenCode 与 Cursor。<br>订阅页自 alpha32 提供；Console 与 Cursor 为实验性兼容接入。</p></div></div>
     <div class="screen-grid">
       <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-deepseek.png" aria-label="查看 alpha32 DeepSeek 余额查询原生界面"><img src="assets/alpha32/subscriptions-deepseek.png" alt="alpha32 debug 订阅页：DeepSeek 总余额、赠送与充值余额，以及四项悬浮导航；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> DeepSeek API 余额</figcaption></figure>
       <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-opencode-go.png" aria-label="查看 alpha32 OpenCode Go 周期用量原生界面"><img src="assets/alpha32/subscriptions-opencode-go.png" alt="alpha32 debug 订阅页：OpenCode Go 滚动、周与月度用量百分比及重置时间；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> OpenCode Go 用量</figcaption></figure>
@@ -147,11 +147,12 @@
     <div class="notes">
       <p><strong>凭据保留在设备上</strong><br>账号凭据在本机加密保存，额度请求直接连接服务端。</p>
       <p><strong>按真实数据呈现</strong><br>Token 统计可能延迟，兼容接口仍处于实验阶段；不根据额度百分比估算 token 或费用。</p>
+      <p class="image-note">本页隐私说明对应 alpha33。alpha31／alpha32 的更新检查仅访问 api.github.com；旧版以随包说明为准。<a href="https://github.com/tsonglew/Quodex/blob/build-41593540906-1/app/src/main/res/raw-zh/privacy_notice.txt">查看 alpha32 历史隐私说明</a>。</p>
       <a class="text-link" href="privacy.txt">阅读隐私说明 <span aria-hidden="true">↗</span></a>
     </div>
   </section>
   <section id="updates" class="detail wrap" aria-labelledby="updates-title">
-    <div class="detail-title"><p class="eyebrow">UPDATE CHECKS · ALPHA33 SOURCE</p><h2 id="updates-title">更新有进度，<br>等待有时间。</h2><p>alpha33 源码改用独立的公开更新索引，正常检查不占用 GitHub REST API 共享 IP 配额。主来源连接失败时才尝试备用 API，两者分别遵守等待时间。服务端要求等待时，显示具体重试时间，到期后恢复检查按钮。网络与 CDN 缓存仍可能延迟检查。</p></div>
+    <div class="detail-title"><p class="eyebrow">UPDATE CHECKS · ALPHA33 RELEASE</p><h2 id="updates-title">更新有进度，<br>等待有时间。</h2><p>alpha33 已改用独立的公开更新索引，正常检查不占用 GitHub REST API 共享 IP 配额。主来源连接失败时才尝试备用 API，两者分别遵守等待时间。服务端要求等待时，显示具体重试时间，到期后恢复检查按钮。网络与 CDN 缓存仍可能延迟检查。</p></div>
     <div class="notes">
       <p><strong>旧版本受限时，覆盖安装即可</strong><br>如果 alpha31／alpha32 的检查仍被等待状态阻塞，请从 Releases 下载实际已发布的 alpha33 或更高版本，使用相同签名覆盖安装，无需卸载。安装由 Android 确认。</p>
       <a class="screenshot-link" href="assets/alpha33/update-cooldown.png"><img src="assets/alpha33/update-cooldown.png" alt="alpha33 debug 更新卡片：合成等待状态显示具体重试时间，检查按钮暂时禁用" width="1080" height="858" loading="lazy" style="width:100%;height:auto;border-radius:18px"></a>
