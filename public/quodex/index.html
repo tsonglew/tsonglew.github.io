@@ -30,7 +30,7 @@
     <img class="brand-wordmark" src="assets/brand/quodex-wordmark.svg" alt="Quodex" width="168" height="43">
   </a>
   <nav aria-label="主导航">
-    <a href="#features">功能</a><a href="#motion">动效</a><a href="#appearance">界面</a><a href="#start">开始使用</a>
+    <a href="#features">功能</a><a href="#subscriptions">订阅查询</a><a href="#motion">动效</a><a href="#appearance">界面</a><a href="#start">开始使用</a>
     <a href="https://github.com/tsonglew/Quodex">GitHub <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
@@ -70,14 +70,28 @@
       <article><span class="number" aria-hidden="true">06</span><div><h3>短暂失败，自动再试</h3><p>额度、Token 统计、更新检查和 APK 下载支持有限次数的重试，并遵守服务端限流。刷新失败保留上次数据，下载中断后重新下载并校验。</p></div><span class="icon" aria-hidden="true">↻</span></article>
     </div>
   </section>
-  <section id="appearance" class="screens wrap current-screens" aria-labelledby="current-title">
-    <div class="screens-heading"><div><p class="eyebrow">CURRENT RELEASE · ALPHA31</p><h2 id="current-title">看趋势，也看每一天。</h2><p>热力图横向周一至周日，每行一周，铺满可用宽度。<br>7 天更紧凑，30 天更舒展，也能随时切回条形图。</p></div></div>
+  <section id="subscriptions" class="screens wrap current-screens" aria-labelledby="subscriptions-title">
+    <div class="screens-heading"><div><p class="eyebrow">DEVELOPMENT PREVIEW · ALPHA32</p><h2 id="subscriptions-title">余额与订阅，集中查看。</h2><p>新增独立订阅页，分别连接 DeepSeek、OpenCode 与 Cursor。<br>alpha32 开发预览，实际可安装版本以 GitHub Releases 为准。</p></div></div>
     <div class="screen-grid">
-      <figure><a class="screenshot-link" href="assets/alpha30/glass-light.png" aria-label="查看玻璃导航浅色界面"><img src="assets/alpha30/glass-light.png" alt="alpha26 引入并沿用的蓝色卡片与玻璃悬浮导航，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> 玻璃悬浮导航</figcaption></figure>
+      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-deepseek.png" aria-label="查看 alpha32 DeepSeek 余额查询开发预览"><img src="assets/alpha32/subscriptions-deepseek.png" alt="alpha32 debug 订阅页：DeepSeek 总余额、赠送与充值余额，以及四项悬浮导航；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> DeepSeek API 余额</figcaption></figure>
+      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-opencode-go.png" aria-label="查看 alpha32 OpenCode Go 周期用量开发预览"><img src="assets/alpha32/subscriptions-opencode-go.png" alt="alpha32 debug 订阅页：OpenCode Go 滚动、周与月度用量百分比及重置时间；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> OpenCode Go 用量</figcaption></figure>
+      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-cursor.png" aria-label="查看 alpha32 Cursor 个人用量开发预览"><img src="assets/alpha32/subscriptions-cursor.png" alt="alpha32 debug 订阅页：Cursor 模型与其他模型用量百分比；实验性接入，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>03</span> Cursor 个人订阅</figcaption></figure>
+    </div>
+    <p class="image-note preview-note">来自 alpha32 debug、API 37 Android 模拟器的原生截图，均为本机示例数据，不是实际账户验证。<a href="assets/alpha32/subscriptions-opencode-zen.png">查看 OpenCode Console（原 Zen）余额界面</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md">接入步骤、接口依据与验证范围</a>。</p>
+    <div class="feature-list">
+      <article><span class="number" aria-hidden="true">01</span><div><h3>每个服务，独立连接</h3><p>DeepSeek 使用开放平台 API 密钥；OpenCode Go 使用所属工作区 API 密钥；Console 使用具有账单读取权限的个人密钥。Cursor 使用个人控制台的 WorkosCursorSessionToken 值，连接框内提供获取步骤。无需先登录 Codex，各服务单独刷新、取消和断开。</p></div></article>
+      <article><span class="number" aria-hidden="true">02</span><div><h3>保留精度，也保留上次数据</h3><p>DeepSeek 按 CNY／USD 分别展示，Console 显示工作区余额与可用额度，Cursor 采用服务端百分比。凭据与缓存一起在本机加密，打开订阅页时查询，五分钟内使用缓存；短暂失败最多尝试三次，遵守限流并保留旧数据与时间。</p></div></article>
+      <article><span class="number" aria-hidden="true">03</span><div><h3>兼容范围，明确说明</h3><p>Console 与 Cursor 为实验性控制台接入，Go 存在接口迁移风险；真实账号连通性、权限与长期兼容性仍待验收。未知字段不补零，不根据金额推算百分比。这些服务暂不进入桌面组件、Token 图表或后台同步，可打开官方控制台核对。</p></div></article>
+    </div>
+  </section>
+  <section id="appearance" class="screens wrap current-screens" aria-labelledby="current-title">
+    <div class="screens-heading"><div><p class="eyebrow">ALPHA31 · CODEX CHARTS</p><h2 id="current-title">看趋势，也看每一天。</h2><p>热力图横向周一至周日，每行一周，铺满可用宽度。<br>7 天更紧凑，30 天更舒展，也能随时切回条形图。</p></div></div>
+    <div class="screen-grid">
+      <figure><a class="screenshot-link" href="assets/alpha30/glass-light.png" aria-label="查看玻璃导航浅色界面"><img src="assets/alpha30/glass-light.png" alt="alpha26 历史蓝色卡片与三项玻璃悬浮导航，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> 历史玻璃悬浮导航</figcaption></figure>
       <figure><a class="screenshot-link" href="assets/alpha31/token-heatmap.png" aria-label="查看 alpha31 的日历式 30 日热力图"><img src="assets/alpha31/token-heatmap.png" alt="alpha31 横向七列的 30 日热力图与条形图切换入口，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> 30 日热力图</figcaption></figure>
       <figure><a class="screenshot-link" href="assets/alpha31/token-bars.png" aria-label="查看 alpha31 的 30 日条形图"><img src="assets/alpha31/token-bars.png" alt="alpha31 将同一份 30 日示例数据切换为条形图，合计保持不变" width="1080" height="2400" loading="lazy"></a><figcaption><span>03</span> 同范围切换条形图</figcaption></figure>
     </div>
-    <p class="image-note preview-note">均为 Android 模拟器截图，使用示例或合成数据。导航截图来自 alpha26；热力图、条形图与 2×2 组件来自 alpha31 debug，使用同一份示例数据。安装包与校验信息以 GitHub Releases 为准。<a href="assets/alpha30/glass-dark.png">查看深色导航</a> · <a href="assets/alpha31/token-heatmap-dark.png">查看深色热力图</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/TOKEN_HEATMAP.md">图表与组件说明</a>。已有桌面实例可能保留旧尺寸，缩小或重新添加即可使用 2×2 布局。</p>
+    <p class="image-note preview-note">均为 Android 模拟器截图，使用示例或合成数据。导航截图来自 alpha26，为历史资料，三项导航不代表 alpha32 的四项导航；热力图、条形图与 2×2 组件来自 alpha31 debug，使用同一份示例数据。安装包与校验信息以 GitHub Releases 为准。<a href="assets/alpha30/glass-dark.png">查看深色导航</a> · <a href="assets/alpha31/token-heatmap-dark.png">查看深色热力图</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/TOKEN_HEATMAP.md">图表与组件说明</a>。已有桌面实例可能保留旧尺寸，缩小或重新添加即可使用 2×2 布局。</p>
   </section>
   <section id="motion" class="motion wrap" aria-labelledby="motion-title">
     <div class="motion-copy">
@@ -134,8 +148,8 @@
   </section>
   <section class="wrap faq">
     <h2>还有几个小问题</h2>
-    <details><summary>这是 OpenAI 官方应用吗？</summary><p>Quodex 是独立的第三方开源工具，与 OpenAI 无隶属关系。Codex 名称用于说明所连接的服务。</p></details>
-    <details><summary>数据会实时更新吗？</summary><p>可以手动刷新，也支持后台周期同步。实际运行时间受 Android 调度、网络与省电策略影响；token 统计可能存在服务端延迟。</p></details>
+    <details><summary>这是 OpenAI 官方应用吗？</summary><p>Quodex 是独立的第三方开源工具，与 OpenAI、DeepSeek、OpenCode 或 Cursor 无隶属关系。服务名称仅用于说明所连接的产品。</p></details>
+    <details><summary>数据会实时更新吗？</summary><p>Codex 额度可以手动刷新，也支持后台周期同步；新增订阅查询仅在前台打开订阅页或手动刷新时运行，五分钟内使用缓存。实际后台运行时间受 Android 调度、网络与省电策略影响；token 统计可能存在服务端延迟。</p></details>
     <details><summary>小米手机添加桌面图标或小组件没有反应？</summary><p>小米、Redmi、POCO 的应用内添加入口会提醒检查“桌面快捷方式”权限，可打开应用信息，再进入权限管理查找该项；系统菜单名称可能不同。提醒不代表应用已检测到权限被拒绝。授权后选择“继续添加”，也可从系统桌面组件列表手动添加。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/HOME_SCREEN_PERMISSION.md">查看权限指引</a>。</p></details>
     <details><summary>升级后热力图组件还是原来的大尺寸？</summary><p>桌面启动器可能保留旧实例的大小。长按组件缩小，或删除后重新添加，即可使用默认 2×2 布局。</p></details>
     <details><summary>我可以查看或反馈问题吗？</summary><p>可以。在 <a href="https://github.com/tsonglew/Quodex">GitHub 仓库</a>查看源码与发布记录，或前往 <a href="https://github.com/tsonglew/Quodex/issues">Issues</a>报告问题。反馈时请勿附带账号凭据。</p></details>
@@ -143,7 +157,7 @@
 </main>
 <footer class="wrap">
   <a class="brand" href="./" aria-label="Quodex 首页"><img class="brand-wordmark" src="assets/brand/quodex-wordmark.svg" alt="Quodex" width="168" height="43"></a>
-  <p>额度，心中有数。<br><small>独立第三方工具，与 OpenAI 无隶属关系。</small></p>
+  <p>额度，心中有数。<br><small>独立第三方工具，与服务提供方无隶属关系。</small></p>
   <div><a href="privacy.txt">隐私说明</a><a href="https://github.com/tsonglew/Quodex/releases">所有版本 <span aria-hidden="true">↗</span></a><a href="/">作者博客 <span aria-hidden="true">↗</span></a></div>
 </footer>
 </body>
