@@ -26,6 +26,10 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+      # Match the npm version that successfully installs this committed lockfile.
+      # Node 22 bundles npm 10, which resolves its TypeScript peer tree differently.
+      - name: Match repository npm toolchain
+        run: npm install --global npm@11.11.0
       - name: Install font tooling
         run: pip3 install --break-system-packages fonttools brotli
       - name: Install locked dependencies
