@@ -1,181 +1,564 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quodex — 额度，心中有数。</title>
-  <meta name="description" content="Quodex：Android 额度与订阅查询，支持 Codex、DeepSeek、OpenCode 与 Cursor，中英日三语、2×2 Codex 热力图组件和应用内更新。">
-  <link rel="canonical" href="https://tsonglew.github.io/quodex/">
-  <meta name="theme-color" content="#EEF8F7">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tsonglew.github.io/quodex/">
-  <meta property="og:title" content="Quodex — 额度，心中有数。">
-  <meta property="og:description" content="集中查看 Codex 额度、DeepSeek 余额与 OpenCode／Cursor 用量。支持中英日三语和应用内更新；Console／Cursor 为实验性接入。">
-  <meta property="og:image" content="https://tsonglew.github.io/quodex/assets/brand/social-card.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Quodex — Android AI 额度与订阅查询，Codex、DeepSeek、OpenCode、Cursor">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
-  <link rel="alternate icon" href="assets/brand/favicon.ico">
-  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css">
-  <script src="site.js" defer></script>
-</head>
-<body>
-<a class="skip" href="#main">跳至正文</a>
-<header class="wrap">
-  <a class="brand" href="./" aria-label="Quodex 首页">
-    <img class="brand-mark" src="assets/brand/quodex-app-icon.svg" alt="" width="40" height="40">
-    <img class="brand-wordmark" src="assets/brand/quodex-wordmark.svg" alt="Quodex" width="168" height="43">
-  </a>
-  <nav aria-label="主导航">
-    <a href="#features">功能</a><a href="#subscriptions">支持服务</a><a href="#start">开始使用</a><a href="https://github.com/tsonglew/Quodex/blob/master/docs/README.md">文档</a>
-    <a href="https://github.com/tsonglew/Quodex">GitHub <span aria-hidden="true">↗</span></a>
-  </nav>
-</header>
-<main id="main">
-  <section class="hero wrap">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="dot" aria-hidden="true"></span> ANDROID · MIT LICENSE</p>
-      <h1>额度，<br>心中有数<span class="period">。</span></h1>
-      <p class="lead">集中查看 AI 服务额度与订阅，<br>把 Codex 用量，放在抬眼可见的地方。</p>
-      <ul class="providers" aria-label="支持的服务"><li>Codex</li><li>DeepSeek</li><li>OpenCode</li><li>Cursor</li></ul>
-      <div class="actions">
-        <a class="button" href="https://github.com/tsonglew/Quodex/releases">下载 Android APK <span aria-hidden="true">↗</span></a>
-        <a class="text-link" href="https://github.com/tsonglew/Quodex">查看源代码 <span aria-hidden="true">↗</span></a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quodex — 额度，心中有数。</title>
+    <meta
+      name="description"
+      content="Quodex 是 MIT 开源的 Android 额度与订阅查询工具。查看 Codex 用量、DeepSeek 余额、OpenCode 与 Cursor 订阅，把 Codex 额度放到桌面。"
+    />
+    <link rel="canonical" href="https://tsonglew.github.io/quodex/" />
+    <meta name="theme-color" content="#F3F0E7" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tsonglew.github.io/quodex/" />
+    <meta property="og:title" content="Quodex — 额度，心中有数。" />
+    <meta
+      property="og:description"
+      content="少一次切换，多一点专注。Android 额度与订阅查询，MIT 开源。"
+    />
+    <meta
+      property="og:image"
+      content="https://tsonglew.github.io/quodex/assets/brand/social-card.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Quodex：额度，心中有数。Android 额度与订阅查询。" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+    <link rel="alternate icon" href="assets/brand/favicon.ico" />
+    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="site.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">跳至正文</a>
+    <header class="site-header wrap">
+      <a class="brand" href="#top" aria-label="Quodex 首页"
+        ><img src="assets/brand/quodex-app-icon.svg" alt="" width="36" height="36" /><span
+          >QUODEX</span
+        ></a
+      >
+      <nav aria-label="主要导航">
+        <a href="#features">功能</a><a href="#subscriptions">支持服务</a
+        ><a href="#appearance">真实界面</a><a href="#start">开始使用</a>
+      </nav>
+      <a class="github-link" href="https://github.com/tsonglew/Quodex"
+        ><svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.61-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.64-1.35-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.55 9.55 0 0 1 12 7c.85 0 1.71.11 2.51.34 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.58 4.93.36.31.68.92.68 1.85v2.58c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"
+          /></svg
+        >GITHUB <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">YOUR USAGE. IN PLAIN SIGHT.</p>
+          <h1 id="hero-title">额度，<br /><em>心中有数。</em></h1>
+          <p class="hero-lede">
+            集中查看 AI 服务额度与订阅，<br />把 Codex 用量放到 Android 桌面。<br />少一次切换，多一点专注。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://github.com/tsonglew/Quodex/releases"
+              >下载 ANDROID APK <span aria-hidden="true">↗</span></a
+            ><a class="text-link" href="https://github.com/tsonglew/Quodex"
+              >查看源码 <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <dl class="hero-facts">
+            <div>
+              <dt>PLATFORM / 平台</dt>
+              <dd>Android 10+</dd>
+            </div>
+            <div>
+              <dt>LANGUAGES / 语言</dt>
+              <dd>中 / EN / 日</dd>
+            </div>
+            <div>
+              <dt>LICENSE / 许可</dt>
+              <dd><a href="https://github.com/tsonglew/Quodex/blob/master/LICENSE">MIT</a></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="usage-console" aria-label="Quodex 交互演示，使用示例数据，不连接账号">
+          <div class="console-title">
+            <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span
+            ><span>quodex / usage overview</span><span class="demo-tag">示例数据</span>
+          </div>
+          <div class="console-status">
+            <span aria-hidden="true">›</span> 你的使用节奏，一眼可见。<span>PREVIEW</span>
+          </div>
+          <div class="console-tabs" role="tablist" aria-label="切换功能演示">
+            <button
+              id="tab-quota"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-quota"
+              tabindex="0"
+              data-demo-tab="quota"
+            >
+              01 / 额度
+            </button>
+            <button
+              id="tab-trend"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-trend"
+              tabindex="-1"
+              data-demo-tab="trend"
+            >
+              02 / 趋势
+            </button>
+            <button
+              id="tab-services"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-services"
+              tabindex="-1"
+              data-demo-tab="services"
+            >
+              03 / 订阅
+            </button>
+          </div>
+          <div class="console-body">
+            <section
+              id="panel-quota"
+              class="demo-panel"
+              role="tabpanel"
+              aria-labelledby="tab-quota"
+              tabindex="0"
+            >
+              <div class="demo-heading">
+                <span>CODEX / REMAINING</span><span class="status-dot">样例快照</span>
+              </div>
+              <div class="quota-reading">
+                <strong>71<span>%</span></strong
+                ><span>短周期剩余<br /><small>重置时间 · 2 小时后</small></span>
+              </div>
+              <div class="quota-track" role="img" aria-label="示例：短周期剩余百分之七十一">
+                <span style="width: 71%"></span>
+              </div>
+              <div class="weekly-row"><span>每周剩余</span><strong>43%</strong></div>
+              <div class="quota-track secondary" role="img" aria-label="示例：每周剩余百分之四十三">
+                <span style="width: 43%"></span>
+              </div>
+              <p class="demo-caption">周期与数值按服务端实际返回展示。</p>
+            </section>
+            <section
+              id="panel-trend"
+              class="demo-panel"
+              role="tabpanel"
+              aria-labelledby="tab-trend"
+              tabindex="0"
+              hidden
+            >
+              <div class="demo-heading"><span>CODEX / TOKEN TREND</span><span>30 天样例</span></div>
+              <div class="trend-header">
+                <strong id="demo-token-total">1.1M</strong>
+                <div class="chart-switch" role="group" aria-label="切换演示图表">
+                  <button type="button" data-chart="heatmap" aria-pressed="true">热力图</button
+                  ><button type="button" data-chart="bars" aria-pressed="false">条形图</button>
+                </div>
+              </div>
+              <div
+                id="demo-heatmap"
+                class="demo-heatmap"
+                role="img"
+                aria-label="30 天示例 Token 用量热力图"
+              ></div>
+              <div
+                id="demo-bars"
+                class="demo-bars"
+                role="img"
+                aria-label="相同 30 天示例 Token 用量条形图"
+                hidden
+              ></div>
+              <p class="demo-caption">同一份数据，两种看法。切换不发起请求。</p>
+            </section>
+            <section
+              id="panel-services"
+              class="demo-panel"
+              role="tabpanel"
+              aria-labelledby="tab-services"
+              tabindex="0"
+              hidden
+            >
+              <div class="demo-heading"><span>SUBSCRIPTIONS</span><span>独立连接</span></div>
+              <div class="provider-demo">
+                <span class="provider-initial">D</span>
+                <div><strong>DeepSeek</strong><small>API 余额 · 示例</small></div>
+                <b>¥110.00</b>
+              </div>
+              <div class="provider-demo">
+                <span class="provider-initial">O</span>
+                <div><strong>OpenCode Go</strong><small>每周已用 · 示例</small></div>
+                <b>61%</b>
+              </div>
+              <div class="provider-demo">
+                <span class="provider-initial">C</span>
+                <div><strong>Cursor</strong><small>个人用量 · 实验接入 · 示例</small></div>
+                <b>48%</b>
+              </div>
+              <p class="demo-caption">订阅仅前台查询，各服务分别刷新与断开。</p>
+            </section>
+          </div>
+          <a class="console-footer" href="#appearance"
+            >看看真实的 ANDROID 界面 <span aria-hidden="true">↓</span></a
+          >
+          <p class="console-note">交互示意 · 仅本地示例数据，不连接任何账号</p>
+          <noscript
+            ><p class="no-script-note">
+              演示切换需 JavaScript；真实界面与功能说明见下方。
+            </p></noscript
+          >
+        </div>
+      </section>
+      <div class="capability-strip" aria-label="支持的服务">
+        <div class="wrap">
+          <span>CODEX</span><i aria-hidden="true">✳</i><span>DEEPSEEK</span
+          ><i aria-hidden="true">✳</i><span>OPENCODE</span><i aria-hidden="true">✳</i
+          ><span>CURSOR</span
+          ><a href="#subscriptions">查看接入范围 <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
-      <p class="fine">Android 10+ · 中文 / English / 日本語<br>MIT 开源 · <a href="https://github.com/tsonglew/Quodex/releases/tag/build-41593540906-1">alpha32 预发布</a></p>
-    </div>
-    <div class="showcase product-showcase" id="widgets">
-      <div class="showcase-top"><span>LESS SWITCHING. MORE CLARITY.</span><span class="palette-label"><span aria-hidden="true"></span> ANDROID</span></div>
-      <div class="product-stage">
-        <img class="hero-phone" src="assets/alpha32/subscriptions-deepseek.png" alt="alpha32 Android 订阅页，DeepSeek 余额与四项导航；示例数据" width="1080" height="2400" fetchpriority="high">
-        <div class="hero-widget"><span>CODEX · 桌面一览</span><img src="assets/alpha31/heatmap-widget-light.png" alt="alpha31 的 2×2 Codex Token 热力图组件，示例数据" width="462" height="462"><span>30 天用量，抬眼可见。</span></div>
-      </div>
-      <p class="image-note">原生截图 · 订阅 alpha32 / 组件 alpha31 · 示例数据</p>
-    </div>
-  </section>
-  <div class="strip"><div class="wrap strip-inner"><span><b>ALPHA 32</b> 独立订阅页现已加入 DeepSeek、OpenCode 和 Cursor。</span><a href="https://github.com/tsonglew/Quodex/releases/tag/build-41593540906-1">查看发布记录 <span aria-hidden="true">↗</span></a></div></div>
-  <section id="features" class="wrap features">
-    <div class="section-heading">
-      <p class="eyebrow">SMALL APP. CLEAR PICTURE.</p>
-      <h2>关心的数字，<br>一眼看清。</h2>
-      <p>从当前额度到每天的 token 用量，<br>了解使用节奏，安排接下来的工作。</p>
-    </div>
-    <div class="feature-list">
-      <article><span class="number" aria-hidden="true">01</span><div><h3>额度与重置时间</h3><p>查看账号返回的额度周期、已用或剩余百分比，以及下一次重置时间。不同账号可用的额度窗口可能不同。</p></div><span class="icon" aria-hidden="true">◴</span></article>
-      <article><span class="number" aria-hidden="true">02</span><div><h3>桌面，就是仪表盘</h3><p>标准额度、2×1 紧凑额度和 2×2 的 30 天热力图组件，均支持缩放、主题配置和手动刷新。热力图按七列日历铺满内容宽度，最小尺寸精简文字，把更多空间留给每天的格子。点击图表，直达应用内的 30 日视图。</p></div><span class="icon" aria-hidden="true">▦</span></article>
-      <article><span class="number" aria-hidden="true">03</span><div><h3>同一份数据，两种看法</h3><p>近 7 天、30 天都能切换条形图与日历式热力图，并记住你的选择。App 热力图高度随周数调整，保持完整的星期与日期标签。切换保留时间范围与数据，不额外联网；缺失日期和真实零值分别标记。</p></div><span class="icon" aria-hidden="true">▥</span></article>
-      <article><span class="number" aria-hidden="true">04</span><div><h3>在应用内完成更新</h3><p>发现新版本后，在 Quodex 内下载 APK、查看进度、取消或重试。校验通过后调起系统安装确认，无需跳转 GitHub 手动下载。</p></div><span class="icon" aria-hidden="true">↗</span></article>
-      <article><span class="number" aria-hidden="true">05</span><div><h3>用熟悉的语言查看</h3><p>支持简体中文、English、日本語及跟随系统。页面、小组件、桌面额度图标和更新提示同步切换，浅色与深色界面采用玻璃风格悬浮导航。</p></div><span class="icon" aria-hidden="true">文</span></article>
-      <article><span class="number" aria-hidden="true">06</span><div><h3>短暂失败，自动再试</h3><p>额度、Token 统计、更新检查和 APK 下载支持有限次数的重试，并遵守服务端限流。刷新失败保留上次数据，下载中断后重新下载并校验。</p></div><span class="icon" aria-hidden="true">↻</span></article>
-    </div>
-  </section>
-  <section id="subscriptions" class="screens wrap current-screens" aria-labelledby="subscriptions-title">
-    <div class="screens-heading"><div><p class="eyebrow">CURRENT RELEASE · ALPHA32</p><h2 id="subscriptions-title">余额与订阅，集中查看。</h2><p>新增独立订阅页，分别连接 DeepSeek、OpenCode 与 Cursor。<br>alpha32 预发布已提供；Console 与 Cursor 为实验性兼容接入。</p></div></div>
-    <div class="screen-grid">
-      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-deepseek.png" aria-label="查看 alpha32 DeepSeek 余额查询原生界面"><img src="assets/alpha32/subscriptions-deepseek.png" alt="alpha32 debug 订阅页：DeepSeek 总余额、赠送与充值余额，以及四项悬浮导航；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> DeepSeek API 余额</figcaption></figure>
-      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-opencode-go.png" aria-label="查看 alpha32 OpenCode Go 周期用量原生界面"><img src="assets/alpha32/subscriptions-opencode-go.png" alt="alpha32 debug 订阅页：OpenCode Go 滚动、周与月度用量百分比及重置时间；示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> OpenCode Go 用量</figcaption></figure>
-      <figure><a class="screenshot-link" href="assets/alpha32/subscriptions-cursor.png" aria-label="查看 alpha32 Cursor 个人用量原生界面"><img src="assets/alpha32/subscriptions-cursor.png" alt="alpha32 debug 订阅页：Cursor 模型与其他模型用量百分比；实验性接入，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>03</span> Cursor 个人订阅</figcaption></figure>
-    </div>
-    <p class="image-note preview-note">来自 alpha32 debug、API 37 Android 模拟器的原生截图，均为本机示例数据，不是实际账户验证。<a href="assets/alpha32/subscriptions-opencode-zen.png">查看 OpenCode Console（原 Zen）余额界面</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md">接入步骤、接口依据与验证范围</a>。</p>
-    <div class="service-table-wrap">
-      <table class="service-table"><caption>选择你要查看的服务</caption><thead><tr><th scope="col">服务</th><th scope="col">查看内容</th><th scope="col">使用范围</th></tr></thead><tbody>
-        <tr><th scope="row">Codex</th><td>额度、重置时间、Token 趋势</td><td>App + 桌面组件 + 后台额度刷新</td></tr>
-        <tr><th scope="row">DeepSeek</th><td>API 余额，分币种展示</td><td>订阅页前台查询</td></tr>
-        <tr><th scope="row">OpenCode Go</th><td>周期用量与重置时间</td><td>前台查询 · 接口迁移存在风险</td></tr>
-        <tr><th scope="row">OpenCode Console</th><td>工作区余额与可用额度</td><td>前台查询 · 实验性接入</td></tr>
-        <tr><th scope="row">Cursor</th><td>个人模型用量与计费周期</td><td>前台查询 · 实验性接入</td></tr>
-      </tbody></table>
-    </div>
-    <p class="fine">每项服务独立连接、刷新和断开；未知数据不补零，失败保留上次数据。新服务的真实账号覆盖仍待验收，桌面与后台功能目前仅面向 Codex。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md">查看接入步骤与兼容范围</a>。</p>
-  </section>
-  <section id="appearance" class="screens wrap current-screens" aria-labelledby="current-title">
-    <div class="screens-heading"><div><p class="eyebrow">ALPHA31 · CODEX CHARTS</p><h2 id="current-title">看趋势，也看每一天。</h2><p>热力图横向周一至周日，每行一周，铺满可用宽度。<br>7 天更紧凑，30 天更舒展，也能随时切回条形图。</p></div></div>
-    <div class="screen-grid">
-      <figure><a class="screenshot-link" href="assets/alpha30/glass-light.png" aria-label="查看玻璃导航浅色界面"><img src="assets/alpha30/glass-light.png" alt="alpha26 历史蓝色卡片与三项玻璃悬浮导航，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> 历史玻璃悬浮导航</figcaption></figure>
-      <figure><a class="screenshot-link" href="assets/alpha31/token-heatmap.png" aria-label="查看 alpha31 的日历式 30 日热力图"><img src="assets/alpha31/token-heatmap.png" alt="alpha31 横向七列的 30 日热力图与条形图切换入口，示例数据" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> 30 日热力图</figcaption></figure>
-      <figure><a class="screenshot-link" href="assets/alpha31/token-bars.png" aria-label="查看 alpha31 的 30 日条形图"><img src="assets/alpha31/token-bars.png" alt="alpha31 将同一份 30 日示例数据切换为条形图，合计保持不变" width="1080" height="2400" loading="lazy"></a><figcaption><span>03</span> 同范围切换条形图</figcaption></figure>
-    </div>
-    <p class="image-note preview-note">均为 Android 模拟器截图，使用示例或合成数据。导航截图来自 alpha26，为历史资料，三项导航不代表 alpha32 的四项导航；热力图、条形图与 2×2 组件来自 alpha31 debug，使用同一份示例数据。安装包与校验信息以 GitHub Releases 为准。<a href="assets/alpha30/glass-dark.png">查看深色导航</a> · <a href="assets/alpha31/token-heatmap-dark.png">查看深色热力图</a> · <a href="https://github.com/tsonglew/Quodex/blob/master/docs/TOKEN_HEATMAP.md">图表与组件说明</a>。已有桌面实例可能保留旧尺寸，缩小或重新添加即可使用 2×2 布局。</p>
-  </section>
-  <details id="motion" class="wrap archive-preview motion-archive"><summary>查看 alpha22 历史动效实录</summary>
-  <section class="motion" aria-labelledby="motion-title">
-    <div class="motion-copy">
-      <p class="eyebrow">ARCHIVE · ALPHA22 NATIVE MOTION</p>
-      <h2 id="motion-title">变化，有迹可循。</h2>
-      <p class="motion-lead" id="motion-description">页面淡入、额度填充、柱图依次展开。<br>这段 alpha22 历史实录保留动效设计的来源。</p>
-      <ol class="motion-steps">
-        <li><span aria-hidden="true">01</span><div><h3>轻轻出现，及时回应</h3><p>切换页面时淡入，连接按钮轻扫一道光，按下时微微收缩。</p></div></li>
-        <li><span aria-hidden="true">02</span><div><h3>额度变化，看得清楚</h3><p>进度条平滑填入；数字直接显示实际值，随时可以读数。</p></div></li>
-        <li><span aria-hidden="true">03</span><div><h3>每天的用量，依次展开</h3><p>切换近 7 天与 30 天，柱条错峰升起。同一范围更新时，高度自然过渡。</p></div></li>
-      </ol>
-      <p class="motion-preference">应用动效遵循 Android 系统动画设置，关闭动画后直接呈现结果。网页预览由你手动播放。</p>
-      <div class="motion-links"><a href="https://github.com/tsonglew/Quodex/blob/master/docs/MOTION.md">阅读动效说明 <span aria-hidden="true">↗</span></a><a href="https://github.com/tsonglew/Quodex/releases/tag/build-40285639293-1">alpha22 发布说明 <span aria-hidden="true">↗</span></a></div>
-    </div>
-    <figure class="motion-preview">
-      <p class="motion-duration">点击播放 · 约 12 秒 · 无声</p>
-      <video controls playsinline preload="none" poster="assets/motion/poster.jpg" width="480" height="1066" aria-label="Quodex 页面、额度与 Token 趋势动效实录" aria-describedby="motion-description motion-caption">
-        <source src="assets/motion/quodex-motion.mp4" type="video/mp4">
-        你的浏览器不支持内嵌视频，请通过下方链接观看。
-      </video>
-      <figcaption id="motion-caption">历史录屏 · 示例数据。录制于 alpha22 发布前，其深海青外观不代表当前界面。<a href="assets/motion/quodex-motion.mp4">打开视频 <span aria-hidden="true">↗</span></a></figcaption>
-    </figure>
-  </section>
-  </details>
-  <details class="wrap archive-preview"><summary>查看 alpha22 历史界面（浅色／深色）</summary>
-  <section class="screens">
-    <div class="screens-heading">
-      <div><p class="eyebrow">ARCHIVE · ALPHA22</p><h2>深海青历史界面</h2><p>以下保留 alpha22 的浅色与深色截图，<br>当前界面请看上方功能展示。</p></div>
-      <div class="theme-switch" role="group" aria-label="选择界面预览主题" hidden>
-        <button type="button" data-preview-theme="light" aria-pressed="true">浅色界面</button>
-        <button type="button" data-preview-theme="dark" aria-pressed="false">深色界面</button>
-      </div>
-    </div>
-    <div class="screen-grid" id="screen-previews">
-      <figure><a href="assets/quota-light.png" class="screenshot-link" aria-label="查看完整额度概览截图"><img src="assets/quota-light.png" data-light="assets/quota-light.png" data-dark="assets/quota-dark.png" data-label="额度概览，展示示例额度与重置时间" alt="浅色额度概览，展示示例额度与重置时间" width="1080" height="2400" loading="lazy"></a><figcaption><span>01</span> 额度概览</figcaption></figure>
-      <figure><a href="assets/token-light.png" class="screenshot-link" aria-label="查看完整 Token 趋势截图"><img src="assets/token-light.png" data-light="assets/token-light.png" data-dark="assets/token-dark.png" data-label="Token 使用趋势，展示近 7 天示例柱状图和筛选项" alt="浅色 Token 使用趋势，展示近 7 天示例柱状图和筛选项" width="1080" height="2400" loading="lazy"></a><figcaption><span>02</span> Token 使用趋势</figcaption></figure>
-      <figure><a href="assets/settings-light.png" class="screenshot-link" aria-label="查看完整显示设置截图"><img src="assets/settings-light.png" data-light="assets/settings-light.png" data-dark="assets/settings-dark.png" data-label="显示设置，展示主题、开关与后台间隔" alt="浅色显示设置，展示主题、开关与后台间隔" width="1080" height="2400" loading="lazy"></a><figcaption><span>03</span> 显示设置</figcaption></figure>
-    </div>
-    <p class="image-note preview-note">以上为 alpha22 发布前的 Android 实际截图，均使用示例数据，作为历史资料保留。下载内容与版本说明以 <a href="https://github.com/tsonglew/Quodex/releases">GitHub Releases</a> 为准。</p>
-    <noscript><p class="fine">查看深色截图：<a href="assets/quota-dark.png">额度</a> · <a href="assets/token-dark.png">Token 趋势</a> · <a href="assets/settings-dark.png">设置</a></p></noscript>
-  </section>
-  </details>
-  <section class="detail wrap">
-    <div class="detail-title"><p class="eyebrow">BUILT FOR YOUR DAILY FLOW</p><h2>数据有来处，<br>状态有交代。</h2><p>显示最后更新时间，刷新失败时保留上次数据。已知多少，就展示多少。</p></div>
-    <div class="notes">
-      <p><strong>凭据保留在设备上</strong><br>账号凭据在本机加密保存，额度请求直接连接服务端。</p>
-      <p><strong>按真实数据呈现</strong><br>Token 统计可能延迟，兼容接口仍处于实验阶段；不根据额度百分比估算 token 或费用。</p>
-      <a class="text-link" href="privacy.txt">阅读隐私说明 <span aria-hidden="true">↗</span></a>
-    </div>
-  </section>
-  <section id="start" class="wrap getting-started" aria-labelledby="start-title">
-    <p class="eyebrow">A FEW STEPS. A CLEARER DAY.</p><h2 id="start-title">从这里，开始。</h2>
-    <ol class="steps">
-      <li><span class="step-number">01</span><h3>下载并安装</h3><p>从 GitHub Releases 下载 APK。支持 Android 10+，安装由系统确认；同页提供校验和与来源信息。</p><a class="text-link" href="https://github.com/tsonglew/Quodex/releases">获取安装包 <span aria-hidden="true">↗</span></a></li>
-      <li><span class="step-number">02</span><h3>选择你的服务</h3><p>先体验示例模式，再连接 Codex。其他服务在“订阅”页单独连接，凭据保存在本机。</p><a class="text-link" href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md">阅读接入指南 <span aria-hidden="true">↗</span></a></li>
-      <li><span class="step-number">03</span><h3>把用量放到桌面</h3><p>添加 Codex 额度或 2×2 热力图组件。已有用户可在设置中检查、下载并安装更新。</p><a class="text-link" href="https://github.com/tsonglew/Quodex/blob/master/docs/HOME_SCREEN_PERMISSION.md">桌面添加帮助 <span aria-hidden="true">↗</span></a></li>
-    </ol>
-    <p class="fine">Alpha 预发布，尚未上架 Google Play。首次安装可能需要授予安装来源权限；应用内更新同样由你确认。后台同步受系统、网络与省电策略影响。</p>
-  </section>
-  <section id="contribute" class="wrap start community" aria-labelledby="community-title">
-    <div><p class="eyebrow">BUILT IN THE OPEN · MIT</p><h2 id="community-title">一起，让每次查看更好。</h2><p>查看实现、反馈问题，或贡献一处翻译。<br>Quodex 的下一步，也可以从你的使用体验开始。</p></div>
-    <div class="community-links"><a class="button light" href="https://github.com/tsonglew/Quodex">在 GitHub 查看 <span aria-hidden="true">↗</span></a><a href="https://github.com/tsonglew/Quodex/blob/master/CONTRIBUTING.md">贡献指南</a><a href="https://github.com/tsonglew/Quodex/issues/new/choose">反馈问题</a></div>
-  </section>
-  <section class="wrap faq">
-    <h2>还有几个小问题</h2>
-    <details><summary>这是 OpenAI 官方应用吗？</summary><p>Quodex 是独立的第三方开源工具，与 OpenAI、DeepSeek、OpenCode 或 Cursor 无隶属关系。服务名称仅用于说明所连接的产品。</p></details>
-    <details><summary>数据会实时更新吗？</summary><p>Codex 额度可以手动刷新，也支持后台周期同步；新增订阅查询仅在前台打开订阅页或手动刷新时运行，五分钟内使用缓存。实际后台运行时间受 Android 调度、网络与省电策略影响；token 统计可能存在服务端延迟。</p></details>
-    <details><summary>小米手机添加桌面图标或小组件没有反应？</summary><p>小米、Redmi、POCO 的应用内添加入口会提醒检查“桌面快捷方式”权限，可打开应用信息，再进入权限管理查找该项；系统菜单名称可能不同。提醒不代表应用已检测到权限被拒绝。授权后选择“继续添加”，也可从系统桌面组件列表手动添加。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/HOME_SCREEN_PERMISSION.md">查看权限指引</a>。</p></details>
-    <details><summary>升级后热力图组件还是原来的大尺寸？</summary><p>桌面启动器可能保留旧实例的大小。长按组件缩小，或删除后重新添加，即可使用默认 2×2 布局。</p></details>
-    <details><summary>我可以查看或反馈问题吗？</summary><p>可以。在 <a href="https://github.com/tsonglew/Quodex">GitHub 仓库</a>查看源码与发布记录，或前往 <a href="https://github.com/tsonglew/Quodex/issues">Issues</a>报告问题。反馈时请勿附带账号凭据。</p></details>
-  </section>
-</main>
-<footer class="wrap">
-  <a class="brand" href="./" aria-label="Quodex 首页"><img class="brand-wordmark" src="assets/brand/quodex-wordmark.svg" alt="Quodex" width="168" height="43"></a>
-  <p>额度，心中有数。<br><small>独立第三方工具，与服务提供方无隶属关系。</small></p>
-  <div><a href="privacy.txt">隐私说明</a><a href="https://github.com/tsonglew/Quodex/blob/master/LICENSE">MIT License</a><a href="https://github.com/tsonglew/Quodex/releases">所有版本 <span aria-hidden="true">↗</span></a><a href="/">作者博客 <span aria-hidden="true">↗</span></a></div>
-</footer>
-</body>
+      <section id="features" class="wrap editorial-section">
+        <div class="section-intro">
+          <p class="section-index">01 / LESS SWITCHING</p>
+          <div>
+            <h2>用量有来处，<br /><em>心里有底。</em></h2>
+            <p class="section-lede">
+              把分散的数字放在一起。看剩余，也看重置；看趋势，也看每天。你关心的信息，不必再藏在一次次页面切换后面。
+            </p>
+          </div>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span class="feature-number">01</span>
+            <h3>额度，直接看。</h3>
+            <p>
+              查看 Codex 已用或剩余百分比与重置时间。没有返回的数据明确说明，未知值不会被补成零。
+            </p>
+            <span class="feature-foot">QUOTA / RESET TIME</span>
+          </article>
+          <article id="widgets">
+            <span class="feature-number">02</span>
+            <h3>桌面，顺手看。</h3>
+            <p>标准额度、2×1 紧凑额度、2×2 热力图，以及带百分比的桌面图标。点击刷新，抬眼可见。</p>
+            <span class="feature-foot">WIDGETS / AT A GLANCE</span>
+          </article>
+          <article>
+            <span class="feature-number">03</span>
+            <h3>状态，明白看。</h3>
+            <p>
+              近 7／30
+              天条形图与热力图自由切换。刷新失败保留上次数据与时间，缺失日期与零值分别展示。
+            </p>
+            <span class="feature-foot">TRENDS / HONEST DATA</span>
+          </article>
+        </div>
+      </section>
+      <section id="subscriptions" class="services-section">
+        <div class="wrap">
+          <div class="section-intro">
+            <p class="section-index">02 / CONNECTIONS</p>
+            <div>
+              <h2>连接分开。<br /><em>查看集中。</em></h2>
+              <p class="section-lede">
+                Codex 之外，DeepSeek、OpenCode 与 Cursor 各自保存连接。无需先登录
+                Codex，服务之间互不覆盖。
+              </p>
+            </div>
+          </div>
+          <div class="service-table-wrap">
+            <table class="service-table">
+              <caption class="sr-only">
+                服务、查询内容与使用范围
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">服务 / PROVIDER</th>
+                  <th scope="col">查看内容</th>
+                  <th scope="col">使用范围</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><span>01</span>Codex</th>
+                  <td>额度、重置时间、Token 趋势</td>
+                  <td>App / 桌面 / 后台额度刷新</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>02</span>DeepSeek</th>
+                  <td>API 余额，按币种分别展示</td>
+                  <td>订阅页前台查询</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>03</span>OpenCode Go</th>
+                  <td>周期用量与重置时间</td>
+                  <td>前台查询 / 存在接口迁移风险</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>04</span>OpenCode Console</th>
+                  <td>工作区余额与可用额度</td>
+                  <td>前台查询 / 实验性接入</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>05</span>Cursor</th>
+                  <td>个人模型用量与计费周期</td>
+                  <td>前台查询 / 实验性接入</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="service-note">
+            <p>
+              新服务的真实账号覆盖仍待验收；它们暂不进入 Codex
+              图表、桌面组件或后台同步。兼容接口可能变化，重要数据请在官方控制台核对。
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md"
+              >接入指南与兼容范围 <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+      <section id="appearance" class="wrap editorial-section">
+        <div class="section-intro">
+          <p class="section-index">03 / ON YOUR ANDROID</p>
+          <div>
+            <h2>真实的界面，<br /><em>日常的工具。</em></h2>
+            <p class="section-lede">
+              原生 Android 页面、浅色与深色模式，支持中文、English
+              和日本語。跟随系统，也尊重你的显示偏好。
+            </p>
+          </div>
+        </div>
+        <div class="screenshot-grid">
+          <figure>
+            <div class="shot-label"><span>01 / SUBSCRIPTIONS</span><span>ALPHA32</span></div>
+            <a
+              href="assets/alpha32/subscriptions-deepseek.png"
+              aria-label="查看完整 DeepSeek 订阅截图"
+              ><img
+                src="assets/alpha32/subscriptions-deepseek.png"
+                alt="alpha32 debug Android 订阅页：DeepSeek API 余额与四项悬浮导航，示例数据"
+                width="1080"
+                height="2400"
+                loading="lazy"
+            /></a>
+            <figcaption>订阅与余额</figcaption>
+          </figure>
+          <figure>
+            <div class="shot-label"><span>02 / TOKEN TRENDS</span><span>ALPHA31</span></div>
+            <a
+              id="chart-shot-link"
+              href="assets/alpha31/token-heatmap.png"
+              aria-label="查看完整 Token 热力图截图"
+              ><img
+                id="chart-shot"
+                src="assets/alpha31/token-heatmap.png"
+                alt="alpha31 debug Android 30 日热力图，示例数据"
+                width="1080"
+                height="2400"
+                loading="lazy"
+            /></a>
+            <figcaption>看趋势，也看每一天。</figcaption>
+          </figure>
+          <figure class="widget-figure">
+            <div class="shot-label"><span>03 / HOME SCREEN</span><span>2×2</span></div>
+            <a
+              id="widget-shot-link"
+              href="assets/alpha31/heatmap-widget-light.png"
+              aria-label="查看完整桌面热力图截图"
+              ><img
+                id="widget-shot"
+                src="assets/alpha31/heatmap-widget-light.png"
+                alt="alpha31 debug 浅色 2×2 Codex 热力图桌面组件，示例数据"
+                width="462"
+                height="462"
+                loading="lazy"
+            /></a>
+            <div class="widget-note">
+              <span aria-hidden="true">↗</span>
+              <p>不用打开应用，<br />先看一眼。</p>
+            </div>
+            <figcaption>30 天，留在桌面。</figcaption>
+          </figure>
+        </div>
+        <div class="screenshot-caption">
+          <p>
+            Android 模拟器原生截图 · 订阅 alpha32，图表与组件 alpha31 ·
+            均为示例数据。历史截图可能使用旧版 Q。
+          </p>
+          <div class="preview-switch" role="group" aria-label="图表与组件的截图主题" hidden>
+            <button type="button" data-screen-theme="light" aria-pressed="true">浅色</button
+            ><button type="button" data-screen-theme="dark" aria-pressed="false">深色</button>
+          </div>
+        </div>
+        <noscript
+          ><p class="fine">
+            <a href="assets/alpha31/token-heatmap-dark.png">查看深色图表</a> ·
+            <a href="assets/alpha31/heatmap-widget-dark.png">查看深色组件</a>
+          </p></noscript
+        >
+      </section>
+      <section id="start" class="wrap editorial-section start-section">
+        <div class="section-intro">
+          <p class="section-index">04 / GET STARTED</p>
+          <div>
+            <h2>三步。<br /><em>把用量带回来。</em></h2>
+          </div>
+        </div>
+        <ol class="steps">
+          <li>
+            <span>01 / DOWNLOAD</span>
+            <h3>下载并安装。</h3>
+            <p>
+              从 GitHub Releases 下载 APK，支持 Android 10+。同页提供 SHA-256 校验和与来源信息。
+            </p>
+            <a class="text-link" href="https://github.com/tsonglew/Quodex/releases"
+              >获取安装包 <span aria-hidden="true">↗</span></a
+            >
+          </li>
+          <li>
+            <span>02 / CONNECT</span>
+            <h3>连接你的服务。</h3>
+            <p>先体验示例模式，再连接 Codex。其他服务在订阅页单独接入，凭据在本机加密保存。</p>
+            <a
+              class="text-link"
+              href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md"
+              >阅读接入指南 <span aria-hidden="true">↗</span></a
+            >
+          </li>
+          <li>
+            <span>03 / PIN</span>
+            <h3>放到桌面。</h3>
+            <p>添加 Codex 额度或热力图组件。小米、Redmi、POCO 用户可先检查桌面快捷方式权限。</p>
+            <a
+              class="text-link"
+              href="https://github.com/tsonglew/Quodex/blob/master/docs/HOME_SCREEN_PERMISSION.md"
+              >桌面添加帮助 <span aria-hidden="true">↗</span></a
+            >
+          </li>
+        </ol>
+        <p class="fine">
+          当前为 Alpha 预发布，尚未上架 Google
+          Play。已有用户可在设置中检查、下载并安装更新；安装始终由 Android 系统弹窗确认。
+        </p>
+      </section>
+      <section class="wrap editorial-section faq-section" aria-labelledby="faq-title">
+        <div class="section-intro">
+          <p class="section-index">05 / BEFORE YOU ASK</p>
+          <div>
+            <h2 id="faq-title">该知道的，<br /><em>提前说明。</em></h2>
+          </div>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>这是服务提供方的官方应用吗？<span aria-hidden="true">+</span></summary>
+            <p>
+              Quodex 是 MIT 开源的独立第三方工具，与 OpenAI、DeepSeek、OpenCode 或 Cursor
+              无隶属关系。服务名称仅用于说明连接范围。
+            </p>
+          </details>
+          <details>
+            <summary>数据会实时更新吗？<span aria-hidden="true">+</span></summary>
+            <p>
+              Codex 额度支持手动与后台周期刷新；新增订阅服务仅在前台查询，五分钟内使用缓存。后台受
+              Android 调度、网络与省电策略限制，Token 统计也可能存在服务端延迟，不保证实时更新。
+            </p>
+          </details>
+          <details>
+            <summary>账号数据保存在哪里？<span aria-hidden="true">+</span></summary>
+            <p>
+              凭据在设备上加密保存，请求直接连接相应服务。Quodex
+              没有自建数据中转或自动诊断上传；Codex
+              退出与其他订阅的断开分别处理，本机清理不等于远端撤销授权。<a href="privacy.txt"
+                >阅读隐私说明</a
+              >。
+            </p>
+          </details>
+          <details>
+            <summary>为什么有些用量显示“未提供”？<span aria-hidden="true">+</span></summary>
+            <p>
+              只展示接口实际返回的内容。不同账号、套餐或工作区可能返回不同字段；未知数据不补成零，不从额度百分比推算
+              Token 或费用。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/SUPPORT.md"
+                >查看支持范围</a
+              >。
+            </p>
+          </details>
+          <details>
+            <summary>桌面组件没有刷新，或尺寸不对？<span aria-hidden="true">+</span></summary>
+            <p>
+              先检查网络、省电和 Launcher
+              权限；强制停止应用期间不承诺更新。升级后桌面可能保留旧尺寸，长按调整或重新添加即可。<a
+                href="https://github.com/tsonglew/Quodex/blob/master/docs/BACKGROUND_GUIDE.md"
+                >查看后台指引</a
+              >。
+            </p>
+          </details>
+          <details id="motion">
+            <summary>查看 alpha22 历史动效实录<span aria-hidden="true">+</span></summary>
+            <div class="archive-video">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="assets/motion/poster.jpg"
+                width="480"
+                height="1066"
+                aria-label="alpha22 历史动效录屏，示例数据，无声"
+              >
+                <source src="assets/motion/quodex-motion.mp4" type="video/mp4" />
+                请<a href="assets/motion/quodex-motion.mp4">打开视频</a>观看。
+              </video>
+              <p>
+                约 12 秒，无声，手动播放。保留 alpha22
+                发布前的页面淡入、额度填充与柱图动效，其外观不代表当前界面。<a
+                  href="https://github.com/tsonglew/Quodex/blob/master/docs/MOTION.md"
+                  >历史说明与来源</a
+                >。
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+      <section class="closing-section">
+        <div class="wrap closing-inner">
+          <p class="section-index">OPEN SOURCE / OPEN TO YOU</p>
+          <h2>把注意力，<br /><em>留给真正的工作。</em></h2>
+          <div class="closing-actions">
+            <a class="button button-primary" href="https://github.com/tsonglew/Quodex/releases"
+              >下载 QUODEX <span aria-hidden="true">↗</span></a
+            ><a
+              class="text-link"
+              href="https://github.com/tsonglew/Quodex/blob/master/CONTRIBUTING.md"
+              >一起完善它 <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <p>MIT 开源 · Android 10+ · Alpha 预发布</p>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap site-footer">
+      <a class="brand" href="#top"
+        ><img src="assets/brand/quodex-app-icon.svg" alt="" width="28" height="28" /><span
+          >QUODEX</span
+        ></a
+      >
+      <p>额度，心中有数。<br /><span>独立第三方工具，与服务提供方无隶属关系。</span></p>
+      <nav aria-label="页脚导航">
+        <a href="https://github.com/tsonglew/Quodex/blob/master/docs/README.md">文档</a
+        ><a href="privacy.txt">隐私</a
+        ><a href="https://github.com/tsonglew/Quodex/blob/master/LICENSE">MIT</a
+        ><a href="https://github.com/tsonglew/Quodex/issues/new/choose">反馈 ↗</a>
+      </nav>
+    </footer>
+  </body>
 </html>
