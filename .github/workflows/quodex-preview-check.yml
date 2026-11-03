@@ -1,0 +1,36 @@
+name: Check Quodex website PR
+
+on:
+  pull_request:
+    paths:
+      - 'public/quodex/**'
+      - '.github/workflows/quodex-preview-check.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quodex-website-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Website build (no deployment)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install font tooling
+        run: pip3 install --break-system-packages fonttools brotli
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Check Quodex JavaScript
+        run: node --check public/quodex/site.js
+      - name: Build complete site
+        run: npm run build
