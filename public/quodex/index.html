@@ -151,7 +151,7 @@
     </div>
   </section>
   <section id="updates" class="detail wrap" aria-labelledby="updates-title">
-    <div class="detail-title"><p class="eyebrow">UPDATE CHECKS · ALPHA33 SOURCE</p><h2 id="updates-title">更新有进度，<br>等待有时间。</h2><p>alpha33 源码改用独立的公开更新索引，避免 GitHub REST API 共享 IP 配额影响。服务端要求等待时，显示具体重试时间，到期后恢复检查按钮。网络与 CDN 缓存仍可能延迟检查。</p></div>
+    <div class="detail-title"><p class="eyebrow">UPDATE CHECKS · ALPHA33 SOURCE</p><h2 id="updates-title">更新有进度，<br>等待有时间。</h2><p>alpha33 源码改用独立的公开更新索引，正常检查不占用 GitHub REST API 共享 IP 配额。主来源连接失败时才尝试备用 API，两者分别遵守等待时间。服务端要求等待时，显示具体重试时间，到期后恢复检查按钮。网络与 CDN 缓存仍可能延迟检查。</p></div>
     <div class="notes">
       <p><strong>旧版本受限时，覆盖安装即可</strong><br>如果 alpha31／alpha32 的检查仍被等待状态阻塞，请从 Releases 下载实际已发布的 alpha33 或更高版本，使用相同签名覆盖安装，无需卸载。安装由 Android 确认。</p>
       <a class="screenshot-link" href="assets/alpha33/update-cooldown.png"><img src="assets/alpha33/update-cooldown.png" alt="alpha33 debug 更新卡片：合成等待状态显示具体重试时间，检查按钮暂时禁用" width="1080" height="858" loading="lazy" style="width:100%;height:auto;border-radius:18px"></a>
