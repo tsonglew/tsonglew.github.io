@@ -1632,3 +1632,29 @@ details p {
     transition: none;
   }
 }
+
+/* Reset-card explanation and native component preview share the desktop row. */
+#reset-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  align-items: start;
+  gap: 64px;
+}
+#reset-cards .section-intro {
+  display: block;
+  margin: 0;
+}
+#reset-cards .section-index {
+  margin-bottom: 30px;
+}
+#reset-cards .update-preview {
+  margin: 0;
+  width: 100%;
+  max-width: 360px;
+}
+@media (max-width: 760px) {
+  #reset-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+}
