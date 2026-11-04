@@ -885,6 +885,15 @@ h1 em {
 .faq-section h2 {
   font-size: clamp(40px, 4vw, 60px);
 }
+.update-preview {
+  margin: 24px 0;
+}
+.update-preview img {
+  border: 1px solid var(--line);
+}
+.update-preview figcaption {
+  padding-top: 12px;
+}
 .faq-list details {
   border-top: 1px solid var(--line);
 }
