@@ -249,7 +249,8 @@
             <span class="feature-number">01</span>
             <h3>额度，直接看。</h3>
             <p>
-              查看 Codex 已用或剩余百分比与重置时间。没有返回的数据明确说明，未知值不会被补成零。
+              查看 Codex 已用或剩余百分比与重置时间；alpha34
+              源码新增重置卡可用张数与明细。没有返回的数据明确说明，未知值不会被补成零。
             </p>
             <span class="feature-foot">QUOTA / RESET TIME</span>
           </article>
@@ -269,6 +270,45 @@
             <span class="feature-foot">TRENDS / HONEST DATA</span>
           </article>
         </div>
+      </section>
+      <section id="reset-cards" class="wrap editorial-section">
+        <div class="section-intro">
+          <p class="section-index">CODEX / RESET CARDS</p>
+          <div>
+            <h2>重置卡，<br /><em>也看得明白。</em></h2>
+            <p class="section-lede">
+              alpha34
+              源码新增：在额度页查看可用张数，展开明细看卡片名称、状态、获得时间与到期时间。界面支持中文、English
+              和日本語。
+            </p>
+            <p>
+              点“查看明细”按需查询，五分钟缓存，也能单独刷新。明细查询失败时保留上次数据，不影响额度；服务端可能只返回部分卡片，未知数量不会被补成零。
+            </p>
+            <p class="fine">
+              仅展示，使用卡片请前往
+              Codex。日期按手机时区显示，实际可用性以服务端为准；不新增后台明细请求。真实账号覆盖仍待验证，发布状态以
+              Releases 实际 APK 为准。
+            </p>
+          </div>
+        </div>
+        <figure class="update-preview">
+          <a
+            href="assets/alpha34/reset-details-zh-Hans-light.png"
+            aria-label="查看完整 Codex 重置卡明细示例截图"
+            ><img
+              src="assets/alpha34/reset-details-zh-Hans-light.png"
+              alt="alpha34 debug 的 Codex 重置卡原生区域，展示卡片状态与到期日期，合成示例数据"
+              width="945"
+              height="2211"
+              loading="lazy"
+          /></a>
+          <figcaption class="fine">
+            alpha34 开发版 · Android 10 模拟器原生组件截图 · 合成示例数据。<a
+              href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/reset-credits-alpha34/README.md"
+              >截图来源与验收范围</a
+            >
+          </figcaption>
+        </figure>
       </section>
       <section id="subscriptions" class="services-section">
         <div class="wrap">
@@ -297,7 +337,7 @@
               <tbody>
                 <tr>
                   <th scope="row"><span>01</span>Codex</th>
-                  <td>额度、重置时间、Token 趋势</td>
+                  <td>额度、重置时间、Token 趋势；重置卡明细（alpha34 源码）</td>
                   <td>App / 桌面 / 后台额度刷新</td>
                 </tr>
                 <tr>
@@ -540,7 +580,7 @@
               >。
             </p>
             <p>
-              当前隐私说明对应 alpha33。alpha31／alpha32 的更新检查仅访问
+              当前隐私说明已包含 alpha34 源码的按需重置卡明细查询。alpha31／alpha32 的更新检查仅访问
               api.github.com，旧版以随包说明为准。<a
                 href="https://github.com/tsonglew/Quodex/blob/build-41593540906-1/app/src/main/res/raw-zh/privacy_notice.txt"
                 >查看 alpha32 历史隐私说明</a
