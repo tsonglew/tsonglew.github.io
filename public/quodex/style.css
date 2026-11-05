@@ -1635,6 +1635,7 @@ details p {
 
 /* Feature explanations and native previews share the desktop row. */
 #reset-cards,
+#api-credits,
 #liquid-glass {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
@@ -1642,15 +1643,18 @@ details p {
   gap: 64px;
 }
 #reset-cards .section-intro,
+#api-credits .section-intro,
 #liquid-glass .section-intro {
   display: block;
   margin: 0;
 }
 #reset-cards .section-index,
+#api-credits .section-index,
 #liquid-glass .section-index {
   margin-bottom: 30px;
 }
 #reset-cards .update-preview,
+#api-credits .update-preview,
 #liquid-glass .update-preview {
   margin: 0;
   width: 100%;
@@ -1658,6 +1662,7 @@ details p {
 }
 @media (max-width: 760px) {
   #reset-cards,
+  #api-credits,
   #liquid-glass {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
