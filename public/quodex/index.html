@@ -6,7 +6,7 @@
     <title>Quodex — 额度，心中有数。</title>
     <meta
       name="description"
-      content="Quodex 是 MIT 开源的 Android 额度与订阅查询工具。查看 Codex 用量、DeepSeek 余额、OpenCode 与 Cursor 订阅，把 Codex 额度放到桌面。"
+      content="Quodex 是 MIT 开源的 Android 额度与订阅查询工具。查看 Codex 用量、Kimi、WorkBuddy、Cursor、Grok 等订阅与 API 账单，把 Codex 额度放到桌面。"
     />
     <link rel="canonical" href="https://tsonglew.github.io/quodex/" />
     <meta name="theme-color" content="#F3F0E7" />
@@ -28,7 +28,7 @@
     <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
     <link rel="alternate icon" href="assets/brand/favicon.ico" />
     <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
-    <link rel="stylesheet" href="style.css?v=alpha36" />
+    <link rel="stylesheet" href="style.css?v=alpha37" />
     <script src="site.js" defer></script>
   </head>
   <body id="top">
@@ -198,19 +198,19 @@
             >
               <div class="demo-heading"><span>SUBSCRIPTIONS</span><span>独立连接</span></div>
               <div class="provider-demo">
-                <span class="provider-initial">D</span>
-                <div><strong>DeepSeek</strong><small>API 余额 · 示例</small></div>
-                <b>¥110.00</b>
+                <span class="provider-initial">K</span>
+                <div><strong>Kimi</strong><small>会员已用 · 示例</small></div>
+                <b>28%</b>
               </div>
               <div class="provider-demo">
-                <span class="provider-initial">O</span>
-                <div><strong>OpenCode Go</strong><small>每周已用 · 示例</small></div>
-                <b>61%</b>
+                <span class="provider-initial">W</span>
+                <div><strong>WorkBuddy</strong><small>剩余积分 · 示例</small></div>
+                <b>180</b>
               </div>
               <div class="provider-demo">
-                <span class="provider-initial">C</span>
-                <div><strong>Cursor</strong><small>个人用量 · 实验接入 · 示例</small></div>
-                <b>48%</b>
+                <span class="provider-initial">G</span>
+                <div><strong>Grok / Cursor</strong><small>共享周额度已用 · 示例</small></div>
+                <b>37%</b>
               </div>
               <p class="demo-caption">订阅仅前台查询，各服务分别刷新与断开。</p>
             </section>
@@ -230,7 +230,8 @@
         <div class="wrap">
           <span>CODEX</span><i aria-hidden="true">✳</i><span>DEEPSEEK</span
           ><i aria-hidden="true">✳</i><span>OPENCODE</span><i aria-hidden="true">✳</i
-          ><span>CURSOR</span
+          ><span>KIMI</span><i aria-hidden="true">✳</i><span>WORKBUDDY</span
+          ><i aria-hidden="true">✳</i><span>GROK / CURSOR</span
           ><a href="#subscriptions">查看接入范围 <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -317,8 +318,8 @@
             <div>
               <h2>连接分开。<br /><em>查看集中。</em></h2>
               <p class="section-lede">
-                Codex 之外，DeepSeek、OpenCode 与 Cursor 各自保存连接。无需先登录
-                Codex，服务之间互不覆盖。
+                alpha37 源码新增 Kimi、WorkBuddy、Cursor 与 Grok。按订阅额度和 API
+                账单筛选；无需先登录 Codex，各服务分别保存连接。
               </p>
             </div>
           </div>
@@ -356,17 +357,43 @@
                   <td>前台查询 / 实验性接入</td>
                 </tr>
                 <tr>
-                  <th scope="row"><span>05</span>Cursor</th>
-                  <td>个人模型用量与计费周期</td>
-                  <td>前台查询 / 实验性接入</td>
+                  <th scope="row"><span>05</span>Kimi</th>
+                  <td>会员、Code 窗口用量；国内／国际 API 余额</td>
+                  <td>订阅与 API 分开连接；API key 不跨区域</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>06</span>WorkBuddy</th>
+                  <td>当前周期各资源包的剩余／总积分</td>
+                  <td>国际站；自定义模型 API 账单归模型服务商</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>07</span>Grok / Cursor</th>
+                  <td>已迁移账号的共享周额度、额外费用</td>
+                  <td>支持官网 JSON 手动导入；不会自动更新</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>08</span>Grok API</th>
+                  <td>xAI 团队开发者预付余额</td>
+                  <td>需要团队 Management key；与订阅独立</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>09</span>Cursor Admin API</th>
+                  <td>团队本周期按量费用、总费用</td>
+                  <td>需要 Admin key；费用不是剩余额度</td>
+                </tr>
+                <tr>
+                  <th scope="row"><span>10</span>Cursor 旧接口</th>
+                  <td>旧个人模型用量与计费周期</td>
+                  <td>实验性；迁移账号使用 Grok / Cursor</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="service-note">
             <p>
-              新服务的真实账号覆盖仍待验收；它们暂不进入 Codex
-              图表、桌面组件或后台同步。兼容接口可能变化，重要数据请在官方控制台核对。
+              Kimi、WorkBuddy 已核对登录网页及浏览器外只读请求；开发者 API 尚未用真实密钥验收。Grok
+              原生请求受到网页验证限制，可手动导入。新增服务只在前台查询，不进入 Codex
+              图表、桌面组件或后台同步。
             </p>
             <a
               class="text-link"
@@ -375,6 +402,69 @@
             >
           </div>
         </div>
+      </section>
+      <section id="provider-preview" class="wrap editorial-section">
+        <div class="section-intro">
+          <p class="section-index">NEW / ALPHA37</p>
+          <div>
+            <h2>订阅与账单，<br /><em>看清各自的额度。</em></h2>
+            <p class="section-lede">
+              用量百分比、资源包积分和开发者余额分别展示。缺失的数值保持未知，Grok
+              手动导入标明来源与时间。
+            </p>
+          </div>
+        </div>
+        <div class="screenshot-grid">
+          <figure>
+            <div class="shot-label"><span>Kimi 会员</span><span>ALPHA37</span></div>
+            <a
+              href="assets/alpha37/providers-kimi-light.png"
+              aria-label="查看完整 Kimi 会员 示例截图"
+              ><img
+                src="assets/alpha37/providers-kimi-light.png"
+                alt="alpha37 debug 原生 Kimi 会员 界面，合成示例数据"
+                width="1080"
+                height="2400"
+                loading="lazy"
+            /></a>
+            <figcaption>Kimi 会员</figcaption>
+          </figure>
+          <figure>
+            <div class="shot-label"><span>WorkBuddy 积分</span><span>ALPHA37</span></div>
+            <a
+              href="assets/alpha37/providers-workbuddy-dark.png"
+              aria-label="查看完整 WorkBuddy 积分 示例截图"
+              ><img
+                src="assets/alpha37/providers-workbuddy-dark.png"
+                alt="alpha37 debug 原生 WorkBuddy 积分 界面，合成示例数据"
+                width="1080"
+                height="2400"
+                loading="lazy"
+            /></a>
+            <figcaption>WorkBuddy 积分</figcaption>
+          </figure>
+          <figure>
+            <div class="shot-label"><span>Grok / Cursor 共享池</span><span>ALPHA37</span></div>
+            <a
+              href="assets/alpha37/providers-grok-light.png"
+              aria-label="查看完整 Grok / Cursor 共享池 示例截图"
+              ><img
+                src="assets/alpha37/providers-grok-light.png"
+                alt="alpha37 debug 原生 Grok / Cursor 共享池 界面，合成示例数据"
+                width="1080"
+                height="2400"
+                loading="lazy"
+            /></a>
+            <figcaption>Grok / Cursor 共享池</figcaption>
+          </figure>
+        </div>
+        <p class="fine">
+          2026-11-06 · alpha37 debug / API 37 模拟器原生截图 ·
+          合成示例，未裁切或重绘，不代表真实账号或已发布 APK。<a
+            href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/providers-alpha37/README.md"
+            >来源、深色与 API 账单截图</a
+          >。
+        </p>
       </section>
       <section id="appearance" class="wrap editorial-section">
         <div class="section-intro">
@@ -468,8 +558,20 @@
           </div>
         </div>
         <figure class="update-preview">
-          <a href="assets/alpha36/api-credits-light.png" aria-label="查看 API 赠送额度示例截图"><img src="assets/alpha36/api-credits-light.png" alt="alpha36 debug API 赠送卡：每月和可领取金额为合成示例，剩余余额未提供" width="1080" height="2400" loading="lazy" /></a>
-          <figcaption class="fine">alpha36 debug · API 37 模拟器原生截图 · 合成示例数据，不代表真实账号。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/all-glass-alpha36/README.md">截图来源</a></figcaption>
+          <a href="assets/alpha36/api-credits-light.png" aria-label="查看 API 赠送额度示例截图"
+            ><img
+              src="assets/alpha36/api-credits-light.png"
+              alt="alpha36 debug API 赠送卡：每月和可领取金额为合成示例，剩余余额未提供"
+              width="1080"
+              height="2400"
+              loading="lazy"
+          /></a>
+          <figcaption class="fine">
+            alpha36 debug · API 37 模拟器原生截图 · 合成示例数据，不代表真实账号。<a
+              href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/all-glass-alpha36/README.md"
+              >截图来源</a
+            >
+          </figcaption>
         </figure>
       </section>
       <section id="liquid-glass" class="wrap editorial-section">
@@ -487,7 +589,8 @@
             </p>
             <p class="fine">
               Android 13+ 支持边缘折射，Android 12 使用模糊，Android 10–11
-              使用实色。所有桌面组件使用静态玻璃位图，不读取或模糊壁纸；Token 热力图保留用量配色。发布状态以 Releases 的实际 APK 为准。
+              使用实色。所有桌面组件使用静态玻璃位图，不读取或模糊壁纸；Token
+              热力图保留用量配色。发布状态以 Releases 的实际 APK 为准。
             </p>
             <p>
               <a
@@ -499,7 +602,9 @@
           </div>
         </div>
         <figure class="update-preview">
-          <a href="assets/alpha36/all-glass-settings-dark.png" aria-label="查看完整深色玻璃材质设置截图"
+          <a
+            href="assets/alpha36/all-glass-settings-dark.png"
+            aria-label="查看完整深色玻璃材质设置截图"
             ><img
               src="assets/alpha36/all-glass-settings-dark.png"
               alt="alpha36 debug 三入口导航下的深色紧凑设置，分组使用玻璃材质，示例模式"
@@ -629,8 +734,9 @@
           <details>
             <summary>数据会实时更新吗？<span aria-hidden="true">+</span></summary>
             <p>
-              Codex 额度支持手动与后台周期刷新；新增订阅服务仅在前台查询，五分钟内使用缓存。后台受
-              Android 调度、网络与省电策略限制，Token 统计也可能存在服务端延迟，不保证实时更新。
+              Codex 额度支持手动与后台周期刷新；新增订阅服务仅在前台查询，五分钟内使用缓存；Grok
+              手动导入需重新导入更新。后台受 Android 调度、网络与省电策略限制，Token
+              统计也可能存在服务端延迟，不保证实时更新。
             </p>
           </details>
           <details>
@@ -643,8 +749,11 @@
               >。
             </p>
             <p>
-              当前隐私说明对应 alpha36 源码，包含按需重置卡和 API 赠送福利查询。
-              <a href="https://github.com/tsonglew/Quodex/blob/build-42045239967-1/app/src/main/res/raw-zh/privacy_notice.txt">当前下载 alpha35 的隐私说明</a>。
+              当前隐私说明对应 alpha37 源码，包含新增服务、手动导入、按需重置卡和 API 赠送福利查询。
+              <a
+                href="https://github.com/tsonglew/Quodex/blob/build-42045239967-1/app/src/main/res/raw-zh/privacy_notice.txt"
+                >当前下载 alpha35 的隐私说明</a
+              >。
               <a
                 href="https://github.com/tsonglew/Quodex/blob/build-41663289741-1/app/src/main/res/raw-zh/privacy_notice.txt"
                 >查看 alpha33 随包隐私说明</a
