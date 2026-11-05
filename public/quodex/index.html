@@ -456,6 +456,54 @@
           </p></noscript
         >
       </section>
+      <section id="liquid-glass" class="wrap editorial-section">
+        <div class="section-intro">
+          <p class="section-index">APPEARANCE / LIQUID GLASS</p>
+          <div>
+            <h2>玻璃边缘，<br /><em>清晰文字。</em></h2>
+            <p class="section-lede">
+              alpha35
+              源码新增：弹窗与菜单从页面取色，边缘呈现折射；文字区域保留足够底色，让内容保持清楚。
+            </p>
+            <p>
+              在设置 → 外观 →
+              玻璃材质中，分别调整浅色、深色底色浓度。启用“减少透明效果”后，弹窗、额度组件和悬浮导航使用不透明背景。
+            </p>
+            <p class="fine">
+              Android 13+ 支持边缘折射，Android 12 使用模糊，Android 10–11
+              使用实色。桌面额度组件保留静态高光，不读取或模糊壁纸；Token
+              热力图组件保持实色。发布状态以 Releases 的实际 APK 为准。
+            </p>
+            <p>
+              <a
+                class="text-link"
+                href="https://github.com/tsonglew/Quodex/blob/master/docs/LIQUID_GLASS.md"
+                >实现与验证范围 ↗</a
+              >
+            </p>
+          </div>
+        </div>
+        <figure class="update-preview">
+          <a href="assets/alpha35/glass-settings-dark.png" aria-label="查看完整深色玻璃材质设置截图"
+            ><img
+              src="assets/alpha35/glass-settings-dark.png"
+              alt="alpha35 debug 深色玻璃材质设置，独立浅深色浓度和减少透明效果开关，示例模式"
+              width="1080"
+              height="2400"
+              loading="lazy"
+          /></a>
+          <figcaption class="fine">
+            alpha35 debug · API 37 模拟器原生截图 · 本机示例模式。<a
+              href="assets/alpha35/glass-settings-light.png"
+              >查看浅色效果</a
+            >
+            ·
+            <a href="https://github.com/tsonglew/Quodex/blob/master/docs/LIQUID_GLASS.md"
+              >截图来源与验证</a
+            >
+          </figcaption>
+        </figure>
+      </section>
       <section
         id="updates"
         class="wrap editorial-section faq-section"
