@@ -1633,27 +1633,32 @@ details p {
   }
 }
 
-/* Reset-card explanation and native component preview share the desktop row. */
-#reset-cards {
+/* Feature explanations and native previews share the desktop row. */
+#reset-cards,
+#liquid-glass {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
   align-items: start;
   gap: 64px;
 }
-#reset-cards .section-intro {
+#reset-cards .section-intro,
+#liquid-glass .section-intro {
   display: block;
   margin: 0;
 }
-#reset-cards .section-index {
+#reset-cards .section-index,
+#liquid-glass .section-index {
   margin-bottom: 30px;
 }
-#reset-cards .update-preview {
+#reset-cards .update-preview,
+#liquid-glass .update-preview {
   margin: 0;
   width: 100%;
   max-width: 360px;
 }
 @media (max-width: 760px) {
-  #reset-cards {
+  #reset-cards,
+  #liquid-glass {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
   }
