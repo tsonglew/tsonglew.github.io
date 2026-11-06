@@ -316,7 +316,7 @@
             <div>
               <h2>连接分开。<br /><em>查看集中。</em></h2>
               <p class="section-lede">
-                alpha37 新增 Kimi、WorkBuddy、Cursor 与 Grok。按订阅额度和 API
+                alpha38 开发中：Kimi、WorkBuddy、Grok／Cursor 改为官网登录。按订阅额度和 API
                 账单筛选；无需先登录 Codex，各服务分别保存连接。
               </p>
             </div>
@@ -367,7 +367,7 @@
                 <tr>
                   <th scope="row"><span>07</span>Grok / Cursor</th>
                   <td>已迁移账号的共享周额度、额外费用</td>
-                  <td>支持官网 JSON 手动导入；不会自动更新</td>
+                  <td>官网登录，自动读取；官网刷新复用登录</td>
                 </tr>
                 <tr>
                   <th scope="row"><span>08</span>Grok API</th>
@@ -382,16 +382,14 @@
                 <tr>
                   <th scope="row"><span>10</span>Cursor 旧接口</th>
                   <td>旧个人模型用量与计费周期</td>
-                  <td>实验性；迁移账号使用 Grok / Cursor</td>
+                  <td>保留旧连接；新登录使用 Grok / Cursor</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="service-note">
             <p>
-              Kimi、WorkBuddy 已核对登录网页及浏览器外只读请求；开发者 API 尚未用真实密钥验收。Grok
-              原生请求受到网页验证限制，可手动导入。新增服务只在前台查询，不进入 Codex
-              图表、桌面组件或后台同步。
+              点击“官网登录”，在官方页面完成登录和验证后自动返回，无需粘贴 Cookie、token、User-Agent 或 JSON。点击“官网刷新”复用该服务的登录，平时显示上次数据与时间。断开会清理对应登录状态；API 账单仍需独立 API key。部分第三方登录可能不支持 WebView，真实 Android 账号完整流程尚未全量验收。新增服务不进入 Codex 图表、桌面组件或后台同步。
             </p>
             <a
               class="text-link"
@@ -403,24 +401,23 @@
       </section>
       <section id="provider-preview" class="wrap editorial-section">
         <div class="section-intro">
-          <p class="section-index">NEW / ALPHA37</p>
+          <p class="section-index">NEW / ALPHA38</p>
           <div>
             <h2>订阅与账单，<br /><em>看清各自的额度。</em></h2>
             <p class="section-lede">
-              用量百分比、资源包积分和开发者余额分别展示。缺失的数值保持未知，Grok
-              手动导入标明来源与时间。
+              用量百分比、资源包积分和开发者余额分别展示。官方登录读取成功后自动返回，保留登录状态供下次刷新；缺失值保持未知。
             </p>
           </div>
         </div>
         <div class="screenshot-grid">
           <figure>
-            <div class="shot-label"><span>Kimi 会员</span><span>ALPHA37</span></div>
+            <div class="shot-label"><span>Kimi 会员</span><span>ALPHA38</span></div>
             <a
-              href="assets/alpha37/providers-kimi-light.png"
+              href="assets/alpha38/login-kimi-sample.png"
               aria-label="查看完整 Kimi 会员 示例截图"
               ><img
-                src="assets/alpha37/providers-kimi-light.png"
-                alt="alpha37 debug 原生 Kimi 会员 界面，合成示例数据"
+                src="assets/alpha38/login-kimi-sample.png"
+                alt="alpha38 debug 原生 Kimi 会员 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -428,13 +425,13 @@
             <figcaption>Kimi 会员</figcaption>
           </figure>
           <figure>
-            <div class="shot-label"><span>WorkBuddy 积分</span><span>ALPHA37</span></div>
+            <div class="shot-label"><span>WorkBuddy 积分</span><span>ALPHA38</span></div>
             <a
-              href="assets/alpha37/providers-workbuddy-dark.png"
+              href="assets/alpha38/login-workbuddy-sample.png"
               aria-label="查看完整 WorkBuddy 积分 示例截图"
               ><img
-                src="assets/alpha37/providers-workbuddy-dark.png"
-                alt="alpha37 debug 原生 WorkBuddy 积分 界面，合成示例数据"
+                src="assets/alpha38/login-workbuddy-sample.png"
+                alt="alpha38 debug 原生 WorkBuddy 积分 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -442,13 +439,13 @@
             <figcaption>WorkBuddy 积分</figcaption>
           </figure>
           <figure>
-            <div class="shot-label"><span>Grok / Cursor 共享池</span><span>ALPHA37</span></div>
+            <div class="shot-label"><span>Grok / Cursor 共享池</span><span>ALPHA38</span></div>
             <a
-              href="assets/alpha37/providers-grok-light.png"
+              href="assets/alpha38/login-grok-sample.png"
               aria-label="查看完整 Grok / Cursor 共享池 示例截图"
               ><img
-                src="assets/alpha37/providers-grok-light.png"
-                alt="alpha37 debug 原生 Grok / Cursor 共享池 界面，合成示例数据"
+                src="assets/alpha38/login-grok-sample.png"
+                alt="alpha38 debug 原生 Grok / Cursor 共享池 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -457,10 +454,10 @@
           </figure>
         </div>
         <p class="fine">
-          2026-11-06 · alpha37 debug / API 37 模拟器原生截图 ·
+          2026-11-06 · alpha38 debug / API 36 模拟器原生截图 ·
           合成示例，未裁切或重绘，不代表真实账号或已发布 APK。<a
-            href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/providers-alpha37/README.md"
-            >来源、深色与 API 账单截图</a
+            href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/browser-login-alpha38/README.md"
+            >登录界面来源与验证范围</a
           >。
         </p>
       </section>
@@ -732,8 +729,7 @@
           <details>
             <summary>数据会实时更新吗？<span aria-hidden="true">+</span></summary>
             <p>
-              Codex 额度支持手动与后台周期刷新；新增订阅服务仅在前台查询，五分钟内使用缓存；Grok
-              手动导入需重新导入更新。后台受 Android 调度、网络与省电策略限制，Token
+              Codex 额度支持手动与后台周期刷新；API 与旧版会话连接在前台查询，五分钟内使用缓存；网页登录连接通过“官网刷新”打开保存登录的官方页面读取。后台受 Android 调度、网络与省电策略限制，Token
               统计也可能存在服务端延迟，不保证实时更新。
             </p>
           </details>
@@ -747,10 +743,10 @@
               >。
             </p>
             <p>
-              当前隐私说明对应 alpha37，包含新增服务、手动导入、按需重置卡和 API 赠送福利查询。
+              源码隐私说明已更新至 alpha38，说明独立 WebView 登录存储、清除范围、按需重置卡和 API 赠送福利查询。
               <a
                 href="https://github.com/tsonglew/Quodex/blob/build-42182557357-1/app/src/main/res/raw-zh/privacy_notice.txt"
-                >当前下载 alpha37 的隐私说明</a
+                >alpha38 源码隐私说明</a
               >。
               <a
                 href="https://github.com/tsonglew/Quodex/blob/build-41663289741-1/app/src/main/res/raw-zh/privacy_notice.txt"
