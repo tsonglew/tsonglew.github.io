@@ -5,13 +5,14 @@ on:
   # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches: [master]
-  pull_request:
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
-# Pull requests build with read-only repository permissions.
+# Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -30,11 +31,7 @@ jobs:
 
   deploy:
     needs: build
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
