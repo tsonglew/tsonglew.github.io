@@ -391,6 +391,11 @@
             <p>
               点击“官网登录”，在官方页面完成登录和验证后自动返回，无需粘贴 Cookie、token、User-Agent 或 JSON。alpha39 在打开或返回 App 时自动检查，停留期间继续更新，使用五分钟缓存；普通刷新无需打开官网。退出前台停止自动读取。登录失效或需要网页验证时才提示“官网登录”；失败保留上次成功数据与时间；临时网络失败可手动重试，服务端限流需等待指定时间。断开会清理对应登录状态；API 账单仍需独立 API key。部分第三方登录可能不支持 WebView，真实 Android 账号完整流程尚未全量验收。新增服务不进入 Codex 图表、桌面组件或后台同步。
             </p>
+            <p><strong>alpha40 开发中：Google 登录辅助。</strong>Google 邮箱输入页新增“选择手机中的 Google 账号”，可用 Android 系统账号选择器填写已有邮箱；内置网页支持系统密码管理器的填充建议。需启用自动填充服务并保存对应凭据。该功能不共享 Chrome 登录会话，不自动提交、不跳过 Google 验证；部分 Google 登录仍可能拒绝内嵌浏览器。</p>
+            <figure class="update-preview">
+              <a href="assets/alpha40/google-account-picker-sample.png" target="_blank" rel="noopener"><img src="assets/alpha40/google-account-picker-sample.png" width="1080" height="2400" loading="lazy" alt="alpha40 原生 Google 账号选择入口，网页为合成测试表单，不连接 Google" /></a>
+              <figcaption class="fine">2026-11-09 · alpha40 debug / API 36 原生截图 · 合成登录表单，未使用真实 Google 账号。<a href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/google-login-alpha40/README.md">来源与验证范围</a></figcaption>
+            </figure>
             <a
               class="text-link"
               href="https://github.com/tsonglew/Quodex/blob/master/docs/SUBSCRIPTIONS.md"
@@ -454,7 +459,7 @@
           </figure>
         </div>
         <p class="fine">
-          2026-11-09 · alpha39 debug / API 36 模拟器原生截图 ·
+          历史资料：2026-11-09 · alpha39 debug / API 36 模拟器原生截图 ·
           合成示例，未裁切或重绘，不代表真实账号或已发布 APK。<a
             href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/auto-refresh-alpha39/README.md"
             >登录界面来源与验证范围</a
