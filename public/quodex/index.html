@@ -367,7 +367,7 @@
                 <tr>
                   <th scope="row"><span>07</span>Grok / Cursor</th>
                   <td>已迁移账号的共享周额度、额外费用</td>
-                  <td>官网登录，自动读取；官网刷新复用登录</td>
+                  <td>官网登录；alpha39 开发版自动更新</td>
                 </tr>
                 <tr>
                   <th scope="row"><span>08</span>Grok API</th>
@@ -389,7 +389,7 @@
           </div>
           <div class="service-note">
             <p>
-              点击“官网登录”，在官方页面完成登录和验证后自动返回，无需粘贴 Cookie、token、User-Agent 或 JSON。点击“官网刷新”复用该服务的登录，平时显示上次数据与时间。断开会清理对应登录状态；API 账单仍需独立 API key。部分第三方登录可能不支持 WebView，真实 Android 账号完整流程尚未全量验收。新增服务不进入 Codex 图表、桌面组件或后台同步。
+              点击“官网登录”，在官方页面完成登录和验证后自动返回，无需粘贴 Cookie、token、User-Agent 或 JSON。alpha39 开发版在打开或返回 App 时自动检查，停留期间继续更新，使用五分钟缓存；普通刷新无需打开官网。退出前台停止自动读取。登录失效或需要网页验证时才提示“官网登录”；失败保留上次成功数据与时间。断开会清理对应登录状态；API 账单仍需独立 API key。部分第三方登录可能不支持 WebView，真实 Android 账号完整流程尚未全量验收。新增服务不进入 Codex 图表、桌面组件或后台同步。
             </p>
             <a
               class="text-link"
@@ -401,23 +401,23 @@
       </section>
       <section id="provider-preview" class="wrap editorial-section">
         <div class="section-intro">
-          <p class="section-index">NEW / ALPHA38</p>
+          <p class="section-index">PREVIEW / ALPHA39</p>
           <div>
             <h2>订阅与账单，<br /><em>看清各自的额度。</em></h2>
             <p class="section-lede">
-              用量百分比、资源包积分和开发者余额分别展示。官方登录读取成功后自动返回，保留登录状态供下次刷新；缺失值保持未知。
+              用量百分比、资源包积分和开发者余额分别展示。alpha39 开发版登录后复用会话自动更新，普通刷新也无需打开网页；缺失值保持未知。
             </p>
           </div>
         </div>
         <div class="screenshot-grid">
           <figure>
-            <div class="shot-label"><span>Kimi 会员</span><span>ALPHA38</span></div>
+            <div class="shot-label"><span>Kimi 会员</span><span>ALPHA39 开发版</span></div>
             <a
-              href="assets/alpha38/login-kimi-sample.png"
+              href="assets/alpha39/login-kimi-sample.png"
               aria-label="查看完整 Kimi 会员 示例截图"
               ><img
-                src="assets/alpha38/login-kimi-sample.png"
-                alt="alpha38 debug 原生 Kimi 会员 界面，合成示例数据"
+                src="assets/alpha39/login-kimi-sample.png"
+                alt="alpha39 debug 原生 Kimi 会员 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -425,13 +425,13 @@
             <figcaption>Kimi 会员</figcaption>
           </figure>
           <figure>
-            <div class="shot-label"><span>WorkBuddy 积分</span><span>ALPHA38</span></div>
+            <div class="shot-label"><span>WorkBuddy 积分</span><span>ALPHA39 开发版</span></div>
             <a
-              href="assets/alpha38/login-workbuddy-sample.png"
+              href="assets/alpha39/login-workbuddy-sample.png"
               aria-label="查看完整 WorkBuddy 积分 示例截图"
               ><img
-                src="assets/alpha38/login-workbuddy-sample.png"
-                alt="alpha38 debug 原生 WorkBuddy 积分 界面，合成示例数据"
+                src="assets/alpha39/login-workbuddy-sample.png"
+                alt="alpha39 debug 原生 WorkBuddy 积分 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -439,13 +439,13 @@
             <figcaption>WorkBuddy 积分</figcaption>
           </figure>
           <figure>
-            <div class="shot-label"><span>Grok / Cursor 共享池</span><span>ALPHA38</span></div>
+            <div class="shot-label"><span>Grok / Cursor 共享池</span><span>ALPHA39 开发版</span></div>
             <a
-              href="assets/alpha38/login-grok-sample.png"
+              href="assets/alpha39/login-grok-sample.png"
               aria-label="查看完整 Grok / Cursor 共享池 示例截图"
               ><img
-                src="assets/alpha38/login-grok-sample.png"
-                alt="alpha38 debug 原生 Grok / Cursor 共享池 界面，合成示例数据"
+                src="assets/alpha39/login-grok-sample.png"
+                alt="alpha39 debug 原生 Grok / Cursor 共享池 界面，合成示例数据"
                 width="1080"
                 height="2400"
                 loading="lazy"
@@ -454,9 +454,9 @@
           </figure>
         </div>
         <p class="fine">
-          2026-11-06 · alpha38 debug / API 36 模拟器原生截图 ·
+          2026-11-09 · alpha39 debug / API 36 模拟器原生截图 ·
           合成示例，未裁切或重绘，不代表真实账号或已发布 APK。<a
-            href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/browser-login-alpha38/README.md"
+            href="https://github.com/tsonglew/Quodex/blob/master/docs/screenshots/auto-refresh-alpha39/README.md"
             >登录界面来源与验证范围</a
           >。
         </p>
@@ -729,7 +729,7 @@
           <details>
             <summary>数据会实时更新吗？<span aria-hidden="true">+</span></summary>
             <p>
-              Codex 额度支持手动与后台周期刷新；API 与旧版会话连接在前台查询，五分钟内使用缓存；网页登录连接通过“官网刷新”打开保存登录的官方页面读取。后台受 Android 调度、网络与省电策略限制，Token
+              Codex 额度支持手动与后台周期刷新；API 与旧版会话连接在前台查询，五分钟内使用缓存；alpha39 开发版的网页登录连接在 App 前台自动更新，五分钟内使用缓存，登录过期或需要验证时暂停并提示处理。后台受 Android 调度、网络与省电策略限制，Token
               统计也可能存在服务端延迟，不保证实时更新。
             </p>
           </details>
@@ -743,7 +743,7 @@
               >。
             </p>
             <p>
-              当前隐私说明对应 alpha38，说明独立 WebView 登录存储、清除范围、按需重置卡和 API 赠送福利查询。
+              当前隐私说明对应 alpha39 开发版，补充前台自动查询、停止条件与登录验证提示；当前可下载版本仍以 Release 附件为准。
               <a
                 href="https://github.com/tsonglew/Quodex/blob/build-42221560705-1/app/src/main/res/raw-zh/privacy_notice.txt"
                 >当前下载 alpha38 的隐私说明</a
