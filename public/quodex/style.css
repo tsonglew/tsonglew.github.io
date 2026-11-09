@@ -1677,6 +1677,7 @@ details p {
   align-items: start;
 }
 .google-login-note p { line-height: 1.85; }
+.google-login-note .fine { color: #bfbdb1; }
 .google-login-note .update-preview { margin: 0; width: 100%; max-width: 260px; }
 @media (max-width: 760px) {
   .google-login-note { grid-template-columns: minmax(0, 1fr); gap: 24px; }
