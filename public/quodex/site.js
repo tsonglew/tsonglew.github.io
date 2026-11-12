@@ -1,113 +1,71 @@
-// Website-only examples: no network, credentials, account state, or persistence.
-const demoTabs = [...document.querySelectorAll('[data-demo-tab]')]
-const demoPanels = [...document.querySelectorAll('.demo-panel')]
-function selectDemoTab(tab) {
-  for (const item of demoTabs) {
+// All visuals use local example data. This page does not connect accounts or persist preferences.
+const tabs = [...document.querySelectorAll('[data-view]')]
+const panels = [...document.querySelectorAll('.demo-panel')]
+function selectView(tab) {
+  for (const item of tabs) {
     const selected = item === tab
     item.setAttribute('aria-selected', String(selected))
     item.tabIndex = selected ? 0 : -1
   }
-  for (const panel of demoPanels) panel.hidden = panel.id !== tab.getAttribute('aria-controls')
+  for (const panel of panels) panel.hidden = panel.id !== tab.getAttribute('aria-controls')
+  for (const item of document.querySelectorAll('[data-nav]')) {
+    item.classList.toggle('selected', item.dataset.nav === tab.dataset.view)
+  }
 }
-for (const tab of demoTabs) {
-  tab.addEventListener('click', () => selectDemoTab(tab))
+for (const tab of tabs) {
+  tab.addEventListener('click', () => selectView(tab))
   tab.addEventListener('keydown', (event) => {
-    const index = demoTabs.indexOf(tab)
+    const index = tabs.indexOf(tab)
     let next
-    if (event.key === 'ArrowRight') next = (index + 1) % demoTabs.length
-    if (event.key === 'ArrowLeft') next = (index - 1 + demoTabs.length) % demoTabs.length
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
+      next = (index - 1 + tabs.length) % tabs.length
     if (event.key === 'Home') next = 0
-    if (event.key === 'End') next = demoTabs.length - 1
+    if (event.key === 'End') next = tabs.length - 1
     if (next === undefined) return
     event.preventDefault()
-    selectDemoTab(demoTabs[next])
-    demoTabs[next].focus()
+    selectView(tabs[next])
+    tabs[next].focus()
   })
 }
+const narrow = window.matchMedia('(max-width: 600px)')
+const tablist = document.querySelector('.experience-tabs')
+const syncOrientation = () =>
+  tablist?.setAttribute('aria-orientation', narrow.matches ? 'horizontal' : 'vertical')
+syncOrientation()
+narrow.addEventListener('change', syncOrientation)
 
-const sampleTokens = [
-  12000, 36000, 42000, 18000, 58000, 26000, 47000, 62000, 31000, 0, 54000, 21000, 39000, 65000,
-  28000, 44000, 17000, 52000, 34000, 23000, 59000, 41000, 12000, 48000, 30000, 67000, 20000, 46000,
-  38000, 25000
-]
-const heatmap = document.getElementById('demo-heatmap')
-const bars = document.getElementById('demo-bars')
-const total = document.getElementById('demo-token-total')
-const totalTokens = sampleTokens.reduce((sum, value) => sum + value, 0)
-if (heatmap && bars && total) {
-  total.textContent = (totalTokens / 1000000).toFixed(2) + 'M'
-  const palette = ['#e4e2d9', '#bcddd4', '#7bc2b2', '#389d89', '#007c68']
-  for (let day = -3; day < 32; day++) {
-    const cell = document.createElement('i')
-    cell.setAttribute('aria-hidden', 'true')
-    if (day < 0 || day >= sampleTokens.length) cell.style.visibility = 'hidden'
-    else {
-      const value = sampleTokens[day]
-      cell.style.backgroundColor = palette[value === 0 ? 0 : Math.min(4, Math.ceil(value / 18000))]
-      cell.title = `示例第 ${day + 1} 天：${value.toLocaleString('zh-CN')} tokens`
+const themeToggle = document.getElementById('theme-toggle')
+const stage = document.querySelector('.demo-stage')
+themeToggle?.addEventListener('click', () => {
+  const dark = stage.classList.toggle('dark')
+  themeToggle.setAttribute('aria-pressed', String(dark))
+  themeToggle.querySelector('span').textContent = dark ? '浅色外观' : '深色外观'
+})
+
+const filters = [...document.querySelectorAll('[data-filter]')]
+const providers = [...document.querySelectorAll('[data-category]')]
+for (const filter of filters) {
+  filter.addEventListener('click', () => {
+    for (const button of filters) {
+      button.setAttribute('aria-pressed', String(button === filter))
+      button.classList.toggle('active', button === filter)
     }
-    heatmap.append(cell)
-  }
-  const max = Math.max(...sampleTokens)
-  for (const [index, value] of sampleTokens.entries()) {
-    const bar = document.createElement('i')
-    bar.setAttribute('aria-hidden', 'true')
-    bar.style.height = Math.max(1, (value / max) * 100) + '%'
-    bar.style.backgroundColor = value === 0 ? '#cbc7bc' : '#007c83'
-    bar.title = `示例第 ${index + 1} 天：${value.toLocaleString('zh-CN')} tokens`
-    bars.append(bar)
-  }
-  for (const graphic of [heatmap, bars])
-    graphic.setAttribute(
-      'aria-label',
-      `同一份 30 天示例 Token 数据，合计 ${totalTokens.toLocaleString('zh-CN')}；仅用于交互演示`
-    )
-}
-for (const button of document.querySelectorAll('[data-chart]')) {
-  button.addEventListener('click', () => {
-    const isHeatmap = button.dataset.chart === 'heatmap'
-    if (!heatmap || !bars) return
-    heatmap.hidden = !isHeatmap
-    bars.hidden = isHeatmap
-    for (const option of document.querySelectorAll('[data-chart]'))
-      option.setAttribute('aria-pressed', String(option === button))
-  })
-}
-
-const screenshotThemes = {
-  light: {
-    chart: 'assets/alpha31/token-heatmap.png',
-    widget: 'assets/alpha31/heatmap-widget-light.png',
-    label: '浅色'
-  },
-  dark: {
-    chart: 'assets/alpha31/token-heatmap-dark.png',
-    widget: 'assets/alpha31/heatmap-widget-dark.png',
-    label: '深色'
-  }
-}
-const previewSwitch = document.querySelector('.preview-switch')
-if (previewSwitch) previewSwitch.hidden = false
-for (const button of document.querySelectorAll('[data-screen-theme]')) {
-  button.addEventListener('click', () => {
-    const theme = screenshotThemes[button.dataset.screenTheme]
-    if (!theme) return
-    for (const kind of ['chart', 'widget']) {
-      const image = document.getElementById(`${kind}-shot`)
-      const link = document.getElementById(`${kind}-shot-link`)
-      if (!image || !link) continue
-      image.src = theme[kind]
-      image.alt = `alpha31 debug ${theme.label}${kind === 'chart' ? '30 日 Token 热力图' : '2×2 Codex 热力图桌面组件'}，示例数据`
-      link.href = theme[kind]
+    let count = 0
+    for (const provider of providers) {
+      const visible =
+        filter.dataset.filter === 'all' ||
+        provider.dataset.category.split(' ').includes(filter.dataset.filter)
+      provider.hidden = !visible
+      if (visible) count++
     }
-    for (const option of document.querySelectorAll('[data-screen-theme]'))
-      option.setAttribute('aria-pressed', String(option === button))
+    document.getElementById('filter-status').textContent =
+      `${filter.textContent}：显示 ${count} 组服务`
   })
 }
-
-function openLinkedArchive() {
-  const target = document.getElementById(window.location.hash.slice(1))
-  if (target instanceof HTMLDetailsElement) target.open = true
+const heatmap = document.querySelector('.heatmap-grid')
+for (let day = 0; day < 35; day++) {
+  const cell = document.createElement('i')
+  if (day < 2 || day > 31) cell.style.visibility = 'hidden'
+  heatmap?.append(cell)
 }
-openLinkedArchive()
-window.addEventListener('hashchange', openLinkedArchive)
